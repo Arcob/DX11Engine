@@ -17,12 +17,17 @@ int main()
 	isRunning = true;
 	ArcFramework::init();
 	pWindow = ArcFramework::showWindows("Test window", WIDTH, HEIGHT);
-	SetupRenderHardwareInterface(pWindow->GetHandle());
+	if (!SetupRenderHardwareInterface(pWindow->GetHandle())) {
+		print("Error");
+	}
+	else {
+		print("Correct");
+	}
 	//ArcFramework::configInput(0, 0);
 	while (isRunning)
 	{
 		pWindow->TreatMessage(isRunning);
-		ArcRHI::CleanUp();
+		
 	}
 	//pWindow->Run();
 	/*
@@ -40,7 +45,8 @@ bool SetupRenderHardwareInterface(size_t windowsHandle) {
 	if (ArcRHI::CreateDeviceAndSwapChain() < 0) {
 		return false;
 	}
-	if (ArcRHI::CreateRenderTargetView() < 0) {
+	if (ArcRHI::CreateRenderView() < 0) {
+		print("b");
 		return false;
 	}
 	ArcRHI::CreateViewPort();

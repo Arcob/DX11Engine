@@ -7,12 +7,12 @@ unsigned int ArcRHI::createDeviceFlags = 0;
 unsigned int ArcRHI::numDriverTypes = 0;
 unsigned int ArcRHI::numFeatureLevels = 0;
 D3D_DRIVER_TYPE ArcRHI::g_driverType = (D3D_DRIVER_TYPE)0;
-IDXGISwapChain* ArcRHI::g_pSwapChain = nullptr;
-ID3D11Device* ArcRHI::g_pd3dDevice = nullptr;
+IDXGISwapChain* ArcRHI::g_pSwapChain(NULL);
+ID3D11Device* ArcRHI::g_pd3dDevice(NULL);
 D3D_FEATURE_LEVEL ArcRHI::g_featureLevel = (D3D_FEATURE_LEVEL)0;
-DXGI_SWAP_CHAIN_DESC* ArcRHI::g_swapChainDescription = nullptr; 
-ID3D11DeviceContext* ArcRHI::g_pImmediateContext = nullptr;
-ID3D11RenderTargetView* ArcRHI::g_pRenderTargetView = nullptr;
+DXGI_SWAP_CHAIN_DESC* ArcRHI::g_swapChainDescription(NULL);
+ID3D11DeviceContext* ArcRHI::g_pImmediateContext(NULL);
+ID3D11RenderTargetView* ArcRHI::g_pRenderTargetView(NULL);
 std::vector<D3D_DRIVER_TYPE> ArcRHI::driverTypes(0);
 std::vector<D3D_FEATURE_LEVEL> ArcRHI::featureLevels(0);
 
@@ -35,7 +35,7 @@ void ArcRHI::ConfigPhysicsDevice() {
 void ArcRHI::ConfigLogicalDevice() {
 	createDeviceFlags = 0;
 #ifdef _DEBUG
-	createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+	//createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
 	//驱动类型数组
@@ -56,8 +56,7 @@ void ArcRHI::ConfigFeatureLevel() {
 }
 
 void ArcRHI::ConfigSwapChain() {
-	DXGI_SWAP_CHAIN_DESC sd;
-	g_swapChainDescription = &sd;
+	g_swapChainDescription = new DXGI_SWAP_CHAIN_DESC();
 	ZeroMemory(g_swapChainDescription, sizeof(DXGI_SWAP_CHAIN_DESC));//填充
 	g_swapChainDescription->BufferCount = 1;                              //我们只创建一个后缓冲（双缓冲）因此为1
 	g_swapChainDescription->BufferDesc.Width = m_width;
@@ -83,7 +82,7 @@ long ArcRHI::CreateDeviceAndSwapChain() {
 			g_driverType,                        //驱动类型
 			NULL,                                //实现软件渲染设备的动态库句柄，如果使用的驱动设备类型是软件设备则不能为NULL
 			createDeviceFlags,                   //创建标志，0用于游戏发布，一般D3D11_CREATE_DEVICE_DEBUG允许我们创建可供调试的设备，在开发中比较有用
-			featureLevels.data(),                  //特征等级
+			featureLevels.data(),						//特征等级
 			numFeatureLevels,                    //特征等级数量
 			D3D11_SDK_VERSION,                   //sdk版本号
 			g_swapChainDescription,
@@ -92,7 +91,6 @@ long ArcRHI::CreateDeviceAndSwapChain() {
 			&g_featureLevel,
 			&g_pImmediateContext
 		);
-		print(g_pImmediateContext);
 		if (SUCCEEDED(hResult))
 			break;
 	}
@@ -100,7 +98,7 @@ long ArcRHI::CreateDeviceAndSwapChain() {
 		return hResult;
 }
 
-long ArcRHI::CreateRenderTargetView() {
+long ArcRHI::CreateRenderView() {//报错
 	long hResult;
 	//创建渲染目标视图
 	ID3D11Texture2D *pBackBuffer = NULL;
@@ -145,6 +143,8 @@ void ArcRHI::CleanUp() {
 		g_pd3dDevice->Release();
 }
 
-void testRender() {
-
+void ArcRHI::TestRender() {
+	float ClearColor[4] = { 0.5f, 0.1f, 0.2f, 1.0f }; //red,green,blue,alpha
+	g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, ClearColor);
+	g_pSwapChain->Present(0, 0);
 }

@@ -21,9 +21,10 @@ public:
 	static void ConfigFeatureLevel();
 	static void ConfigSwapChain();
 	static long CreateDeviceAndSwapChain();
-	static long CreateRenderTargetView();
+	static long CreateRenderView();
 	static void CreateViewPort();
 	static void CleanUp();
+	static void TestRender();
 
 private:
 	static size_t m_windowsHandle;
