@@ -5,10 +5,12 @@
 #include "ArcFramework.h"
 #include "ArcWindow.h"
 #include "ArcRHI.h"
+#include "ArcTime.h"
 
 bool SetupRenderHardwareInterface(size_t windowsHandle);
 
 const int WIDTH = 1024, HEIGHT = 768;
+float clearColor[4] = { 0.5f, 0.1f, 0.2f, 1.0f };
 std::shared_ptr<ArcWindow> pWindow;
 bool isRunning = false;
 
@@ -18,16 +20,18 @@ int main()
 	ArcFramework::init();
 	pWindow = ArcFramework::showWindows("Test window", WIDTH, HEIGHT);
 	if (!SetupRenderHardwareInterface(pWindow->GetHandle())) {
-		print("Error");
+		print("Error! When Setup Render Hardware Interface");
 	}
 	else {
-		print("Correct");
+		print("Setup Render Hardware Interface Correct");
 	}
-	//ArcFramework::configInput(0, 0);
-	while (isRunning)
+	
+	while (isRunning) 
 	{
 		pWindow->TreatMessage(isRunning);
-		
+		ArcTime::Update(ArcFramework::getTime());
+
+		ArcRHI::ClearScreen(clearColor);
 	}
 	//pWindow->Run();
 	/*
@@ -45,11 +49,10 @@ bool SetupRenderHardwareInterface(size_t windowsHandle) {
 	if (ArcRHI::CreateDeviceAndSwapChain() < 0) {
 		return false;
 	}
-	if (ArcRHI::CreateRenderView() < 0) {
-		print("b");
+	if (FAILED(ArcRHI::CreateRenderView())) {
 		return false;
 	}
-	ArcRHI::CreateViewPort();
+	ArcRHI::ConfigViewPort(0.0f, 1.0f, 0, 0);
 	
 }
 

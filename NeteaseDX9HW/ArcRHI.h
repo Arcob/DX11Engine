@@ -22,9 +22,9 @@ public:
 	static void ConfigSwapChain();
 	static long CreateDeviceAndSwapChain();
 	static long CreateRenderView();
-	static void CreateViewPort();
+	static void ConfigViewPort(float minDepth, float maxDepth, float topLeftX, float topLeftY);
 	static void CleanUp();
-	static void TestRender();
+	static void ClearScreen(float ClearColor[4]);
 
 private:
 	static size_t m_windowsHandle;
@@ -40,6 +40,7 @@ private:
 	static DXGI_SWAP_CHAIN_DESC* g_swapChainDescription;
 	static ID3D11DeviceContext* g_pImmediateContext;
 	static ID3D11RenderTargetView* g_pRenderTargetView;
+	static ID3D11Texture2D* g_pBackBuffer;
 	static std::vector<D3D_DRIVER_TYPE> driverTypes;
 	static std::vector<D3D_FEATURE_LEVEL> featureLevels;
 

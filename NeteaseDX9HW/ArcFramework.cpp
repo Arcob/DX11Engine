@@ -4,7 +4,7 @@
 time_t ArcFramework::initTime = 0;
 
 int ArcFramework::init() {
-	initTime = time(NULL);
+	initTime = clock();
 	return 1;
 }
 
@@ -19,7 +19,7 @@ void ArcFramework::configInput(int height, int width) {
 }
 
 time_t ArcFramework::getTime() {
-	return time(NULL) - initTime;
+	return clock() - initTime;
 }
 
 void ArcFramework::termiate() {

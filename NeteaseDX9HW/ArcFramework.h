@@ -8,7 +8,7 @@ public:
 	static int init();
 	static std::shared_ptr<class ArcWindow> showWindows(std::string name, int height, int width);
 	static void configInput(int height, int width);
-	static time_t getTime();//应用运行的秒数
+	static time_t getTime();//应用运行的毫秒数
 	static void termiate();
 
 private:

@@ -13,6 +13,7 @@ D3D_FEATURE_LEVEL ArcRHI::g_featureLevel = (D3D_FEATURE_LEVEL)0;
 DXGI_SWAP_CHAIN_DESC* ArcRHI::g_swapChainDescription(NULL);
 ID3D11DeviceContext* ArcRHI::g_pImmediateContext(NULL);
 ID3D11RenderTargetView* ArcRHI::g_pRenderTargetView(NULL);
+ID3D11Texture2D* ArcRHI::g_pBackBuffer(NULL);
 std::vector<D3D_DRIVER_TYPE> ArcRHI::driverTypes(0);
 std::vector<D3D_FEATURE_LEVEL> ArcRHI::featureLevels(0);
 
@@ -101,32 +102,35 @@ long ArcRHI::CreateDeviceAndSwapChain() {
 long ArcRHI::CreateRenderView() {//报错
 	long hResult;
 	//创建渲染目标视图
-	ID3D11Texture2D *pBackBuffer = NULL;
+	g_pBackBuffer = NULL;
 	//获取后缓冲区地址
-	hResult = g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-	if (FAILED(hResult))
+	hResult = g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&g_pBackBuffer);
+	if (FAILED(hResult)) {	
 		return hResult;
-
+	}
+	
 	//创建目标视图
-	hResult = g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_pRenderTargetView);
+	hResult = g_pd3dDevice->CreateRenderTargetView(g_pBackBuffer, NULL, &g_pRenderTargetView);
 	//释放后缓冲
-	pBackBuffer->Release();
-	if (FAILED(hResult))
+	g_pBackBuffer->Release();
+	if (FAILED(hResult)) {
 		return hResult;
+	}
 
 	//绑定到渲染管线
 	g_pImmediateContext->OMSetRenderTargets(1, &g_pRenderTargetView, NULL);
+	return hResult;
 }
 
-void ArcRHI::CreateViewPort() {
+void ArcRHI::ConfigViewPort(float minDepth, float maxDepth, float topLeftX, float topLeftY) {
 	//设置viewport
 	D3D11_VIEWPORT vp;
 	vp.Height = (float)m_height;
 	vp.Width = (float)m_width;
-	vp.MinDepth = 0.0f;
-	vp.MaxDepth = 1.0f;
-	vp.TopLeftX = 0;
-	vp.TopLeftY = 0;
+	vp.MinDepth = minDepth;
+	vp.MaxDepth = maxDepth;
+	vp.TopLeftX = topLeftX;
+	vp.TopLeftY = topLeftY;
 	g_pImmediateContext->RSSetViewports(1, &vp);
 }
 
@@ -143,8 +147,8 @@ void ArcRHI::CleanUp() {
 		g_pd3dDevice->Release();
 }
 
-void ArcRHI::TestRender() {
-	float ClearColor[4] = { 0.5f, 0.1f, 0.2f, 1.0f }; //red,green,blue,alpha
+void ArcRHI::ClearScreen(float ClearColor[4]) {
+	//float ClearColor[4] = { 0.5f, 0.1f, 0.2f, 1.0f }; //red,green,blue,alpha
 	g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, ClearColor);
 	g_pSwapChain->Present(0, 0);
 }
