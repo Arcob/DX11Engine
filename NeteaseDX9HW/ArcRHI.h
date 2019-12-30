@@ -8,11 +8,12 @@
 #include <d3d11.h>
 #include <dxerr.h>
 #include <D3DX11.h>
+#include "D3DCompiler.h"
 
 #endif // USING_DX11
 
 //RenderHardwareInterface
-class ArcRHI
+class ArcRHI //跨平台强相关
 {
 public:
 	static void Init(size_t handle);
@@ -25,6 +26,7 @@ public:
 	static void ConfigViewPort(float minDepth, float maxDepth, float topLeftX, float topLeftY);
 	static void CleanUp();
 	static void ClearScreen(float ClearColor[4]);
+	
 
 private:
 	static size_t m_windowsHandle;

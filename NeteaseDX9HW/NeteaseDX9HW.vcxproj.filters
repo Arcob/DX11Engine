@@ -39,6 +39,15 @@
     <ClCompile Include="ArcTime.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ArcRenderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcResourceManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcMaterial.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -63,6 +72,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ArcTime.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMeshes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcRenderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcResourceManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcMaterial.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

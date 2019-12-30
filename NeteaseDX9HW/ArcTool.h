@@ -2,9 +2,9 @@
 
 #include "ArcWindow.h"
 
-class ArcTool
+class ArcTool //跨平台无关
 {
 public:
-	static LPCWSTR stringToLPCWSTR(std::string orig);
+	const static LPCWSTR stringToLPCWSTR(const std::string orig);
 };
 

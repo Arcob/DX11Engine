@@ -1,7 +1,7 @@
 #include "ArcTool.h"
 
 
-LPCWSTR ArcTool::stringToLPCWSTR(std::string orig)
+const LPCWSTR ArcTool::stringToLPCWSTR(const std::string orig)
 {
 	size_t origsize = orig.length() + 1;
 	const size_t newsize = 100;

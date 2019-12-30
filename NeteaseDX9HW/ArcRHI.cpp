@@ -152,3 +152,5 @@ void ArcRHI::ClearScreen(float ClearColor[4]) {
 	g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, ClearColor);
 	g_pSwapChain->Present(0, 0);
 }
+
+

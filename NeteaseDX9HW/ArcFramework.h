@@ -2,7 +2,7 @@
 
 #include "CommonHeaders.h"
 
-class ArcFramework
+class ArcFramework //跨平台强相关
 {
 public:
 	static int init();

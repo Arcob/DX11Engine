@@ -157,6 +157,9 @@
   <ItemGroup>
     <ClCompile Include="ArcFramework.cpp" />
     <ClCompile Include="ArcInput.cpp" />
+    <ClCompile Include="ArcMaterial.cpp" />
+    <ClCompile Include="ArcRenderer.cpp" />
+    <ClCompile Include="ArcResourceManager.cpp" />
     <ClCompile Include="ArcRHI.cpp" />
     <ClCompile Include="ArcTime.cpp" />
     <ClCompile Include="ArcTool.cpp" />
@@ -167,11 +170,15 @@
     <ClInclude Include="ArcFramework.h" />
     <ClInclude Include="ArcGraphicSetting.h" />
     <ClInclude Include="ArcInput.h" />
+    <ClInclude Include="ArcMaterial.h" />
+    <ClInclude Include="ArcRenderer.h" />
+    <ClInclude Include="ArcResourceManager.h" />
     <ClInclude Include="ArcRHI.h" />
     <ClInclude Include="ArcTime.h" />
     <ClInclude Include="ArcTool.h" />
     <ClInclude Include="ArcWindow.h" />
     <ClInclude Include="CommonHeaders.h" />
+    <ClInclude Include="SimpleMeshes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
