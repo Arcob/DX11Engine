@@ -48,6 +48,21 @@
     <ClCompile Include="ArcMaterial.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ArcGameObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcBehaviour.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcTransform.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcApplication.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -84,6 +99,21 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ArcMaterial.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcGameObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcBehaviour.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcTransform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcApplication.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

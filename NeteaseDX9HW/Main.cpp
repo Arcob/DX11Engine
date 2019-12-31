@@ -7,6 +7,8 @@
 #include "ArcRHI.h"
 #include "ArcTime.h"
 
+using namespace DX11Engine;
+
 bool SetupRenderHardwareInterface(size_t windowsHandle);
 
 const int WIDTH = 1024, HEIGHT = 768;
@@ -29,7 +31,7 @@ int main()
 	while (isRunning) 
 	{
 		pWindow->TreatMessage(isRunning);
-		ArcTime::Update(ArcFramework::getTime());
+		ArcTime::Update((float)ArcFramework::getTime());
 
 		ArcRHI::ClearScreen(clearColor);
 	}
@@ -53,7 +55,8 @@ bool SetupRenderHardwareInterface(size_t windowsHandle) {
 		return false;
 	}
 	ArcRHI::ConfigViewPort(0.0f, 1.0f, 0, 0);
-	
+	return true;
 }
+
 
 
