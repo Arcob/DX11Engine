@@ -63,6 +63,9 @@
     <ClCompile Include="ArcApplication.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ArcMath.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -114,6 +117,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ArcApplication.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

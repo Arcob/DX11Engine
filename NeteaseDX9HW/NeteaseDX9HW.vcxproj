@@ -161,6 +161,7 @@
     <ClCompile Include="ArcGameObject.cpp" />
     <ClCompile Include="ArcInput.cpp" />
     <ClCompile Include="ArcMaterial.cpp" />
+    <ClCompile Include="ArcMath.cpp" />
     <ClCompile Include="ArcMesh.cpp" />
     <ClCompile Include="ArcRenderer.cpp" />
     <ClCompile Include="ArcResourceManager.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="ArcGraphicSetting.h" />
     <ClInclude Include="ArcInput.h" />
     <ClInclude Include="ArcMaterial.h" />
+    <ClInclude Include="ArcMath.h" />
     <ClInclude Include="ArcMesh.h" />
     <ClInclude Include="ArcRenderer.h" />
     <ClInclude Include="ArcResourceManager.h" />
