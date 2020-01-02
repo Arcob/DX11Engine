@@ -14,7 +14,7 @@
 
 namespace DX11Engine {
 
-	class ArcResourceManager //跨平台强相关，用于加载shader，textire，mesh等多种资源
+	class ArcAssetLoader //跨平台强相关，用于加载shader，textire，mesh等多种资源,加载好的资源存到ArcAsset中
 	{
 	public:
 		//shader	

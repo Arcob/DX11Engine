@@ -64,7 +64,7 @@ namespace DX11Engine {
 		if (NearlyEquals(target, m_position)) {
 			return;
 		}
-		float3 direction = Normalize(float3(target.x - m_position.x, target.y - m_position.y, target.z - m_position.z));
+		float3 direction = NormalizeFloat3(float3(target.x - m_position.x, target.y - m_position.y, target.z - m_position.z));
 		float angleX = DegreeToRadians(asinf(-direction.y));
 		float angleY = -DegreeToRadians(atan2f(-direction.x, -direction.z));
 		normalizeRotation();

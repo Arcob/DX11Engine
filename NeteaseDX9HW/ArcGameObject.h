@@ -45,17 +45,12 @@ namespace DX11Engine {
 		static void SetGameObjectVector(std::vector<std::shared_ptr<ArcGameObject>> vector);
 
 		template<typename T>
-		static std::vector<std::shared_ptr<ArcGameObject>> findGameObjectsOfType() {
-			std::vector<std::shared_ptr<ArcGameObject>> result;// = std::vector<std::shared_ptr<Arc_Engine::ArcGameObject>>();
-			//std::list<Arc_Engine::ArcGameObject>::iterator it;//start
-			//std::cout << _gameObjectList->size() << std::endl;
-			for (int i = 0; i < _gameObjectVector.size(); i++) {
-				for (int j = 0; j < (_gameObjectVector[i]->behaviourListLength()); j++) {
-					//(it->getBehaviourList())[i]->Start();
-					//if (dynamic_cast<T*>(&*((it->getBehaviourList())[i])) != nullptr) {
-					if (dynamic_cast<T*>(((_gameObjectVector[i]->getBehaviourList())[j]).get()) != nullptr) {
-						//Arc_Engine::ArcGameObject* temp = _gameObjectVector[i];
-						result.push_back(_gameObjectVector[i]);
+		static std::vector<std::shared_ptr<ArcGameObject>> FindGameObjectsOfType() {
+			std::vector<std::shared_ptr<ArcGameObject>> result;
+			for (int i = 0; i < m_gameObjectVector.size(); i++) {
+				for (int j = 0; j < (m_gameObjectVector[i]->BehaviourListLength()); j++) {
+					if (dynamic_cast<T*>(((m_gameObjectVector[i]->GetBehaviourList())[j]).get()) != nullptr) {
+						result.push_back(m_gameObjectVector[i]);
 					}
 				}
 			}

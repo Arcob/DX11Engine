@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArcApplication.cpp" />
+    <ClCompile Include="ArcAssets.cpp" />
     <ClCompile Include="ArcBehaviour.cpp" />
     <ClCompile Include="ArcFramework.cpp" />
     <ClCompile Include="ArcGameObject.cpp" />
@@ -164,16 +165,21 @@
     <ClCompile Include="ArcMath.cpp" />
     <ClCompile Include="ArcMesh.cpp" />
     <ClCompile Include="ArcRenderer.cpp" />
-    <ClCompile Include="ArcResourceManager.cpp" />
+    <ClCompile Include="ArcAssetLoader.cpp" />
     <ClCompile Include="ArcRHI.cpp" />
+    <ClCompile Include="ArcScene.cpp" />
     <ClCompile Include="ArcTime.cpp" />
     <ClCompile Include="ArcTool.cpp" />
     <ClCompile Include="ArcTransform.cpp" />
     <ClCompile Include="ArcWindow.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="RacingGameApplication.cpp" />
+    <ClCompile Include="RacingGameAssets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcApplication.h" />
+    <ClInclude Include="ArcAssets.h" />
     <ClInclude Include="ArcBehaviour.h" />
     <ClInclude Include="ArcFramework.h" />
     <ClInclude Include="ArcGameObject.h" />
@@ -183,14 +189,26 @@
     <ClInclude Include="ArcMath.h" />
     <ClInclude Include="ArcMesh.h" />
     <ClInclude Include="ArcRenderer.h" />
-    <ClInclude Include="ArcResourceManager.h" />
+    <ClInclude Include="ArcAssetLoader.h" />
     <ClInclude Include="ArcRHI.h" />
+    <ClInclude Include="ArcScene.h" />
+    <ClInclude Include="ArcStructures.h" />
     <ClInclude Include="ArcTime.h" />
     <ClInclude Include="ArcTool.h" />
     <ClInclude Include="ArcTransform.h" />
     <ClInclude Include="ArcWindow.h" />
     <ClInclude Include="CommonHeaders.h" />
-    <ClInclude Include="SimpleMeshes.h" />
+    <ClInclude Include="DriverSetting.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="RacingGameApplication.h" />
+    <ClInclude Include="RacingGameAssets.h" />
+    <ClInclude Include="SimpleVertexs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\TestBoxShader.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

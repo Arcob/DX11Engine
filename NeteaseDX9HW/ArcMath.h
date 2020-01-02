@@ -44,7 +44,7 @@ namespace DX11Engine {
 		return false;
 	}
 
-	float3 Normalize(float3 a) {
+	inline float3 NormalizeFloat3(float3 a) {
 		float total = sqrtf(a.x * a.x + a.y * a.y + a.z * a.z);
 		return float3(a.x/total, a.y / total, a.z / total);
 	}

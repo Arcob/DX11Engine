@@ -6,6 +6,7 @@
 #include "ArcWindow.h"
 #include "ArcRHI.h"
 #include "ArcTime.h"
+#include "DriverSetting.h"
 
 using namespace DX11Engine;
 
@@ -14,6 +15,8 @@ bool SetupRenderHardwareInterface(size_t windowsHandle);
 const int WIDTH = 1024, HEIGHT = 768;
 float clearColor[4] = { 0.5f, 0.1f, 0.2f, 1.0f };
 std::shared_ptr<ArcWindow> pWindow;
+//std::shared_ptr<ArcWindow>
+//std::shared_ptr<Application> app;
 bool isRunning = false;
 
 int main()

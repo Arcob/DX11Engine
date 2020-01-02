@@ -1,8 +1,8 @@
-#include "ArcResourceManager.h"
+#include "ArcAssetLoader.h"
 
 namespace DX11Engine {
 
-	bool ArcResourceManager::CompileD3DShader(std::string filePath, char* entry, char* shaderModel, ID3DBlob** buffer) {
+	bool ArcAssetLoader::CompileD3DShader(std::string filePath, char* entry, char* shaderModel, ID3DBlob** buffer) {
 		DWORD shaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
 
 #if defined _DEBUG || defined DEBUG
@@ -32,7 +32,7 @@ namespace DX11Engine {
 		return true;
 	}
 
-	bool ArcResourceManager::LoadVertexShader(ID3D11Device* pd3dDevice, std::string filePath, char* entry, char* shaderModel, ID3DBlob *shaderBuffer, ID3D11VertexShader* vertexShader) {
+	bool ArcAssetLoader::LoadVertexShader(ID3D11Device* pd3dDevice, std::string filePath, char* entry, char* shaderModel, ID3DBlob *shaderBuffer, ID3D11VertexShader* vertexShader) {
 		bool compileResult = CompileD3DShader(filePath, entry, shaderModel, &shaderBuffer);
 		if (!compileResult)
 		{
@@ -56,7 +56,7 @@ namespace DX11Engine {
 		return true;
 	}
 
-	bool ArcResourceManager::LoadPixelShader(ID3D11Device* pd3dDevice, std::string filePath, char* entry, char* shaderModel, ID3DBlob *shaderBuffer, ID3D11PixelShader* pixelShader) {
+	bool ArcAssetLoader::LoadPixelShader(ID3D11Device* pd3dDevice, std::string filePath, char* entry, char* shaderModel, ID3DBlob *shaderBuffer, ID3D11PixelShader* pixelShader) {
 		bool compileResult = CompileD3DShader(filePath, entry, shaderModel, &shaderBuffer);
 		if (!compileResult)
 		{
@@ -80,7 +80,7 @@ namespace DX11Engine {
 		return true;
 	}
 
-	bool ArcResourceManager::ConfigInputLayout(ID3D11Device* pd3dDevice, D3D11_INPUT_ELEMENT_DESC* inputLayout, unsigned int inputLayoutNum, ID3DBlob* shaderBuffer, ID3D11InputLayout* pInputLayout) {
+	bool ArcAssetLoader::ConfigInputLayout(ID3D11Device* pd3dDevice, D3D11_INPUT_ELEMENT_DESC* inputLayout, unsigned int inputLayoutNum, ID3DBlob* shaderBuffer, ID3D11InputLayout* pInputLayout) {
 		long result = pd3dDevice->CreateInputLayout(inputLayout, inputLayoutNum, shaderBuffer->GetBufferPointer(),
 			shaderBuffer->GetBufferSize(), &pInputLayout);
 		shaderBuffer->Release(); //传递完InputLayout之后shaderBuffer就没用了，此时释放shaderbuffer

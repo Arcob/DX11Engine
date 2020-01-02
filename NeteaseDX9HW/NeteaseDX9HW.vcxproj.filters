@@ -13,8 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="common">
-      <UniqueIdentifier>{23ff6773-3e2f-415a-b6a7-1901af233579}</UniqueIdentifier>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{0b7d67d4-1a06-4ecc-a29f-0e962c85dfd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RacingGame">
+      <UniqueIdentifier>{de77205f-3ecb-43af-80eb-3c087672ec86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RacingGame\源文件">
+      <UniqueIdentifier>{740833f6-5207-4d2e-b363-d158bbb31fa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RacingGame\头文件">
+      <UniqueIdentifier>{542ff8c1-9faf-4a8f-8230-02c29de17270}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,9 +51,6 @@
     <ClCompile Include="ArcRenderer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ArcResourceManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ArcMaterial.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -65,6 +71,24 @@
     </ClCompile>
     <ClCompile Include="ArcMath.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcScene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcAssetLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcAssets.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RacingGameAssets.cpp">
+      <Filter>RacingGame\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RacingGameApplication.cpp">
+      <Filter>RacingGame\源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,13 +116,7 @@
     <ClInclude Include="ArcTime.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleMeshes.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="ArcRenderer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ArcResourceManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ArcMaterial.h">
@@ -122,5 +140,37 @@
     <ClInclude Include="ArcMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleVertexs.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcScene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DriverSetting.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcAssetLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcAssets.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcStructures.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RacingGameAssets.h">
+      <Filter>RacingGame\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RacingGameApplication.h">
+      <Filter>RacingGame\头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\TestBoxShader.fx">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
