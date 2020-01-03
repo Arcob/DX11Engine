@@ -8,6 +8,9 @@ namespace DX11Engine {
 	{
 	public:
 		const static LPCWSTR stringToLPCWSTR(const std::string orig);
+		static std::string getCurrentPath();
+	private:
+		static std::string m_currentPath;
 	};
 
 }

@@ -1,4 +1,7 @@
 #pragma once
 
-#define Resource RacingGameResource
+#include "RacingGameAssets.h"
+#include "RacingGameApplication.h"
+
+#define Assets RacingGameAssets
 #define Application RacingGameApplication

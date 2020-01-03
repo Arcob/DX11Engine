@@ -15,8 +15,8 @@ bool SetupRenderHardwareInterface(size_t windowsHandle);
 const int WIDTH = 1024, HEIGHT = 768;
 float clearColor[4] = { 0.5f, 0.1f, 0.2f, 1.0f };
 std::shared_ptr<ArcWindow> pWindow;
-//std::shared_ptr<ArcWindow>
-//std::shared_ptr<Application> app;
+std::shared_ptr<ArcAssets> assets;
+std::shared_ptr<ArcApplication> app;
 bool isRunning = false;
 
 int main()
@@ -30,6 +30,11 @@ int main()
 	else {
 		print("Setup Render Hardware Interface Correct");
 	}
+
+	assets = std::make_shared<Assets>();
+	assets->Load();
+
+	//app = std::make_shared<Application>();
 	
 	while (isRunning) 
 	{

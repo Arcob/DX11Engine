@@ -2,6 +2,9 @@
 #include "ArcGraphicSetting.h"
 #include "CommonHeaders.h"
 #include "ArcTool.h"
+#include "ArcStructures.h"
+#include "ArcRHI.h"
+#include "ArcMesh.h"
 
 #ifdef USING_DX11
 
@@ -14,15 +17,16 @@
 
 namespace DX11Engine {
 
-	class ArcAssetLoader //跨平台强相关，用于加载shader，textire，mesh等多种资源,加载好的资源存到ArcAsset中
+	class ArcAssetLoader //跨平台强相关，用于加载shader，texture，mesh等多种资源,加载好的资源存到ArcAsset中
 	{
 	public:
 		//shader	
-		static bool LoadVertexShader(ID3D11Device* pd3dDevice, std::string filePath, char* entry, char* shaderModel, ID3DBlob *shaderBuffer, ID3D11VertexShader* vertexShader);
-		static bool LoadPixelShader(ID3D11Device* pd3dDevice, std::string filePath, char* entry, char* shaderModel, ID3DBlob *shaderBuffer, ID3D11PixelShader* vertexShader);
-		static bool ConfigInputLayout(ID3D11Device* pd3dDevice, D3D11_INPUT_ELEMENT_DESC* inputLayout, unsigned int inputLayoutNum, ID3DBlob* shaderBuffer, ID3D11InputLayout* pInputLayout);
-
+		static bool LoadVertexShader(std::string filePath, const char* entry, const char* shaderModel, ID3DBlob **shaderBuffer, ID3D11VertexShader** vertexShader);
+		static bool LoadPixelShader(std::string filePath, const char* entry, const char* shaderModel, ID3DBlob **shaderBuffer, ID3D11PixelShader **pixelShader);
+		static bool ConfigInputLayout(D3D11_INPUT_ELEMENT_DESC* inputLayout, unsigned int inputLayoutNum, ID3DBlob **shaderBuffer, ID3D11InputLayout **pInputLayout);
+		static std::shared_ptr<ArcMesh> LoadMesh(std::string name, Vertex* vertexs, unsigned int vertexsLength, unsigned int* indices, unsigned int indicesLength);
+		const static std::string SHADER_PATH;
 	private:
-		static bool CompileD3DShader(std::string filePath, char* entry, char* shaderModel, ID3DBlob** buffer);
+		static bool CompileD3DShader(std::string filePath, const char* entry, const char* shaderModel, ID3DBlob** buffer);
 	};
 }

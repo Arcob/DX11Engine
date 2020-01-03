@@ -2,6 +2,7 @@
 
 #include "ArcGraphicSetting.h"
 #include "CommonHeaders.h"
+#include "ArcStructures.h"
 
 #ifdef USING_DX11
 
@@ -9,7 +10,6 @@
 #include <dxerr.h>
 #include <D3DX11.h>
 #include "D3DCompiler.h"
-#include "d3dx11effect.h"
 
 #endif // USING_DX11
 
@@ -17,13 +17,20 @@ namespace DX11Engine { //¿çÆ½Ì¨ÆúÁÆÁË,Ç¿Ïà¹Ø
 	class ArcMesh
 	{
 	public:
-		ArcMesh(std::string meshName, std::shared_ptr<ID3D11Buffer> vertexBuffer, std::shared_ptr <ID3D11Buffer> indexBuffer, std::shared_ptr <ID3D11InputLayout> inputLayout);
+		//ArcMesh(std::string meshName, ID3D11Buffer* vertexBuffer, ID3D11Buffer* indexBuffer, ID3D11InputLayout* inputLayout);
+		ArcMesh(std::string meshName, ID3D11Device* device);
 		~ArcMesh() = default;
-	private:
+		bool BindVertexBuffer(Vertex* vertexs, unsigned int length);
+		bool BindIndexBuffer(unsigned int* indices, unsigned int length);
+
 		std::string m_meshName;
-		std::shared_ptr<ID3D11Buffer> m_pVertexBuffer;//¶¥µã»º³å
-		std::shared_ptr <ID3D11Buffer> m_pIndexBuffer;//¶¥µãË÷Òý»º³å
-		std::shared_ptr <ID3D11InputLayout> m_pInputLayout;
+		ID3D11Device* m_device;
+		ID3D11Buffer* m_pVertexBuffer;//¶¥µã»º³å
+		ID3D11Buffer* m_pIndexBuffer;//¶¥µãË÷Òý»º³å
+		ID3D11InputLayout* m_pInputLayout;
+
+	private:
+		
 	};
 
 }

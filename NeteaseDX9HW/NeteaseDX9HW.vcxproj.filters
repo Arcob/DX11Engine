@@ -172,5 +172,8 @@
     <FxCompile Include="Shaders\TestBoxShader.fx">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\SimpleShader.fx">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -29,14 +29,6 @@ namespace DX11Engine {
 		static void CleanUp();
 		static void ClearScreen(float ClearColor[4]);
 
-
-	private:
-		static size_t m_windowsHandle;
-		static unsigned int m_width;
-		static unsigned int m_height;
-		static unsigned int createDeviceFlags;
-		static unsigned int numDriverTypes;
-		static unsigned int numFeatureLevels;
 		static D3D_DRIVER_TYPE g_driverType;
 		static IDXGISwapChain* g_pSwapChain;
 		static ID3D11Device* g_pd3dDevice;
@@ -45,6 +37,15 @@ namespace DX11Engine {
 		static ID3D11DeviceContext* g_pImmediateContext;
 		static ID3D11RenderTargetView* g_pRenderTargetView;
 		static ID3D11Texture2D* g_pBackBuffer;
+
+
+	private:
+		static size_t m_windowsHandle;
+		static unsigned int m_width;
+		static unsigned int m_height;
+		static unsigned int createDeviceFlags;
+		static unsigned int numDriverTypes;
+		static unsigned int numFeatureLevels;
 		static std::vector<D3D_DRIVER_TYPE> driverTypes;
 		static std::vector<D3D_FEATURE_LEVEL> featureLevels;
 
