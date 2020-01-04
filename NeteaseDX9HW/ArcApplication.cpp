@@ -1,6 +1,8 @@
 #include "ArcApplication.h"
 
 namespace DX11Engine {
+	ArcApplication::ArcApplication(unsigned int WIDTH, unsigned int HEIGHT) : m_width(WIDTH), m_height(HEIGHT) {}
+
 	ArcApplication::ArcApplication(std::string name, std::vector<std::shared_ptr<class ArcScene>> &inputSceneList, int mainSceneIndex, unsigned int WIDTH, unsigned int HEIGHT) :
 		m_name(name), m_isRunning(true), m_width(WIDTH), m_height(HEIGHT), m_sceneList(std::move(inputSceneList)), m_mainScene(inputSceneList[mainSceneIndex % inputSceneList.size()])
 	{
@@ -16,6 +18,10 @@ namespace DX11Engine {
 			return nullptr;
 		}
 		return m_sceneList[index];
+	}
+
+	void ArcApplication::LoadScene() {
+
 	}
 
 	const std::string ArcApplication::Name() {
