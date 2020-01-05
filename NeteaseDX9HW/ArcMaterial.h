@@ -24,8 +24,8 @@ namespace DX11Engine {
 
 		std::string m_name;
 		ID3D11InputLayout *m_pInputLayout;
-		ID3D11VertexShader *m_pSolidColorVS;
-		ID3D11PixelShader *m_pSolidColorPS;
+		ID3D11VertexShader *m_pVertexShader;
+		ID3D11PixelShader *m_pPixelShader;
 
 	private:
 

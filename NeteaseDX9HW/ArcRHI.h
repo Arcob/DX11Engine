@@ -28,6 +28,7 @@ namespace DX11Engine {
 		static void ConfigViewPort(float minDepth, float maxDepth, float topLeftX, float topLeftY);
 		static void CleanUp();
 		static void ClearScreen(float ClearColor[4]);
+		static void SwapChainPresent();
 
 		static D3D_DRIVER_TYPE g_driverType;
 		static IDXGISwapChain* g_pSwapChain;

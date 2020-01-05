@@ -26,8 +26,9 @@ namespace DX11Engine { //跨平台弃疗了,强相关
 		std::string m_meshName;
 		ID3D11Device* m_device;
 		ID3D11Buffer* m_pVertexBuffer;//顶点缓冲
+		unsigned int m_vertexLength;
 		ID3D11Buffer* m_pIndexBuffer;//顶点索引缓冲
-		ID3D11InputLayout* m_pInputLayout;
+		unsigned int m_indexLength;
 
 	private:
 		

@@ -9,6 +9,7 @@ namespace DX11Engine {
 
 	bool ArcMesh::BindVertexBuffer(Vertex* vertexs, unsigned int length) {
 		long result;
+		m_vertexLength = length;
 
 		D3D11_BUFFER_DESC vertexDesc;
 		ZeroMemory(&vertexDesc, sizeof(vertexDesc));
@@ -29,6 +30,7 @@ namespace DX11Engine {
 
 	bool ArcMesh::BindIndexBuffer(unsigned int* indices, unsigned int length) {
 		long result;
+		m_indexLength = length;
 
 		D3D11_BUFFER_DESC indexDesc;
 		ZeroMemory(&indexDesc, sizeof(indexDesc));

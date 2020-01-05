@@ -152,6 +152,10 @@ namespace DX11Engine {
 	void ArcRHI::ClearScreen(float ClearColor[4]) {
 		//float ClearColor[4] = { 0.5f, 0.1f, 0.2f, 1.0f }; //red,green,blue,alpha
 		g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, ClearColor);
+		//g_pSwapChain->Present(0, 0);
+	}
+
+	void ArcRHI::SwapChainPresent() {
 		g_pSwapChain->Present(0, 0);
 	}
 }

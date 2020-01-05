@@ -43,12 +43,13 @@ int main()
 	{
 		pWindow->TreatMessage(isRunning);
 		ArcTime::Update((float)ArcFramework::getTime());
+		ArcRHI::ClearScreen(clearColor);
 
 		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
 			DX11Engine::ArcRenderer::Render(gameObject->Mesh(), gameObject->Material());
 		}
-
-		ArcRHI::ClearScreen(clearColor);
+		ArcRHI::SwapChainPresent();
+		
 	}
 	//pWindow->Run();
 	/*
