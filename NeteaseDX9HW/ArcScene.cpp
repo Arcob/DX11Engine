@@ -17,7 +17,8 @@ namespace DX11Engine {
 	}
 
 	void ArcScene::AddGameObject(std::shared_ptr<ArcGameObject> gameObject) {
-		m_sceneGameObjects.push_back(std::move(gameObject));
+		//print(m_sceneGameObjects);
+		m_sceneGameObjects.push_back(gameObject);
 	}
 
 	std::vector<std::shared_ptr<ArcGameObject>>& ArcScene::GetGameObjectsInScene() {

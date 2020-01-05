@@ -7,6 +7,9 @@
 #include "ArcRHI.h"
 #include "ArcTime.h"
 #include "DriverSetting.h"
+#include "ArcScene.h"
+#include "ArcRenderer.h"
+#include "ArcGameObject.h"
 
 using namespace DX11Engine;
 
@@ -31,9 +34,8 @@ int main()
 		print("Setup Render Hardware Interface Correct");
 	}
 
-	assets = std::make_shared<Assets>();
-	assets->Load();
-	app = std::make_shared<Application>(WIDTH, HEIGHT, assets);
+	assets = std::make_shared<Assets>(); //加载资源
+	app = std::make_shared<Application>(WIDTH, HEIGHT, assets); //加载应用
 
 	//app = std::make_shared<Application>();
 	
@@ -41,6 +43,10 @@ int main()
 	{
 		pWindow->TreatMessage(isRunning);
 		ArcTime::Update((float)ArcFramework::getTime());
+
+		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
+			DX11Engine::ArcRenderer::Render(gameObject->Mesh(), gameObject->Material());
+		}
 
 		ArcRHI::ClearScreen(clearColor);
 	}

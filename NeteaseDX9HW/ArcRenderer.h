@@ -22,7 +22,7 @@ namespace DX11Engine {
 		ArcRenderer() = default;
 		ArcRenderer(std::shared_ptr<class ArcMaterial> material, size_t vertexDataSize, float vertexData[], unsigned int texture, const std::vector<layoutStruct>& layoutVector);
 		~ArcRenderer() = default;
-		bool static Render(std::shared_ptr<ArcMesh> pMesh, std::shared_ptr<ArcMaterial> pMaterial);
+		static bool Render(std::shared_ptr<ArcMesh> pMesh, std::shared_ptr<ArcMaterial> pMaterial);
 	};
 
 }

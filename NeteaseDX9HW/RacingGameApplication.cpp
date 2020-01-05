@@ -15,6 +15,7 @@ RacingGameApplication::RacingGameApplication(unsigned int WIDTH, unsigned int HE
 void RacingGameApplication::LoadApplication() {
 	auto mainScene = std::make_shared<DX11Engine::ArcScene>("Main Scene");
 	m_sceneList.push_back(mainScene);
+	ArcApplication::m_mainScene = mainScene;
 
 	auto testBox = std::make_shared<DX11Engine::ArcGameObject>("TestBox");
 	auto testBoxTransform = std::make_shared<DX11Engine::ArcTransform>();
@@ -24,4 +25,5 @@ void RacingGameApplication::LoadApplication() {
 	testBox->SetTransfrom(testBoxTransform);
 	testBox->SetMesh(ArcApplication::m_assets->findMesh("Box Mesh"));
 	testBox->SetMaterial(ArcApplication::m_assets->findMaterial("SimpleMaterial"));
+	ArcApplication::m_mainScene->AddGameObject(testBox);
 }

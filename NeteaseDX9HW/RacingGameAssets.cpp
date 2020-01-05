@@ -20,7 +20,7 @@
 #endif // USING_DX11
 
 RacingGameAssets::RacingGameAssets() : ArcAssets() {
-
+	Load();
 }
 
 bool RacingGameAssets::Load() {
