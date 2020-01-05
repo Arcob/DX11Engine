@@ -13,7 +13,7 @@ namespace DX11Engine {
 	class ArcGameObject
 	{
 	public:
-		ArcGameObject() = default;
+		ArcGameObject(std::string name);
 		~ArcGameObject() = default;
 
 		void AttachScript(std::shared_ptr<ArcBehaviour> script);
@@ -26,8 +26,8 @@ namespace DX11Engine {
 		const std::string name() const;
 		void SetMesh(std::shared_ptr<ArcMesh> mesh);
 		const std::shared_ptr<ArcMesh> Mesh() const;
-		void SetMaterial(std::shared_ptr<ArcMesh> material);
-		const std::shared_ptr<ArcMesh> Material() const;
+		void SetMaterial(std::shared_ptr<ArcMaterial> material);
+		const std::shared_ptr<ArcMaterial> Material() const;
 
 		template<typename T>
 		T* getComponent() {
@@ -63,7 +63,7 @@ namespace DX11Engine {
 		std::vector<std::shared_ptr<ArcBehaviour>> ArcBehaviourList;
 		std::shared_ptr<ArcTransform> m_transform;
 		std::shared_ptr<ArcMesh> m_mesh = nullptr;
-		std::shared_ptr<ArcMesh> m_material = nullptr;
+		std::shared_ptr<ArcMaterial> m_material = nullptr;
 		std::string m_name = "EmptyGameObject";
 	};
 

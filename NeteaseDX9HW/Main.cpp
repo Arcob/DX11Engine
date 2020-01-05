@@ -33,6 +33,7 @@ int main()
 
 	assets = std::make_shared<Assets>();
 	assets->Load();
+	app = std::make_shared<Application>(WIDTH, HEIGHT, assets);
 
 	//app = std::make_shared<Application>();
 	

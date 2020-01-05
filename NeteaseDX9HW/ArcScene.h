@@ -9,7 +9,8 @@ namespace DX11Engine {
 	class ArcScene
 	{
 	public:
-		ArcScene(std::shared_ptr<Light> mainLight);
+		ArcScene(std::string m_name);
+		ArcScene(std::string m_name, std::shared_ptr<Light> mainLight);
 		~ArcScene() = default;
 		void AddGameObject(std::shared_ptr<ArcGameObject> gameObject);
 		std::vector<std::shared_ptr<ArcGameObject>>& GetGameObjectsInScene();
@@ -19,6 +20,7 @@ namespace DX11Engine {
 		std::vector<std::shared_ptr<Light>>& GetSecondaryLights();
 
 	private:
+		std::string m_name;
 		std::vector<std::shared_ptr<ArcGameObject>> m_sceneGameObjects;
 		std::shared_ptr<Light> m_mainLight;
 		std::vector <std::shared_ptr<Light>> m_secondaryLights;

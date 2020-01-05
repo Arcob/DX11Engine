@@ -2,7 +2,15 @@
 
 namespace DX11Engine {
 
-	ArcScene::ArcScene(std::shared_ptr<Light> mainLight) {
+	ArcScene::ArcScene(std::string name) {
+		m_name = name;
+		m_mainLight = nullptr;
+		m_sceneGameObjects = {};
+		m_secondaryLights = {};
+	}
+
+	ArcScene::ArcScene(std::string name, std::shared_ptr<Light> mainLight) {
+		m_name = name;
 		m_mainLight = mainLight;
 		m_sceneGameObjects = {};
 		m_secondaryLights = {};

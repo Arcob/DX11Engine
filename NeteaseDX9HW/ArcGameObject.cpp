@@ -2,14 +2,11 @@
 #include "ArcBehaviour.h"
 
 namespace DX11Engine {
-	/*ArcGameObject::ArcGameObject()
+	ArcGameObject::ArcGameObject(std::string name)
 	{
+		m_name = name;
 	}
 
-
-	ArcGameObject::~ArcGameObject()
-	{
-	}*/
 
 	std::list<ArcGameObject>* ArcGameObject::m_gameObjectList = nullptr;
 	std::vector<std::shared_ptr<ArcGameObject>> ArcGameObject::m_gameObjectVector = std::vector<std::shared_ptr<ArcGameObject>>();
@@ -65,11 +62,11 @@ namespace DX11Engine {
 		m_gameObjectVector = vector;
 	}
 
-	void ArcGameObject::SetMaterial(std::shared_ptr<ArcMesh> material) {
+	void ArcGameObject::SetMaterial(std::shared_ptr<ArcMaterial> material) {
 		m_material = material;
 	}
 
-	const std::shared_ptr<ArcMesh> ArcGameObject::Material() const {
+	const std::shared_ptr<ArcMaterial> ArcGameObject::Material() const {
 		return m_material;
 	}
 

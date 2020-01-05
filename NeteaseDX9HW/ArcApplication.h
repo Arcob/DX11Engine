@@ -1,13 +1,14 @@
 #pragma once
 
 #include "CommonHeaders.h"
+#include "ArcAssets.h"
 
 namespace DX11Engine{
 
 class ArcApplication //跨平台无关，准备添加多场景管理
 {
 	public:
-		ArcApplication(unsigned int WIDTH, unsigned int HEIGHT);
+		ArcApplication(unsigned int WIDTH, unsigned int HEIGHT, std::shared_ptr<ArcAssets> assets);
 		ArcApplication(std::string name, std::vector<std::shared_ptr<class ArcScene>> &inputSceneList, int mainSceneIndex, unsigned int WIDTH, unsigned int HEIGHT);
 		virtual ~ArcApplication() = default;
 		std::shared_ptr<class ArcScene> MainScene();
@@ -16,18 +17,19 @@ class ArcApplication //跨平台无关，准备添加多场景管理
 		void SetName(std::string name);
 		const unsigned int Width();
 		const unsigned int Height();
-		virtual void LoadScene();
+		virtual void LoadApplication();
 		void SwitchScene(int targetSceneIndex); //待实现
 
 	private:
 		unsigned int m_width = 800;
-		unsigned int m_height = 600;
+		unsigned int m_height = 600;	
 		std::string m_name;
 		bool m_isRunning = true;
 
 	protected:
 		std::shared_ptr<class ArcScene> m_mainScene;
 		std::vector<std::shared_ptr<class ArcScene>> m_sceneList;
+		std::shared_ptr<ArcAssets> m_assets;
 };
 
 };
