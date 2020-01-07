@@ -90,6 +90,9 @@
     <ClCompile Include="RacingGameApplication.cpp">
       <Filter>RacingGame\源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ArcCamera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="RacingGameApplication.h">
       <Filter>RacingGame\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcCamera.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

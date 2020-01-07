@@ -61,4 +61,12 @@ inline float4 MatrixMultVector(mat4 matrix, float4 vector) {
 	return result;
 }
 
+inline mat4 CalculatePerspectiveMatrix(float FovAngleY, float AspectRatio, float NearZ, float FarZ) {
+	return DirectX::XMMatrixPerspectiveFovLH(FovAngleY, AspectRatio, NearZ, FarZ);
+}
+
+inline mat4 CalculateViewMatrix(float3 EyePosition, float3 FocusPosition, float3 UpDirection) {
+	return DirectX::XMMatrixLookAtLH(XMLoadFloat3(&EyePosition), XMLoadFloat3(&FocusPosition), XMLoadFloat3(&UpDirection));
+}
+
 

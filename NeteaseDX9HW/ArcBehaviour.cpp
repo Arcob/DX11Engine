@@ -11,8 +11,8 @@ namespace DX11Engine {
 	{
 	}*/
 
-	std::shared_ptr<ArcGameObject> const ArcBehaviour::gameObject() const {
-		return _gameObject;
+	std::shared_ptr<ArcGameObject> const ArcBehaviour::GameObject() const {
+		return m_gameObject;
 	}
 
 	void ArcBehaviour::Awake()
@@ -30,8 +30,8 @@ namespace DX11Engine {
 
 	}
 
-	void ArcBehaviour::setGameObject(std::shared_ptr<ArcGameObject> gameObject) {
-		_gameObject = gameObject;
+	void ArcBehaviour::SetGameObject(std::shared_ptr<ArcGameObject> gameObject) {
+		m_gameObject = gameObject;
 	}
 
 }

@@ -46,7 +46,9 @@ int main()
 		ArcRHI::ClearScreen(clearColor);
 
 		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
-			DX11Engine::ArcRenderer::Render(gameObject->Mesh(), gameObject->Material());
+			if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
+				DX11Engine::ArcRenderer::Render(gameObject->Mesh(), gameObject->Material());
+			}		
 		}
 		ArcRHI::SwapChainPresent();
 		

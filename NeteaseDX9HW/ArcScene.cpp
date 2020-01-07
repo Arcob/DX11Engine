@@ -25,6 +25,14 @@ namespace DX11Engine {
 		return m_sceneGameObjects;
 	}
 
+	void ArcScene::SetMainCamera(std::shared_ptr<ArcCamera> mainCamera) {
+		m_mainCamera = mainCamera;
+	}
+
+	const std::shared_ptr<ArcCamera> ArcScene::GetMainCamera() const {
+		return m_mainCamera;
+	}
+
 	void ArcScene::SetMainLight(std::shared_ptr<Light> light) {
 		m_mainLight = light;
 	}

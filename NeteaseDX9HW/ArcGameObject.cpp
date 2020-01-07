@@ -14,7 +14,7 @@ namespace DX11Engine {
 	void ArcGameObject::AttachScript(std::shared_ptr<ArcBehaviour> script) {
 		ArcBehaviourList.push_back(script);
 		//std::cout << " a: " << this->behaviourListLength() << std::endl;
-		script->setGameObject(std::make_shared<ArcGameObject>(*this));
+		script->SetGameObject(std::make_shared<ArcGameObject>(*this));
 		//std::cout << " b: " << script->gameObject()->behaviourListLength() << std::endl;
 	}
 

@@ -12,11 +12,11 @@ namespace DX11Engine {
 		virtual void Awake();
 		virtual void Start();
 		virtual void Update();
-		std::shared_ptr<ArcGameObject> const gameObject() const;
-		void setGameObject(std::shared_ptr<ArcGameObject> gameObject);
+		std::shared_ptr<ArcGameObject> const GameObject() const;
+		void SetGameObject(std::shared_ptr<ArcGameObject> gameObject);
 
 	private:
-		std::shared_ptr<ArcGameObject> _gameObject = nullptr;
+		std::shared_ptr<ArcGameObject> m_gameObject = nullptr;
 
 	};
 }
