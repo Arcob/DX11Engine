@@ -51,8 +51,62 @@ bool RacingGameAssets::Load() {
 		print("Pixel Shader Wrong");
 		return false;
 	}
-	std::shared_ptr<DX11Engine::ArcMaterial> simpleMaterial = std::make_shared<DX11Engine::ArcMaterial>("SimpleMaterial", vertexShader, pixelShader, inputLayout);
+	std::shared_ptr<DX11Engine::ArcMaterial> simpleMaterial = std::make_shared<DX11Engine::ArcMaterial>("SimpleMaterial", vertexShader, pixelShader, inputLayout, nullptr);
 	ArcAssets::m_materialVector.push_back(std::move(simpleMaterial));
+
+	ID3DBlob *vertexShaderBuffer2(0);
+	ID3D11VertexShader* vertexShader2(0);
+	ID3DBlob *pixelShaderBuffer2(0);
+	ID3D11PixelShader* pixelShader2(0);
+	ID3D11InputLayout *inputLayout2(0);
+
+	std::string shaderPath2 = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "TestBoxShader.fx";
+	if (!(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPath2, "VS", "vs_4_0", &vertexShaderBuffer2, &vertexShader2))) {
+		print("Vertex Shader Wrong");
+		return false;
+	}
+	if (!(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::TestBoxLayout, ARRAYSIZE(DX11Engine::TestBoxLayout), &vertexShaderBuffer2, &inputLayout2))) {
+		print("Config Input Layout Wrong");
+		return false;
+	}
+	if (!(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath2, "PS", "ps_4_0", &pixelShaderBuffer2, &pixelShader2))) {
+		print("Pixel Shader Wrong");
+		return false;
+	}
+
+	/*D3D11_BUFFER_DESC bd;
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(DX11Engine::ConstantBuffer);
+	//绑定信息是常量缓存
+	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bd.CPUAccessFlags = 0;*/
+
+	D3D11_BUFFER_DESC cbDesc;
+	cbDesc.ByteWidth = sizeof(DX11Engine::ConstantBuffer);
+	cbDesc.Usage = D3D11_USAGE_DYNAMIC;
+	cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cbDesc.MiscFlags = 0;
+	cbDesc.StructureByteStride = 0;
+
+	ID3D11Buffer* tempConstantBuffer = NULL;
+	long hr = DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&cbDesc, NULL, &tempConstantBuffer);
+
+	if (FAILED(hr)) {
+		print("MVP Constant Buffer Wrong");
+		return false;
+	}
+		
+	/*if (!(DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&bd, NULL, &tempConstantBuffer))) {
+		print("MVP Constant Buffer Wrong");
+		return false;
+	}*/
+	std::shared_ptr<DX11Engine::ArcMaterial> TestBoxMaterial = std::make_shared<DX11Engine::ArcMaterial>("TestBoxMaterial", vertexShader2, pixelShader2, inputLayout2, tempConstantBuffer);
+	/*if (!(DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&bd, NULL, &(TestBoxMaterial->m_pMVPConstantBuffer)))) {
+		print("MVP Constant Buffer Wrong");
+		return false;
+	}*/
+	ArcAssets::m_materialVector.push_back(std::move(TestBoxMaterial));
 	//buffer没release
 
 	return true;

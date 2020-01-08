@@ -26,6 +26,7 @@ void RacingGameApplication::LoadApplication() {
 	tempTransform->setRotation(float3(75, 180, 0));
 	auto mainCamera = std::make_shared<DX11Engine::ArcCamera>();
 	mainCamera->SetViewportAspectRatio(ArcApplication::Width() / ArcApplication::Height());
+	mainCameraGameObject->SetTransfrom(tempTransform);
 	mainCameraGameObject->AttachScript(mainCamera);
 	MainScene()->SetMainCamera(mainCamera);
 	//auto gameController = std::make_shared<GameController>();
@@ -39,6 +40,6 @@ void RacingGameApplication::LoadApplication() {
 	testBoxTransform->setScale(float3(1, 1, 1));
 	testBox->SetTransfrom(testBoxTransform);
 	testBox->SetMesh(ArcApplication::m_assets->findMesh("Box Mesh"));
-	testBox->SetMaterial(ArcApplication::m_assets->findMaterial("SimpleMaterial"));
+	testBox->SetMaterial(ArcApplication::m_assets->findMaterial("TestBoxMaterial"));
 	ArcApplication::m_mainScene->AddGameObject(testBox);
 }

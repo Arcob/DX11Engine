@@ -16,7 +16,7 @@ using namespace DX11Engine;
 bool SetupRenderHardwareInterface(size_t windowsHandle);
 
 const int WIDTH = 1024, HEIGHT = 768;
-float clearColor[4] = { 0.5f, 0.1f, 0.2f, 1.0f };
+float clearColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
 std::shared_ptr<ArcWindow> pWindow;
 std::shared_ptr<ArcAssets> assets;
 std::shared_ptr<ArcApplication> app;
@@ -47,7 +47,7 @@ int main()
 
 		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
 			if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
-				DX11Engine::ArcRenderer::Render(gameObject->Mesh(), gameObject->Material());
+				DX11Engine::ArcRenderer::Render(gameObject->Mesh(), gameObject->Material(), gameObject->TransformPtr(), app->MainScene()->GetMainCamera());
 			}		
 		}
 		ArcRHI::SwapChainPresent();
