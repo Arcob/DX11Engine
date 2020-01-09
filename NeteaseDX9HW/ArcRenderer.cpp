@@ -19,24 +19,24 @@ namespace DX11Engine {
 		immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		immediateContext->VSSetShader(pMaterial->m_pVertexShader, 0, 0);
 		immediateContext->PSSetShader(pMaterial->m_pPixelShader, 0, 0);
+		immediateContext->VSSetConstantBuffers(0, 1, &pMaterial->m_pMVPConstantBuffer);//设置mvp buffer为buffer0
 
 		ConstantBuffer cb;
-		cb.mWorld = pTransform->positionMatrix();
-		cb.mView = pCamera->View();
-		cb.mProjection = pCamera->Projection();
+		cb.mWorld = Transpose(pTransform->transformMatrix());//DX的mvp要反着乘
+		cb.mView = Transpose(pCamera->View());
+		cb.mProjection = Transpose(pCamera->Projection());
 
 		D3D11_MAPPED_SUBRESOURCE mappedData;
-		immediateContext->Map(pMaterial->m_pMVPConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedData);
+		long result = immediateContext->Map(pMaterial->m_pMVPConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedData);
+		if (FAILED(result)) {
+			print("Map buffer false");
+		}
 		memcpy_s(mappedData.pData, sizeof(cb), &cb, sizeof(cb));
 		immediateContext->Unmap(pMaterial->m_pMVPConstantBuffer, 0);
 
-		//immediateContext->UpdateSubresource(pMaterial->m_pMVPConstantBuffer, 0, NULL, &cb, 0, 0);
+		immediateContext->UpdateSubresource(pMaterial->m_pMVPConstantBuffer, 0, NULL, &cb, 0, 0);
 
-		//设置常量缓存
-		//print(pMaterial);
-		//immediateContext->VSSetConstantBuffers(0, 1, &(pMaterial->m_pMVPConstantBuffer));
-
-		immediateContext->Draw(pMesh->m_vertexLength, 0);
+		immediateContext->DrawIndexed(pMesh->m_indexLength, 0, 0);
 		return true;
 	}
 }

@@ -62,6 +62,7 @@ inline float4 MatrixMultVector(mat4 matrix, float4 vector) {
 }
 
 inline mat4 CalculatePerspectiveMatrix(float FovAngleY, float AspectRatio, float NearZ, float FarZ) {
+	
 	return DirectX::XMMatrixPerspectiveFovLH(FovAngleY, AspectRatio, NearZ, FarZ);
 }
 
@@ -69,4 +70,23 @@ inline mat4 CalculateViewMatrix(float3 EyePosition, float3 FocusPosition, float3
 	return DirectX::XMMatrixLookAtLH(XMLoadFloat3(&EyePosition), XMLoadFloat3(&FocusPosition), XMLoadFloat3(&UpDirection));
 }
 
+inline void PrintMat(mat4 matIn) {
+	DirectX::XMFLOAT4X4 mScalFL;
+	XMStoreFloat4x4(&mScalFL, matIn);
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j) 
+		{
+			// 通过 XMFLOAT4X4 的重载括号操作符引用矩阵元素
+			std::cout << '\t' << mScalFL(i, j) << ' ';
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+	//print(mScalFL._11);
+}
+
+inline mat4 Transpose(mat4 mat) {
+	return XMMatrixTranspose(mat);
+}
 

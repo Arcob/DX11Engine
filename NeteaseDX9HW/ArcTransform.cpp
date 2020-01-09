@@ -37,7 +37,7 @@ namespace DX11Engine {
 	}
 
 	const mat4 ArcTransform::transformMatrix() const {
-		return positionMatrix() * rotationMatrix() * scaleMatrix();
+		return scaleMatrix() * rotationMatrix() * positionMatrix();//DX的mvp要和Opengl反着乘
 	}
 
 	void ArcTransform::setPosition(float3 position) {

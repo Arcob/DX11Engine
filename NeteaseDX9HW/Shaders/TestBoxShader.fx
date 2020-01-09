@@ -3,7 +3,7 @@ cbuffer ConstantBuffer : register(b0)
 	matrix World;
 	matrix View;
 	matrix Projection;
-}
+};
 
 struct VertexIn
 {
@@ -25,10 +25,13 @@ VertexOut VS(VertexIn vin)
 	vout.PosH = mul(vout.PosH, Projection);
     
     // Transform to homogeneous clip space.
-    //vout.PosH = mul(float4(vin.PosL, 1.0f), gWorldViewProj);
+    //vout.PosH = float4(vin.PosL, 1.0f);
+	//vout.PosH = mul(vout.PosH, World);
     
     // Just pass vertex color into the pixel shader.
     vout.Color = vin.Color;
+	//vout.Color = mul(float4(vin.PosL, 1.0f), World);
+	//vout.Color = float4(vout.Color.r, vout.Color.g, vout.Color.b, 1);
     
     return vout;
 }

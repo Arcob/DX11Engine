@@ -16,6 +16,7 @@ namespace DX11Engine {
 		vertexDesc.Usage = D3D11_USAGE_DEFAULT;
 		vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		vertexDesc.ByteWidth = sizeof(DX11Engine::Vertex) * length;
+		
 
 		D3D11_SUBRESOURCE_DATA resourceData;
 		ZeroMemory(&resourceData, sizeof(resourceData));
@@ -36,7 +37,7 @@ namespace DX11Engine {
 		ZeroMemory(&indexDesc, sizeof(indexDesc));
 		indexDesc.Usage = D3D11_USAGE_IMMUTABLE;
 		indexDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		indexDesc.ByteWidth = sizeof(UINT) * 36;
+		indexDesc.ByteWidth = sizeof(UINT) * length;
 
 		D3D11_SUBRESOURCE_DATA indexData;
 		ZeroMemory(&indexData, sizeof(indexData));

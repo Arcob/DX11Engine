@@ -82,12 +82,13 @@ bool RacingGameAssets::Load() {
 	bd.CPUAccessFlags = 0;*/
 
 	D3D11_BUFFER_DESC cbDesc;
+	ZeroMemory(&cbDesc, sizeof(cbDesc));
 	cbDesc.ByteWidth = sizeof(DX11Engine::ConstantBuffer);
 	cbDesc.Usage = D3D11_USAGE_DYNAMIC;
 	cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	cbDesc.MiscFlags = 0;
-	cbDesc.StructureByteStride = 0;
+	//cbDesc.MiscFlags = 0;
+	//cbDesc.StructureByteStride = 0;
 
 	ID3D11Buffer* tempConstantBuffer = NULL;
 	long hr = DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&cbDesc, NULL, &tempConstantBuffer);
@@ -97,15 +98,8 @@ bool RacingGameAssets::Load() {
 		return false;
 	}
 		
-	/*if (!(DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&bd, NULL, &tempConstantBuffer))) {
-		print("MVP Constant Buffer Wrong");
-		return false;
-	}*/
 	std::shared_ptr<DX11Engine::ArcMaterial> TestBoxMaterial = std::make_shared<DX11Engine::ArcMaterial>("TestBoxMaterial", vertexShader2, pixelShader2, inputLayout2, tempConstantBuffer);
-	/*if (!(DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&bd, NULL, &(TestBoxMaterial->m_pMVPConstantBuffer)))) {
-		print("MVP Constant Buffer Wrong");
-		return false;
-	}*/
+
 	ArcAssets::m_materialVector.push_back(std::move(TestBoxMaterial));
 	//bufferûrelease
 

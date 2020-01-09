@@ -56,7 +56,7 @@ int main()
 	//pWindow->Run();
 	/*
 	std::cout << ArcFramework::getTime() << std::endl;
-	std::cout << time(0) << std::endl;
+	std::cout << time(0) << std::endl;2q3
 	*/
 }
 
