@@ -25,6 +25,9 @@
     <Filter Include="RacingGame\头文件">
       <UniqueIdentifier>{542ff8c1-9faf-4a8f-8230-02c29de17270}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{65ed1211-3f9c-4676-9928-7f8398eb59b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArcFramework.cpp">
@@ -91,6 +94,9 @@
       <Filter>RacingGame\源文件</Filter>
     </ClCompile>
     <ClCompile Include="ArcCamera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcTexture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -172,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="ArcCamera.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcTexture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\DDSTextureLoader.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

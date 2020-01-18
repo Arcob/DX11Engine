@@ -75,16 +75,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)Common;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Common\Effects11d.lib;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(ProjectDir)Common;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64;$(ProjectDir)Common;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)Common;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Common\Effects11d.lib;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(ProjectDir)Common;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64;$(ProjectDir)Common;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -113,7 +113,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxerr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;winmm.lib;d2d1.lib;dwrite.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,7 +151,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxerr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;winmm.lib;d2d1.lib;dwrite.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -169,6 +169,7 @@
     <ClCompile Include="ArcAssetLoader.cpp" />
     <ClCompile Include="ArcRHI.cpp" />
     <ClCompile Include="ArcScene.cpp" />
+    <ClCompile Include="ArcTexture.cpp" />
     <ClCompile Include="ArcTime.cpp" />
     <ClCompile Include="ArcTool.cpp" />
     <ClCompile Include="ArcTransform.cpp" />
@@ -195,11 +196,13 @@
     <ClInclude Include="ArcRHI.h" />
     <ClInclude Include="ArcScene.h" />
     <ClInclude Include="ArcStructures.h" />
+    <ClInclude Include="ArcTexture.h" />
     <ClInclude Include="ArcTime.h" />
     <ClInclude Include="ArcTool.h" />
     <ClInclude Include="ArcTransform.h" />
     <ClInclude Include="ArcWindow.h" />
     <ClInclude Include="CommonHeaders.h" />
+    <ClInclude Include="Common\DDSTextureLoader.h" />
     <ClInclude Include="DriverSetting.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="RacingGameApplication.h" />

@@ -106,4 +106,15 @@ namespace DX11Engine {
 
 		return std::move(pBoxMesh);
 	}
+	//$(ProjectDir)Common
+	std::shared_ptr<ArcTexture> ArcAssetLoader::LoadTexture(std::string textureName, std::string path) {
+		/*auto texture = std::make_shared<ArcTexture>(textureName);
+		long result = CreateDDSTextureFromFile(ArcRHI::g_pd3dDevice, ArcTool::stringToLPCWSTR(path), &(texture->m_texture), &(texture->m_textureView));
+		if (FAILED(result))
+		{
+			MessageBox(nullptr, L"create texture failed!", L"error", MB_OK);
+			return nullptr;
+		}*/
+		return nullptr;
+	}
 }

@@ -16,5 +16,12 @@ namespace DX11Engine {
 		mat4 mView;
 		mat4 mProjection;
 	};
+
+	struct VertexPosNormalTex
+	{
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT3 normal;
+		DirectX::XMFLOAT2 tex;
+	};
 }
 
