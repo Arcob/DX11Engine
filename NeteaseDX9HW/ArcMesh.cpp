@@ -7,15 +7,15 @@ namespace DX11Engine {
 
 	ArcMesh::ArcMesh(std::string meshName, ID3D11Device* device) : m_meshName(meshName), m_device(device){}
 
-	bool ArcMesh::BindVertexBuffer(Vertex* vertexs, unsigned int length) {
+	bool ArcMesh::BindVertexBuffer(void* vertexs, unsigned int length) {
 		long result;
-		m_vertexLength = length;
+		//m_nodeLength = length;
 
 		D3D11_BUFFER_DESC vertexDesc;
 		ZeroMemory(&vertexDesc, sizeof(vertexDesc));
 		vertexDesc.Usage = D3D11_USAGE_DEFAULT;
 		vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		vertexDesc.ByteWidth = sizeof(DX11Engine::Vertex) * length;
+		vertexDesc.ByteWidth = length;
 		
 
 		D3D11_SUBRESOURCE_DATA resourceData;

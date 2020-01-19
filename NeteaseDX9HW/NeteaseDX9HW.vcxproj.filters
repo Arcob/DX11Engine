@@ -99,6 +99,9 @@
     <ClCompile Include="ArcTexture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Common\DDSTextureLoader.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -191,6 +194,9 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\SimpleShader.fx">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\StandardShader.fx">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ArcGraphicSetting.h"
 #include "CommonHeaders.h"
 #include "ArcTool.h"
@@ -7,13 +8,13 @@
 #include "ArcMesh.h"
 #include "ArcTexture.h"
 
-#ifdef USING_DX11
+#ifdef USING_DX11_ARC
 
 #include <d3d11.h>
-#include <dxerr.h>
 #include <d3dx11.h>
+#include <direct.h>
 #include "D3DCompiler.h"
-//#include "DDSTextureLoader.h"
+
 
 #endif // USING_DX11
 
@@ -26,10 +27,11 @@ namespace DX11Engine {
 		static bool LoadVertexShader(std::string filePath, const char* entry, const char* shaderModel, ID3DBlob **shaderBuffer, ID3D11VertexShader** vertexShader);
 		static bool LoadPixelShader(std::string filePath, const char* entry, const char* shaderModel, ID3DBlob **shaderBuffer, ID3D11PixelShader **pixelShader);
 		static bool ConfigInputLayout(D3D11_INPUT_ELEMENT_DESC* inputLayout, unsigned int inputLayoutNum, ID3DBlob **shaderBuffer, ID3D11InputLayout **pInputLayout);
-		static std::shared_ptr<ArcMesh> LoadMesh(std::string name, Vertex* vertexs, unsigned int vertexsLength, unsigned int* indices, unsigned int indicesLength);
+		static std::shared_ptr<ArcMesh> LoadMesh(std::string name, void* vertexs, unsigned int nodeLength, unsigned int nodeCount, unsigned int* indices, unsigned int indicesLength, ID3D11InputLayout *pInputLayout);
 		static std::shared_ptr<ArcTexture> LoadTexture(std::string name, std::string path);
 		const static std::string SHADER_PATH;
+		const static std::string TEXTURE_PATH;
 	private:
 		static bool CompileD3DShader(std::string filePath, const char* entry, const char* shaderModel, ID3DBlob** buffer);
 	};
-}
+};

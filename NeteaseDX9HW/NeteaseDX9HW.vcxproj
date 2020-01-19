@@ -174,6 +174,7 @@
     <ClCompile Include="ArcTool.cpp" />
     <ClCompile Include="ArcTransform.cpp" />
     <ClCompile Include="ArcWindow.cpp" />
+    <ClCompile Include="Common\DDSTextureLoader.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RacingGameApplication.cpp" />
@@ -211,6 +212,10 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\SimpleShader.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shaders\StandardShader.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>

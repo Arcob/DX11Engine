@@ -3,6 +3,7 @@
 
 namespace DX11Engine {
 	const std::string ArcAssetLoader::SHADER_PATH = "\\NeteaseDX9HW\\Shaders\\";
+	const std::string ArcAssetLoader::TEXTURE_PATH = "\\NeteaseDX9HW\\Textures\\";
 
 	bool ArcAssetLoader::CompileD3DShader(std::string filePath, const char* entry, const char* shaderModel, ID3DBlob** buffer) {
 		DWORD shaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -83,6 +84,7 @@ namespace DX11Engine {
 	bool ArcAssetLoader::ConfigInputLayout(D3D11_INPUT_ELEMENT_DESC* inputLayout, unsigned int inputLayoutNum, ID3DBlob **shaderBuffer, ID3D11InputLayout **pInputLayout) {
 		long result = ArcRHI::g_pd3dDevice->CreateInputLayout(inputLayout, inputLayoutNum, (*shaderBuffer)->GetBufferPointer(),
 			(*shaderBuffer)->GetBufferSize(), pInputLayout);
+		//ArcRHI::g_pImmediateContext->IASetInputLayout(*pInputLayout);
 		(*shaderBuffer)->Release(); //传递完InputLayout之后shaderBuffer就没用了，此时释放shaderbuffer
 
 		if (FAILED(result))
@@ -93,10 +95,11 @@ namespace DX11Engine {
 		return true;
 	}
 
-	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadMesh(std::string name, Vertex* vertexs, unsigned int vertexsLength, unsigned int* indices, unsigned int indicesLength) {
+	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadMesh(std::string name, void* vertexs, unsigned int nodeLength, unsigned int nodeCount, unsigned int* indices, unsigned int indicesLength, ID3D11InputLayout *inputLayout) {
 		std::shared_ptr<DX11Engine::ArcMesh> pBoxMesh = std::make_shared<DX11Engine::ArcMesh>(name, ArcRHI::g_pd3dDevice);
-
-		if (!pBoxMesh->BindVertexBuffer(vertexs, vertexsLength)) {
+		pBoxMesh->m_nodeLength = nodeLength;
+		pBoxMesh->m_nodeCount = nodeCount;
+		if (!pBoxMesh->BindVertexBuffer(vertexs, nodeLength * nodeCount)) {
 			return nullptr;
 		}
 
@@ -104,17 +107,18 @@ namespace DX11Engine {
 			return nullptr;
 		}
 
+		pBoxMesh->m_pInputLayout = inputLayout;
 		return std::move(pBoxMesh);
 	}
 	//$(ProjectDir)Common
 	std::shared_ptr<ArcTexture> ArcAssetLoader::LoadTexture(std::string textureName, std::string path) {
-		/*auto texture = std::make_shared<ArcTexture>(textureName);
-		long result = CreateDDSTextureFromFile(ArcRHI::g_pd3dDevice, ArcTool::stringToLPCWSTR(path), &(texture->m_texture), &(texture->m_textureView));
+		auto texture = std::make_shared<ArcTexture>(textureName);
+		long result = DirectX::CreateDDSTextureFromFile(ArcRHI::g_pd3dDevice, ArcTool::stringToLPCWSTR(path), &(texture->m_texture), &(texture->m_textureView));
 		if (FAILED(result))
 		{
 			MessageBox(nullptr, L"create texture failed!", L"error", MB_OK);
 			return nullptr;
-		}*/
-		return nullptr;
+		}
+		return texture;
 	}
 }

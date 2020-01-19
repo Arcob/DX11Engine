@@ -10,7 +10,7 @@
 
 #include "ArcGraphicSetting.h"
 
-#ifdef USING_DX11
+#ifdef USING_DX11_ARC
 
 #include <d3d11.h>
 #include <dxerr.h>
@@ -26,12 +26,20 @@ RacingGameAssets::RacingGameAssets() : ArcAssets() {
 bool RacingGameAssets::Load() {
 	//print("Load RacingGameAssets");
 
-	std::shared_ptr<DX11Engine::ArcMesh> pBoxMesh = DX11Engine::ArcAssetLoader::LoadMesh("Box Mesh", DX11Engine::TestBoxVertices, 8, DX11Engine::TestBoxIndices, 36);
+	std::shared_ptr<DX11Engine::ArcMesh> pBoxMesh = DX11Engine::ArcAssetLoader::LoadMesh("Box Mesh", DX11Engine::TestBoxVertices, sizeof(DX11Engine::Vertex), 8, DX11Engine::TestBoxIndices, 36, nullptr);
 	if (pBoxMesh == nullptr) {
 		print("Unable to load mesh");
 	}
 	ArcAssets::m_meshVector.push_back(std::move(pBoxMesh));//mesh的引用可能出问题
 
+	//print(DX11Engine::TestBoxPNTT);
+	std::shared_ptr<DX11Engine::ArcMesh> pBoxMeshWithNormal = DX11Engine::ArcAssetLoader::LoadMesh("Normal Box Mesh", DX11Engine::TestBoxPNTT, sizeof(DX11Engine::VertexNormalTangentTex), 24, DX11Engine::NormalBoxIndices, 36, nullptr);
+	if (pBoxMeshWithNormal == nullptr) {
+		print("Unable to load mesh");
+	}
+	ArcAssets::m_meshVector.push_back(std::move(pBoxMeshWithNormal));
+
+	//三角形材质
 	ID3DBlob *vertexShaderBuffer(0);
 	ID3D11VertexShader* vertexShader(0);
 	ID3DBlob *pixelShaderBuffer(0);
@@ -47,6 +55,7 @@ bool RacingGameAssets::Load() {
 		print("Config Input Layout Wrong");
 		return false;
 	}
+
 	if (!(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath, "PS_Main", "ps_4_0", &pixelShaderBuffer, &pixelShader))) {
 		print("Pixel Shader Wrong");
 		return false;
@@ -54,6 +63,7 @@ bool RacingGameAssets::Load() {
 	std::shared_ptr<DX11Engine::ArcMaterial> simpleMaterial = std::make_shared<DX11Engine::ArcMaterial>("SimpleMaterial", vertexShader, pixelShader, inputLayout, nullptr);
 	ArcAssets::m_materialVector.push_back(std::move(simpleMaterial));
 
+	//五彩正方形材质
 	ID3DBlob *vertexShaderBuffer2(0);
 	ID3D11VertexShader* vertexShader2(0);
 	ID3DBlob *pixelShaderBuffer2(0);
@@ -69,17 +79,11 @@ bool RacingGameAssets::Load() {
 		print("Config Input Layout Wrong");
 		return false;
 	}
+
 	if (!(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath2, "PS", "ps_4_0", &pixelShaderBuffer2, &pixelShader2))) {
 		print("Pixel Shader Wrong");
 		return false;
 	}
-
-	/*D3D11_BUFFER_DESC bd;
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(DX11Engine::ConstantBuffer);
-	//绑定信息是常量缓存
-	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	bd.CPUAccessFlags = 0;*/
 
 	D3D11_BUFFER_DESC cbDesc;
 	ZeroMemory(&cbDesc, sizeof(cbDesc));
@@ -87,8 +91,6 @@ bool RacingGameAssets::Load() {
 	cbDesc.Usage = D3D11_USAGE_DYNAMIC;
 	cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	//cbDesc.MiscFlags = 0;
-	//cbDesc.StructureByteStride = 0;
 
 	ID3D11Buffer* tempConstantBuffer = NULL;
 	long hr = DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&cbDesc, NULL, &tempConstantBuffer);
@@ -99,9 +101,49 @@ bool RacingGameAssets::Load() {
 	}
 		
 	std::shared_ptr<DX11Engine::ArcMaterial> TestBoxMaterial = std::make_shared<DX11Engine::ArcMaterial>("TestBoxMaterial", vertexShader2, pixelShader2, inputLayout2, tempConstantBuffer);
-
 	ArcAssets::m_materialVector.push_back(std::move(TestBoxMaterial));
-	//buffer没release
+
+	//带贴图光照正方形材质
+	std::string texturePath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::TEXTURE_PATH + "WoodCrate.dds";
+	auto boxTexture = DX11Engine::ArcAssetLoader::LoadTexture("BoxTexture", texturePath);
+	/**/
+	ID3DBlob *vertexShaderBuffer3(0);
+	ID3D11VertexShader* vertexShader3(0);
+	ID3DBlob *pixelShaderBuffer3(0);
+	ID3D11PixelShader* pixelShader3(0);
+	ID3D11InputLayout *inputLayout3(0);
+
+	std::string shaderPath3 = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "StandardShader.fx";
+	if (!(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPath3, "VS", "vs_4_0", &vertexShaderBuffer3, &vertexShader3))) {
+		print("Vertex Shader Wrong");
+		return false;
+	}
+	if (!(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::VertextNormalTangentTexcoordLayout, ARRAYSIZE(DX11Engine::VertextNormalTangentTexcoordLayout), &vertexShaderBuffer3, &inputLayout3))) {
+		print("Config Input Layout Wrong");
+		return false;
+	}
+	if (!(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath3, "PS", "ps_4_0", &pixelShaderBuffer3, &pixelShader3))) {
+		print("Pixel Shader Wrong");
+		return false;
+	}
+
+	D3D11_BUFFER_DESC cbDesc3;
+	ZeroMemory(&cbDesc3, sizeof(cbDesc3));
+	cbDesc3.ByteWidth = sizeof(DX11Engine::ConstantBuffer);
+	cbDesc3.Usage = D3D11_USAGE_DYNAMIC;
+	cbDesc3.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbDesc3.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	ID3D11Buffer* tempConstantBuffer3 = NULL;
+	long hr3 = DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&cbDesc3, NULL, &tempConstantBuffer3);
+
+	if (FAILED(hr3)) {
+		print("MVP Constant Buffer Wrong");
+		return false;
+	}
+
+	std::shared_ptr<DX11Engine::ArcMaterial> StandardMaterial = std::make_shared<DX11Engine::ArcMaterial>("StandardMaterial", vertexShader3, pixelShader3, inputLayout3, tempConstantBuffer3);
+	ArcAssets::m_materialVector.push_back(std::move(StandardMaterial));
 
 	return true;
 }

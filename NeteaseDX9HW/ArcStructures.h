@@ -10,6 +10,14 @@ namespace DX11Engine {
 		float4 color;
 	};
 
+	struct VertexNormalTangentTex
+	{
+		float3 pos;
+		float3 normal;
+		float3 tangent;
+		float2 texCoord;
+	};
+
 	struct ConstantBuffer
 	{
 		mat4 mWorld;

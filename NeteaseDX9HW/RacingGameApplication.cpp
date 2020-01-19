@@ -42,4 +42,16 @@ void RacingGameApplication::LoadApplication() {
 	testBox->SetMesh(ArcApplication::m_assets->findMesh("Box Mesh"));
 	testBox->SetMaterial(ArcApplication::m_assets->findMaterial("TestBoxMaterial"));
 	ArcApplication::m_mainScene->AddGameObject(testBox);
+
+	auto testBoxWithNormal = std::make_shared<DX11Engine::ArcGameObject>("TestBoxWithNormal");
+	auto testBoxTransform2 = std::make_shared<DX11Engine::ArcTransform>();
+	testBoxTransform2->setPosition(float3(4.0f, 7.0f, 6.0f));
+	testBoxTransform2->setRotation(float3(45.0f, 45.0f, 45.0f));
+	testBoxTransform2->setScale(float3(1, 1, 1));
+	testBoxWithNormal->SetTransfrom(testBoxTransform2);
+	testBoxWithNormal->SetMesh(ArcApplication::m_assets->findMesh("Normal Box Mesh"));
+	testBoxWithNormal->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
+	//testBoxWithNormal->SetMesh(ArcApplication::m_assets->findMesh("Box Mesh"));
+	//testBoxWithNormal->SetMaterial(ArcApplication::m_assets->findMaterial("TestBoxMaterial"));
+	ArcApplication::m_mainScene->AddGameObject(testBoxWithNormal);
 }

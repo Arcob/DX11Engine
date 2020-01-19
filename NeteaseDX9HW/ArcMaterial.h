@@ -4,11 +4,9 @@
 #include "CommonHeaders.h"
 #include "ArcTool.h"
 
-#ifdef USING_DX11
+#ifdef USING_DX11_ARC
 
 #include <d3d11.h>
-#include <dxerr.h>
-//#include <D3DX11.h>
 #include "D3DCompiler.h"
 
 #endif

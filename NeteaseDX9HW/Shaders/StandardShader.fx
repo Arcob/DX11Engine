@@ -7,8 +7,10 @@ cbuffer ConstantBuffer : register(b0)
 
 struct VertexIn
 {
-    float3 PosL  : POSITION;
-    float4 Color : COLOR;
+    float3 Pos  : POSITION;
+    float3 Normal : NORMAL;
+    float3 Tangent : TEXCOORD0;
+    float2 Tex : TEXCOORD1;
 };
 
 struct VertexOut
@@ -20,11 +22,11 @@ struct VertexOut
 VertexOut VS(VertexIn vin)
 {
     VertexOut vout;
-	vout.PosH = mul(float4(vin.PosL, 1.0f), World);
+	vout.PosH = mul(float4(vin.Pos, 1.0f), World);
 	vout.PosH = mul(vout.PosH, View);
 	vout.PosH = mul(vout.PosH, Projection);
 
-    vout.Color = vin.Color;
+    vout.Color = float4(vin.Tangent, 1.0f);
     
     return vout;
 }
