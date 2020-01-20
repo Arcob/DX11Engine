@@ -24,6 +24,7 @@ namespace DX11Engine {
 		std::string m_name;
 		ID3D11Resource* m_texture;               //指向资源接口类的指针，也可以填nullptr
 		ID3D11ShaderResourceView* m_textureView; //指向着色器资源视图的指针，也可以填nullptr
+		ID3D11SamplerState * m_sampleState;
 	};
 
 }

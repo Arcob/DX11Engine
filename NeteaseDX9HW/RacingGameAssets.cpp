@@ -104,9 +104,6 @@ bool RacingGameAssets::Load() {
 	ArcAssets::m_materialVector.push_back(std::move(TestBoxMaterial));
 
 	//带贴图光照正方形材质
-	std::string texturePath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::TEXTURE_PATH + "WoodCrate.dds";
-	auto boxTexture = DX11Engine::ArcAssetLoader::LoadTexture("BoxTexture", texturePath);
-	/**/
 	ID3DBlob *vertexShaderBuffer3(0);
 	ID3D11VertexShader* vertexShader3(0);
 	ID3DBlob *pixelShaderBuffer3(0);
@@ -145,5 +142,22 @@ bool RacingGameAssets::Load() {
 	std::shared_ptr<DX11Engine::ArcMaterial> StandardMaterial = std::make_shared<DX11Engine::ArcMaterial>("StandardMaterial", vertexShader3, pixelShader3, inputLayout3, tempConstantBuffer3);
 	ArcAssets::m_materialVector.push_back(std::move(StandardMaterial));
 
+	std::string texturePath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::TEXTURE_PATH + "WoodCrate.dds";
+	auto boxTexture = DX11Engine::ArcAssetLoader::LoadTexture("BoxTexture", texturePath);
+
+	D3D11_SAMPLER_DESC sampDesc;
+	ZeroMemory(&sampDesc, sizeof(sampDesc));
+	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sampDesc.MinLOD = 0;
+	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+	DX11Engine::ArcRHI::g_pd3dDevice->CreateSamplerState(&sampDesc, &(boxTexture->m_sampleState));
+
+	DX11Engine::ArcRHI::g_pImmediateContext->PSSetShaderResources(0, 1, &(boxTexture->m_textureView));//贴图绑定
+	DX11Engine::ArcRHI::g_pImmediateContext->PSSetSamplers(0, 1, &(boxTexture->m_sampleState));//采样状态绑定
+	
 	return true;
 }

@@ -1,3 +1,6 @@
+Texture2D gTex : register(t0);
+SamplerState gSamLinear : register(s0);
+
 cbuffer ConstantBuffer : register(b0)
 {
 	matrix World;
@@ -17,6 +20,7 @@ struct VertexOut
 {
     float4 PosH  : SV_POSITION;
     float4 Color : COLOR;
+	float2 Tex : TEXCOORD2;
 };
 
 VertexOut VS(VertexIn vin)
@@ -27,11 +31,14 @@ VertexOut VS(VertexIn vin)
 	vout.PosH = mul(vout.PosH, Projection);
 
     vout.Color = float4(vin.Tangent, 1.0f);
-    
+	vout.Tex = vin.Tex;
+
     return vout;
 }
 
 float4 PS(VertexOut pin) : SV_Target
 {
-    return pin.Color;
+	float4 result = gTex.Sample(gSamLinear, pin.Tex);
+	//float4 result = float4(1.0f, 1.0f, 1.0f, 1.0f);
+    return result;
 }
