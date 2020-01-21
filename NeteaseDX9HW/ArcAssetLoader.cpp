@@ -121,4 +121,20 @@ namespace DX11Engine {
 		}
 		return texture;
 	}
+
+	bool ArcAssetLoader::CreateConstantBuffer(ID3D11Device* device, D3D11_BUFFER_DESC* description, ID3D11Buffer** constantBuffer) {
+		long hr3 = device->CreateBuffer(description, NULL, constantBuffer);
+
+		if (FAILED(hr3)) {
+			print("MVP Constant Buffer Wrong");
+			return false;
+		}
+		return true;
+	}
+
+	void ArcAssetLoader::SetTexture(D3D11_SAMPLER_DESC* sampDescription, std::shared_ptr<ArcTexture> texture, unsigned int textureSlot, unsigned int descSlot) {
+		ArcRHI::g_pd3dDevice->CreateSamplerState(sampDescription, &(texture->m_sampleState));
+		ArcRHI::g_pImmediateContext->PSSetShaderResources(textureSlot, 1, &(texture->m_textureView));//贴图绑定
+		ArcRHI::g_pImmediateContext->PSSetSamplers(descSlot, 1, &(texture->m_sampleState));//采样状态绑定
+	}
 }

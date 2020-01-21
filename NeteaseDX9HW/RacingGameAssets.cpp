@@ -22,6 +22,16 @@
 RacingGameAssets::RacingGameAssets() : ArcAssets() {
 	Load();
 }
+/*
+Mesh:
+	Box Mesh
+	Normal Box Mesh
+
+Material:
+	SimpleMaterial
+	TestBoxMaterial
+	StandardMaterial
+*/
 
 bool RacingGameAssets::Load() {
 	//print("Load RacingGameAssets");
@@ -39,125 +49,61 @@ bool RacingGameAssets::Load() {
 	}
 	ArcAssets::m_meshVector.push_back(std::move(pBoxMeshWithNormal));
 
-	//三角形材质
-	ID3DBlob *vertexShaderBuffer(0);
-	ID3D11VertexShader* vertexShader(0);
-	ID3DBlob *pixelShaderBuffer(0);
-	ID3D11PixelShader* pixelShader(0);
-	ID3D11InputLayout *inputLayout(0);
-
+	DX11Engine::MaterialInitStruct misTriangle = DX11Engine::MaterialInitStruct();
 	std::string shaderPath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "SimpleShader.fx";
-	if (!(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPath, "VS_Main", "vs_4_0", &vertexShaderBuffer, &vertexShader))) {
-		print("Vertex Shader Wrong");
-		return false;
-	}
-	if (!(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::SolidColorLayout, ARRAYSIZE(DX11Engine::SolidColorLayout), &vertexShaderBuffer, &inputLayout))) {
-		print("Config Input Layout Wrong");
-		return false;
-	}
-
-	if (!(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath, "PS_Main", "ps_4_0", &pixelShaderBuffer, &pixelShader))) {
-		print("Pixel Shader Wrong");
-		return false;
-	}
-	std::shared_ptr<DX11Engine::ArcMaterial> simpleMaterial = std::make_shared<DX11Engine::ArcMaterial>("SimpleMaterial", vertexShader, pixelShader, inputLayout, nullptr, nullptr);
+	FL(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPath, "VS_Main", "vs_4_0", &(misTriangle.m_vertexShaderBuffer), &(misTriangle.m_vertexShader)));
+	FL(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::SolidColorLayout, ARRAYSIZE(DX11Engine::SolidColorLayout), &(misTriangle.m_vertexShaderBuffer), &(misTriangle.m_inputLayout)));
+	FL(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath, "PS_Main", "ps_4_0", &(misTriangle.m_pixelShaderBuffer), &(misTriangle.m_pixelShader)));
+	std::shared_ptr<DX11Engine::ArcMaterial> simpleMaterial = std::make_shared<DX11Engine::ArcMaterial>("SimpleMaterial", misTriangle.m_vertexShader, misTriangle.m_pixelShader, misTriangle.m_inputLayout, nullptr, nullptr);
 	ArcAssets::m_materialVector.push_back(std::move(simpleMaterial));
 
+	D3D11_BUFFER_DESC cbDescMVP;
+	ZeroMemory(&cbDescMVP, sizeof(cbDescMVP));
+	cbDescMVP.ByteWidth = sizeof(DX11Engine::ConstantBufferMvp);
+	cbDescMVP.Usage = D3D11_USAGE_DYNAMIC;
+	cbDescMVP.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbDescMVP.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	D3D11_BUFFER_DESC cbDescLight;
+	ZeroMemory(&cbDescLight, sizeof(cbDescLight));
+	cbDescLight.ByteWidth = sizeof(DX11Engine::ConstantBufferLight);
+	cbDescLight.Usage = D3D11_USAGE_DYNAMIC;
+	cbDescLight.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbDescLight.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
 	//五彩正方形材质
-	ID3DBlob *vertexShaderBuffer2(0);
-	ID3D11VertexShader* vertexShader2(0);
-	ID3DBlob *pixelShaderBuffer2(0);
-	ID3D11PixelShader* pixelShader2(0);
-	ID3D11InputLayout *inputLayout2(0);
-
+	DX11Engine::MaterialInitStruct misSimpleBox = DX11Engine::MaterialInitStruct();
 	std::string shaderPath2 = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "TestBoxShader.fx";
-	if (!(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPath2, "VS", "vs_4_0", &vertexShaderBuffer2, &vertexShader2))) {
-		print("Vertex Shader Wrong");
-		return false;
-	}
-	if (!(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::TestBoxLayout, ARRAYSIZE(DX11Engine::TestBoxLayout), &vertexShaderBuffer2, &inputLayout2))) {
-		print("Config Input Layout Wrong");
-		return false;
-	}
-
-	if (!(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath2, "PS", "ps_4_0", &pixelShaderBuffer2, &pixelShader2))) {
-		print("Pixel Shader Wrong");
-		return false;
-	}
-
-	D3D11_BUFFER_DESC cbDesc;
-	ZeroMemory(&cbDesc, sizeof(cbDesc));
-	cbDesc.ByteWidth = sizeof(DX11Engine::ConstantBufferMvp);
-	cbDesc.Usage = D3D11_USAGE_DYNAMIC;
-	cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	FL(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPath2, "VS", "vs_4_0", &(misSimpleBox.m_vertexShaderBuffer), &(misSimpleBox.m_vertexShader)));
+	FL(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::TestBoxLayout, ARRAYSIZE(DX11Engine::TestBoxLayout), &(misSimpleBox.m_vertexShaderBuffer), &(misSimpleBox.m_inputLayout)));
+	FL(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath2, "PS", "ps_4_0", &(misSimpleBox.m_pixelShaderBuffer), &(misSimpleBox.m_pixelShader)));
 
 	ID3D11Buffer* tempConstantBuffer = NULL;
-	long hr = DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&cbDesc, NULL, &tempConstantBuffer);
-
-	if (FAILED(hr)) {
-		print("MVP Constant Buffer Wrong");
-		return false;
-	}
+	FL(DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescMVP, &tempConstantBuffer));
 
 	ID3D11Buffer* lightConstantBuffer = NULL;
-	hr = DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&cbDesc, NULL, &lightConstantBuffer);
+	FL(DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescLight, &lightConstantBuffer));
 
-	if (FAILED(hr)) {
-		print("MVP Constant Buffer Wrong");
-		return false;
-	}
-		
-	std::shared_ptr<DX11Engine::ArcMaterial> TestBoxMaterial = std::make_shared<DX11Engine::ArcMaterial>("TestBoxMaterial", vertexShader2, pixelShader2, inputLayout2, tempConstantBuffer, lightConstantBuffer);
+	std::shared_ptr<DX11Engine::ArcMaterial> TestBoxMaterial = std::make_shared<DX11Engine::ArcMaterial>("TestBoxMaterial", misSimpleBox.m_vertexShader, misSimpleBox.m_pixelShader, misSimpleBox.m_inputLayout, tempConstantBuffer, lightConstantBuffer);
 	ArcAssets::m_materialVector.push_back(std::move(TestBoxMaterial));
 
 	//带贴图光照正方形材质
-	ID3DBlob *vertexShaderBuffer3(0);
-	ID3D11VertexShader* vertexShader3(0);
-	ID3DBlob *pixelShaderBuffer3(0);
-	ID3D11PixelShader* pixelShader3(0);
-	ID3D11InputLayout *inputLayout3(0);
-
+	DX11Engine::MaterialInitStruct misStandardMat = DX11Engine::MaterialInitStruct();
 	std::string shaderPath3 = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "StandardShader.fx";
-	if (!(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPath3, "VS", "vs_4_0", &vertexShaderBuffer3, &vertexShader3))) {
-		print("Vertex Shader Wrong");
-		return false;
-	}
-	if (!(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::VertextNormalTangentTexcoordLayout, ARRAYSIZE(DX11Engine::VertextNormalTangentTexcoordLayout), &vertexShaderBuffer3, &inputLayout3))) {
-		print("Config Input Layout Wrong");
-		return false;
-	}
-	if (!(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath3, "PS", "ps_4_0", &pixelShaderBuffer3, &pixelShader3))) {
-		print("Pixel Shader Wrong");
-		return false;
-	}
-
-	D3D11_BUFFER_DESC cbDesc3;
-	ZeroMemory(&cbDesc3, sizeof(cbDesc3));
-	cbDesc3.ByteWidth = sizeof(DX11Engine::ConstantBufferMvp);
-	cbDesc3.Usage = D3D11_USAGE_DYNAMIC;
-	cbDesc3.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	cbDesc3.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
+	FL(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPath3, "VS", "vs_4_0", &(misStandardMat.m_vertexShaderBuffer), &(misStandardMat.m_vertexShader)));
+	FL(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::VertextNormalTangentTexcoordLayout, ARRAYSIZE(DX11Engine::VertextNormalTangentTexcoordLayout), &(misStandardMat.m_vertexShaderBuffer), &(misStandardMat.m_inputLayout)));
+	FL(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath3, "PS", "ps_4_0", &(misStandardMat.m_pixelShaderBuffer), &(misStandardMat.m_pixelShader)));
+	
 	ID3D11Buffer* tempConstantBuffer3 = NULL;
-	long hr3 = DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&cbDesc3, NULL, &tempConstantBuffer3);
-
-	if (FAILED(hr3)) {
-		print("MVP Constant Buffer Wrong");
-		return false;
-	}
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescMVP, &tempConstantBuffer3);
 
 	ID3D11Buffer* lightConstantBuffer3 = NULL;
-	hr3 = DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&cbDesc3, NULL, &lightConstantBuffer3);
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescLight, &lightConstantBuffer3);
 
-	if (FAILED(hr3)) {
-		print("MVP Constant Buffer Wrong");
-		return false;
-	}
-
-	std::shared_ptr<DX11Engine::ArcMaterial> StandardMaterial = std::make_shared<DX11Engine::ArcMaterial>("StandardMaterial", vertexShader3, pixelShader3, inputLayout3, tempConstantBuffer3, lightConstantBuffer3);
+	std::shared_ptr<DX11Engine::ArcMaterial> StandardMaterial = std::make_shared<DX11Engine::ArcMaterial>("StandardMaterial", misStandardMat.m_vertexShader, misStandardMat.m_pixelShader, misStandardMat.m_inputLayout, tempConstantBuffer3, lightConstantBuffer3);
 	ArcAssets::m_materialVector.push_back(std::move(StandardMaterial));
 
+	//贴图
 	std::string texturePath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::TEXTURE_PATH + "WoodCrate.dds";
 	auto boxTexture = DX11Engine::ArcAssetLoader::LoadTexture("BoxTexture", texturePath);
 
@@ -170,10 +116,8 @@ bool RacingGameAssets::Load() {
 	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
 	sampDesc.MinLOD = 0;
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	DX11Engine::ArcRHI::g_pd3dDevice->CreateSamplerState(&sampDesc, &(boxTexture->m_sampleState));
 
-	DX11Engine::ArcRHI::g_pImmediateContext->PSSetShaderResources(0, 1, &(boxTexture->m_textureView));//贴图绑定
-	DX11Engine::ArcRHI::g_pImmediateContext->PSSetSamplers(0, 1, &(boxTexture->m_sampleState));//采样状态绑定
+	DX11Engine::ArcAssetLoader::SetTexture(&sampDesc, boxTexture, 0, 0);
 	
 	return true;
 }

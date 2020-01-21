@@ -22,5 +22,17 @@ namespace DX11Engine {
 		//class ID3D11Device* m_pDevice; //device指针强转过来的
 	};
 
+	struct MaterialInitStruct {
+	public:
+		MaterialInitStruct() : m_vertexShaderBuffer(0), m_vertexShader(0), m_pixelShaderBuffer(0), m_pixelShader(0), m_inputLayout(0){}
+
+		ID3DBlob *m_vertexShaderBuffer;
+		ID3D11VertexShader* m_vertexShader;
+		ID3DBlob *m_pixelShaderBuffer;
+		ID3D11PixelShader* m_pixelShader;
+		ID3D11InputLayout *m_inputLayout;
+
+	};
+
 }
 

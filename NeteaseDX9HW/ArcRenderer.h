@@ -27,7 +27,7 @@ namespace DX11Engine {
 		~ArcRenderer() = default;
 		static bool Render(std::shared_ptr<ArcMesh> pMesh, std::shared_ptr<ArcMaterial> pMaterial, std::shared_ptr<ArcTransform> pTransform, std::shared_ptr<ArcCamera> pCamera, std::shared_ptr<DirectionalLight> pMainLight);
 	private:
-
+		static bool SetConstantBuffer(ID3D11DeviceContext* immediateContext, ID3D11Buffer* constantBuffer, void* resources, size_t size);
 	};
 
 }

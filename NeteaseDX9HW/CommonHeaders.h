@@ -25,15 +25,32 @@
 #ifndef HR
 #define HR(x)												\
 	{															\
-		HRESULT hr = (x);										\
+		long hr = (x);										\
 		if(FAILED(hr))											\
 		{														\
-			DXTraceW(__FILEW__, (DWORD)__LINE__, hr, L#x, true);\
+			print("Error HR");\
 		}														\
 	}
 #endif
 #else
 #ifndef HR
 #define HR(x) (x)
+#endif 
+#endif
+
+#if defined(DEBUG) | defined(_DEBUG)
+#ifndef FL
+#define FL(x)												\
+	{															\
+		bool flag = (x);										\
+		if(!(flag))											\
+		{														\
+			print("Error FL");\
+		}														\
+	}
+#endif
+#else
+#ifndef FL
+#define FL(x) (x)
 #endif 
 #endif

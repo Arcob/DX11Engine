@@ -29,6 +29,8 @@ namespace DX11Engine {
 		static bool ConfigInputLayout(D3D11_INPUT_ELEMENT_DESC* inputLayout, unsigned int inputLayoutNum, ID3DBlob **shaderBuffer, ID3D11InputLayout **pInputLayout);
 		static std::shared_ptr<ArcMesh> LoadMesh(std::string name, void* vertexs, unsigned int nodeLength, unsigned int nodeCount, unsigned int* indices, unsigned int indicesLength, ID3D11InputLayout *pInputLayout);
 		static std::shared_ptr<ArcTexture> LoadTexture(std::string name, std::string path);
+		static bool CreateConstantBuffer(ID3D11Device* device, D3D11_BUFFER_DESC* description, ID3D11Buffer** constantBuffer);
+		static void SetTexture(D3D11_SAMPLER_DESC* sampDescription, std::shared_ptr<ArcTexture> texture, unsigned int textureSlot, unsigned int descSlot);
 		const static std::string SHADER_PATH;
 		const static std::string TEXTURE_PATH;
 	private:

@@ -22,38 +22,36 @@ namespace DX11Engine {
 		immediateContext->PSSetShader(pMaterial->m_pPixelShader, 0, 0);
 		immediateContext->VSSetConstantBuffers(0, 1, &pMaterial->m_pMVPConstantBuffer);//设置mvp buffer为buffer0
 		immediateContext->PSSetConstantBuffers(1, 1, &pMaterial->m_pMainLightConstantBuffer);//设置Light buffer为buffer1 光照在pshader用所以用PSSet
-
+		
 		ConstantBufferMvp cbMVP;
 		cbMVP.mWorld = Transpose(pTransform->transformMatrix());//DX的mvp要反着乘
 		cbMVP.mView = Transpose(pCamera->View());
 		cbMVP.mProjection = Transpose(pCamera->Projection());
 
-		D3D11_MAPPED_SUBRESOURCE mappedData;
-		long result = immediateContext->Map(pMaterial->m_pMVPConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedData);
-		if (FAILED(result)) {
-			print("Map buffer false");
-		}
-		memcpy_s(mappedData.pData, sizeof(cbMVP), &cbMVP, sizeof(cbMVP));
-		immediateContext->Unmap(pMaterial->m_pMVPConstantBuffer, 0);
-
-		immediateContext->UpdateSubresource(pMaterial->m_pMVPConstantBuffer, 0, NULL, &cbMVP, 0, 0);
+		SetConstantBuffer(immediateContext, pMaterial->m_pMVPConstantBuffer, &cbMVP, sizeof(cbMVP));
 
 		ConstantBufferLight cbl;
 		cbl.Direction = pMainLight->m_direction;
 		cbl.Intensity = pMainLight->m_intensity;
 		cbl.Color = pMainLight->m_color;
 
-		D3D11_MAPPED_SUBRESOURCE mappedDataLight;
-		result = immediateContext->Map(pMaterial->m_pMainLightConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedDataLight);
-		if (FAILED(result)) {
-			print("Map buffer false");
-		}
-		memcpy_s(mappedDataLight.pData, sizeof(cbl), &cbl, sizeof(cbl));
-		immediateContext->Unmap(pMaterial->m_pMainLightConstantBuffer, 0);
-
-		immediateContext->UpdateSubresource(pMaterial->m_pMainLightConstantBuffer, 0, NULL, &cbl, 0, 0);
+		SetConstantBuffer(immediateContext, pMaterial->m_pMainLightConstantBuffer, &cbl, sizeof(cbl));
 
 		immediateContext->DrawIndexed(pMesh->m_indexLength, 0, 0);
+		return true;
+	}
+
+	bool ArcRenderer::SetConstantBuffer(ID3D11DeviceContext* immediateContext, ID3D11Buffer* constantBuffer, void* resources, size_t size) {
+		D3D11_MAPPED_SUBRESOURCE mappedData;
+		long result = immediateContext->Map(constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedData);
+		if (FAILED(result)) {
+			print("Map buffer false");
+			return false;
+		}
+		memcpy_s(mappedData.pData, size, resources, size);
+		immediateContext->Unmap(constantBuffer, 0);
+
+		immediateContext->UpdateSubresource(constantBuffer, 0, NULL, resources, 0, 0);
 		return true;
 	}
 }
