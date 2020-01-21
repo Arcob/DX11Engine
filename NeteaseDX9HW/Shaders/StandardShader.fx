@@ -8,6 +8,13 @@ cbuffer ConstantBuffer : register(b0)
 	matrix Projection;
 };
 
+cbuffer DirectionLight : register(b1) 
+{
+	float3 LightDir;
+	float Intensity;
+	float4 LightColor;
+};
+
 struct VertexIn
 {
     float3 Pos  : POSITION;
@@ -19,16 +26,23 @@ struct VertexIn
 struct VertexOut
 {
     float4 PosH  : SV_POSITION;
-    float4 Color : COLOR;
+	//float3 PosW : POSITION;
+    float4 Color : COLOR;	
 	float2 Tex : TEXCOORD2;
+	float3 Normal : TEXCOORD3;
 };
+
+float4 Ambient = float4(0.1f, 0.1f, 0.1f, 1.0f);
 
 VertexOut VS(VertexIn vin)
 {
     VertexOut vout;
 	vout.PosH = mul(float4(vin.Pos, 1.0f), World);
 	vout.PosH = mul(vout.PosH, View);
+	//vout.PosW = vout.PosH.rgb;
 	vout.PosH = mul(vout.PosH, Projection);
+	vout.Normal = normalize(mul(vin.Normal, (float3x3)World));
+	//vout.Normal = float3(0.1f, 0.1f, 0.1f);
 
     vout.Color = float4(vin.Tangent, 1.0f);
 	vout.Tex = vin.Tex;
@@ -38,7 +52,12 @@ VertexOut VS(VertexIn vin)
 
 float4 PS(VertexOut pin) : SV_Target
 {
-	float4 result = gTex.Sample(gSamLinear, pin.Tex);
-	//float4 result = float4(1.0f, 1.0f, 1.0f, 1.0f);
-    return result;
+	//float3 Normal = normalize(pin.Normal);
+	float4 Albedo = gTex.Sample(gSamLinear, pin.Tex);
+	float diffuseIntensity = saturate(dot(pin.Normal, normalize(LightDir)));
+	float3 diffuse = diffuseIntensity * LightColor.rgb * Intensity;
+	float3 result = Albedo.rgb +diffuse + Ambient.rgb;
+	//float4 result = LightColor;
+    return float4(result, 1.0f);
+	//return float4(diffuseIntensity, diffuseIntensity, diffuseIntensity, 1.0f);
 }

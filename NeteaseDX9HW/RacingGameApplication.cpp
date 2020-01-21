@@ -7,6 +7,7 @@
 #include "ArcMath.h"
 #include "ArcBehaviour.h"
 #include "ArcCamera.h"
+#include "Light.h"
 
 RacingGameApplication::RacingGameApplication(unsigned int WIDTH, unsigned int HEIGHT, std::shared_ptr<DX11Engine::ArcAssets> assets) : ArcApplication(WIDTH, HEIGHT, assets) {
 	ArcApplication::SetName("RacingGameApplication");
@@ -22,16 +23,17 @@ void RacingGameApplication::LoadApplication() {
 
 	auto mainCameraGameObject = std::make_shared<DX11Engine::ArcGameObject>("Camera");
 	auto tempTransform = std::make_shared<DX11Engine::ArcTransform>();
-	tempTransform->setPosition(float3(2.5, 7, 1));
+	tempTransform->setPosition(float3(2.5f, 7.f, 1.f));
 	tempTransform->setRotation(float3(0, 0, 0));
 	auto mainCamera = std::make_shared<DX11Engine::ArcCamera>();
 	mainCamera->SetViewportAspectRatio(((float)ArcApplication::Width()) / ((float)ArcApplication::Height()));
 	mainCameraGameObject->SetTransfrom(tempTransform);
 	mainCameraGameObject->AttachScript(mainCamera);
 	MainScene()->SetMainCamera(mainCamera);
-	//auto gameController = std::make_shared<GameController>();
-	//tempGameObject0->attachScript(gameController);
 	MainScene()->AddGameObject(mainCameraGameObject);
+
+	auto directionalLight = std::make_shared<DX11Engine::DirectionalLight>(float3(0.5f, 0.5f, 0.5f), 1.0f, float4(1.f, 1.f, 0.f, 1.f));
+	MainScene()->SetMainLight(std::move(directionalLight));
 
 	auto testBox = std::make_shared<DX11Engine::ArcGameObject>("TestBox");
 	auto testBoxTransform = std::make_shared<DX11Engine::ArcTransform>();
@@ -51,7 +53,5 @@ void RacingGameApplication::LoadApplication() {
 	testBoxWithNormal->SetTransfrom(testBoxTransform2);
 	testBoxWithNormal->SetMesh(ArcApplication::m_assets->findMesh("Normal Box Mesh"));
 	testBoxWithNormal->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
-	//testBoxWithNormal->SetMesh(ArcApplication::m_assets->findMesh("Box Mesh"));
-	//testBoxWithNormal->SetMaterial(ArcApplication::m_assets->findMaterial("TestBoxMaterial"));
 	ArcApplication::m_mainScene->AddGameObject(testBoxWithNormal);
 }

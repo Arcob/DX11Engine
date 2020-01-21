@@ -5,6 +5,7 @@
 #include "ArcMaterial.h"
 #include "ArcTransform.h"
 #include "ArcCamera.h"
+#include "Light.h"
 
 namespace DX11Engine {
 
@@ -24,7 +25,7 @@ namespace DX11Engine {
 		ArcRenderer() = default;
 		ArcRenderer(std::shared_ptr<class ArcMaterial> material, size_t vertexDataSize, float vertexData[], unsigned int texture, const std::vector<layoutStruct>& layoutVector);
 		~ArcRenderer() = default;
-		static bool Render(std::shared_ptr<ArcMesh> pMesh, std::shared_ptr<ArcMaterial> pMaterial, std::shared_ptr<ArcTransform> pTransform, std::shared_ptr<ArcCamera> pCamera);
+		static bool Render(std::shared_ptr<ArcMesh> pMesh, std::shared_ptr<ArcMaterial> pMaterial, std::shared_ptr<ArcTransform> pTransform, std::shared_ptr<ArcCamera> pCamera, std::shared_ptr<DirectionalLight> pMainLight);
 	private:
 
 	};

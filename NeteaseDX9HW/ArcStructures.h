@@ -18,11 +18,18 @@ namespace DX11Engine {
 		float2 texCoord;
 	};
 
-	struct ConstantBuffer
+	struct ConstantBufferMvp
 	{
 		mat4 mWorld;
 		mat4 mView;
 		mat4 mProjection;
+	};
+
+	struct ConstantBufferLight 
+	{
+		float3 Direction;
+		float Intensity;
+		float4 Color;
 	};
 
 	struct VertexPosNormalTex

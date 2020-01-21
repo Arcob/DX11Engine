@@ -60,7 +60,7 @@ bool RacingGameAssets::Load() {
 		print("Pixel Shader Wrong");
 		return false;
 	}
-	std::shared_ptr<DX11Engine::ArcMaterial> simpleMaterial = std::make_shared<DX11Engine::ArcMaterial>("SimpleMaterial", vertexShader, pixelShader, inputLayout, nullptr);
+	std::shared_ptr<DX11Engine::ArcMaterial> simpleMaterial = std::make_shared<DX11Engine::ArcMaterial>("SimpleMaterial", vertexShader, pixelShader, inputLayout, nullptr, nullptr);
 	ArcAssets::m_materialVector.push_back(std::move(simpleMaterial));
 
 	//五彩正方形材质
@@ -87,7 +87,7 @@ bool RacingGameAssets::Load() {
 
 	D3D11_BUFFER_DESC cbDesc;
 	ZeroMemory(&cbDesc, sizeof(cbDesc));
-	cbDesc.ByteWidth = sizeof(DX11Engine::ConstantBuffer);
+	cbDesc.ByteWidth = sizeof(DX11Engine::ConstantBufferMvp);
 	cbDesc.Usage = D3D11_USAGE_DYNAMIC;
 	cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -99,8 +99,16 @@ bool RacingGameAssets::Load() {
 		print("MVP Constant Buffer Wrong");
 		return false;
 	}
+
+	ID3D11Buffer* lightConstantBuffer = NULL;
+	hr = DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&cbDesc, NULL, &lightConstantBuffer);
+
+	if (FAILED(hr)) {
+		print("MVP Constant Buffer Wrong");
+		return false;
+	}
 		
-	std::shared_ptr<DX11Engine::ArcMaterial> TestBoxMaterial = std::make_shared<DX11Engine::ArcMaterial>("TestBoxMaterial", vertexShader2, pixelShader2, inputLayout2, tempConstantBuffer);
+	std::shared_ptr<DX11Engine::ArcMaterial> TestBoxMaterial = std::make_shared<DX11Engine::ArcMaterial>("TestBoxMaterial", vertexShader2, pixelShader2, inputLayout2, tempConstantBuffer, lightConstantBuffer);
 	ArcAssets::m_materialVector.push_back(std::move(TestBoxMaterial));
 
 	//带贴图光照正方形材质
@@ -126,7 +134,7 @@ bool RacingGameAssets::Load() {
 
 	D3D11_BUFFER_DESC cbDesc3;
 	ZeroMemory(&cbDesc3, sizeof(cbDesc3));
-	cbDesc3.ByteWidth = sizeof(DX11Engine::ConstantBuffer);
+	cbDesc3.ByteWidth = sizeof(DX11Engine::ConstantBufferMvp);
 	cbDesc3.Usage = D3D11_USAGE_DYNAMIC;
 	cbDesc3.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	cbDesc3.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -139,7 +147,15 @@ bool RacingGameAssets::Load() {
 		return false;
 	}
 
-	std::shared_ptr<DX11Engine::ArcMaterial> StandardMaterial = std::make_shared<DX11Engine::ArcMaterial>("StandardMaterial", vertexShader3, pixelShader3, inputLayout3, tempConstantBuffer3);
+	ID3D11Buffer* lightConstantBuffer3 = NULL;
+	hr3 = DX11Engine::ArcRHI::g_pd3dDevice->CreateBuffer(&cbDesc3, NULL, &lightConstantBuffer3);
+
+	if (FAILED(hr3)) {
+		print("MVP Constant Buffer Wrong");
+		return false;
+	}
+
+	std::shared_ptr<DX11Engine::ArcMaterial> StandardMaterial = std::make_shared<DX11Engine::ArcMaterial>("StandardMaterial", vertexShader3, pixelShader3, inputLayout3, tempConstantBuffer3, lightConstantBuffer3);
 	ArcAssets::m_materialVector.push_back(std::move(StandardMaterial));
 
 	std::string texturePath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::TEXTURE_PATH + "WoodCrate.dds";
