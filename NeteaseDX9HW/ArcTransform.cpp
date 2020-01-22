@@ -69,16 +69,17 @@ namespace DX11Engine {
 		return ScaleMatrix() * RotationMatrix() * PositionMatrix();//DX的mvp要和Opengl反着乘
 	}
 
-	void ArcTransform::SetPosition(float3 position) {
+	void ArcTransform::SetLocalPosition(float3 position) {
 		m_position = position;
 	}
 
-	void ArcTransform::SetScale(float3 scale) {
+	void ArcTransform::SetLocalScale(float3 scale) {
 		m_scale = scale;
 	}
 
-	void ArcTransform::SetRotation(float3 rotation) {
+	void ArcTransform::SetLocalRotation(float3 rotation) {
 		m_rotation = rotation;
+		normalizeRotation();
 	}
 
 	void ArcTransform::Translate(float3 offset) {

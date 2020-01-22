@@ -15,6 +15,10 @@ typedef DirectX::XMFLOAT2 float2;
 typedef DirectX::FXMVECTOR quaternion;
 typedef DirectX::XMMATRIX mat4;
 
+inline float DegreeToRadians(float degree) {
+	return degree * DEGREE_TO_RADIANS;
+}
+
 inline quaternion QuaternionTORotation(float3 rotation) {
 	return DirectX::XMQuaternionRotationRollPitchYaw(rotation.x, rotation.y, rotation.z);
 }
@@ -28,7 +32,8 @@ inline mat4 Vector3ToScaleMatrix(float3 scale) {
 }
 
 inline mat4 EularAngleToRotationMatrix(float3 eularAngle) {
-	return DirectX::XMMatrixRotationRollPitchYaw(eularAngle.x, eularAngle.y, eularAngle.z);
+	return DirectX::XMMatrixRotationRollPitchYaw(DegreeToRadians(eularAngle.x), DegreeToRadians(eularAngle.y), DegreeToRadians(eularAngle.z));
+	//return DirectX::XMMatrixRotationRollPitchYaw(eularAngle.x, eularAngle.y, eularAngle.z);
 }
 
 inline mat4 QuaternionToRotationMatrix(quaternion quat) {
@@ -47,9 +52,6 @@ inline float3 NormalizeFloat3(float3 a) {
 	return float3(a.x/total, a.y / total, a.z / total);
 }
 
-inline float DegreeToRadians(float degree) {
-	return degree * DEGREE_TO_RADIANS;
-}
 
 inline mat4 Inverse(mat4 matrix){
 	return DirectX::XMMatrixInverse(nullptr, matrix);

@@ -56,10 +56,22 @@ namespace DX11Engine {
 	}
 
 	mat4 ArcCamera::View() const {
-		mat4 temp = GameObject()->TransformPtr()->PositionMatrix() * GameObject()->TransformPtr()->RotationMatrix();
+		/**/mat4 temp = GameObject()->TransformPtr()->PositionMatrix() * GameObject()->TransformPtr()->RotationMatrix();
 		DirectX::XMVECTOR det = DirectX::XMMatrixDeterminant(temp);
 		temp = DirectX::XMMatrixInverse(&det, temp);
+		//PrintMat(temp);
 		return temp;
+		/*float pitch = GameObject()->TransformPtr()->Rotation().x * 0.0174532925f;
+		float yaw = GameObject()->TransformPtr()->Rotation().y * 0.0174532925f;
+		float roll = GameObject()->TransformPtr()->Rotation().z * 0.0174532925f;
+
+		//get rotation matrix and the relative up vector
+		mat4 rotationMatrix = DirectX::XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
+		auto unitY = float3(0.f, 1.f, 0.f);
+		auto up = DirectX::XMVector3TransformCoord(DirectX::XMLoadFloat3(&unitY), rotationMatrix);
+		auto unitX = float3(1.f, 0.f, 0.f);
+		auto forward = DirectX::XMVector3TransformCoord(DirectX::XMLoadFloat3(&unitX), rotationMatrix);
+		return DirectX::XMMatrixLookAtLH(DirectX::XMLoadFloat3(&GameObject()->TransformPtr()->Position()), forward, up);*/
 	}
 
 }
