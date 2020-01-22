@@ -56,7 +56,7 @@ namespace DX11Engine {
 	}
 
 	mat4 ArcCamera::View() const {
-		mat4 temp = GameObject()->TransformPtr()->transformMatrix() * GameObject()->TransformPtr()->rotationMatrix();
+		mat4 temp = GameObject()->TransformPtr()->PositionMatrix() * GameObject()->TransformPtr()->RotationMatrix();
 		DirectX::XMVECTOR det = DirectX::XMMatrixDeterminant(temp);
 		temp = DirectX::XMMatrixInverse(&det, temp);
 		return temp;

@@ -23,8 +23,8 @@ void RacingGameApplication::LoadApplication() {
 
 	auto mainCameraGameObject = std::make_shared<DX11Engine::ArcGameObject>("Camera");
 	auto tempTransform = std::make_shared<DX11Engine::ArcTransform>();
-	tempTransform->setPosition(float3(2.5f, 7.f, 1.f));
-	tempTransform->setRotation(float3(0, 0, 0));
+	tempTransform->SetPosition(float3(2.5f, 7.f, 1.f));
+	tempTransform->SetRotation(float3(0, 0, 0));
 	auto mainCamera = std::make_shared<DX11Engine::ArcCamera>();
 	mainCamera->SetViewportAspectRatio(((float)ArcApplication::Width()) / ((float)ArcApplication::Height()));
 	mainCameraGameObject->SetTransfrom(tempTransform);
@@ -35,11 +35,18 @@ void RacingGameApplication::LoadApplication() {
 	auto directionalLight = std::make_shared<DX11Engine::DirectionalLight>(float3(0.5f, 0.5f, 0.5f), 1.0f, float4(1.f, 1.f, 0.f, 1.f));
 	MainScene()->SetMainLight(std::move(directionalLight));
 
+	auto skyBox = std::make_shared<DX11Engine::ArcGameObject>("SkyBox");
+	auto tempSkyBoxTransform = std::make_shared<DX11Engine::ArcTransform>();
+	tempSkyBoxTransform->SetPosition(float3(0.5f, 2.f, 1.f));
+	tempSkyBoxTransform->SetRotation(float3(0, 0, 0));
+	DX11Engine::ArcTransform::SetParent(tempSkyBoxTransform, tempTransform);
+	//print(tempSkyBoxTransform->Position().x << " " << tempSkyBoxTransform->Position().y << " " << tempSkyBoxTransform->Position().z);
+
 	auto testBox = std::make_shared<DX11Engine::ArcGameObject>("TestBox");
 	auto testBoxTransform = std::make_shared<DX11Engine::ArcTransform>();
-	testBoxTransform->setPosition(float3(2.0f, 7.0f, 6.0f));
-	testBoxTransform->setRotation(float3(45.0f, 45.0f, 45.0f));
-	testBoxTransform->setScale(float3(1, 1, 1));
+	testBoxTransform->SetPosition(float3(2.0f, 7.0f, 6.0f));
+	testBoxTransform->SetRotation(float3(45.0f, 45.0f, 45.0f));
+	testBoxTransform->SetScale(float3(1, 1, 1));
 	testBox->SetTransfrom(testBoxTransform);
 	testBox->SetMesh(ArcApplication::m_assets->findMesh("Box Mesh"));
 	testBox->SetMaterial(ArcApplication::m_assets->findMaterial("TestBoxMaterial"));
@@ -47,9 +54,9 @@ void RacingGameApplication::LoadApplication() {
 
 	auto testBoxWithNormal = std::make_shared<DX11Engine::ArcGameObject>("TestBoxWithNormal");
 	auto testBoxTransform2 = std::make_shared<DX11Engine::ArcTransform>();
-	testBoxTransform2->setPosition(float3(4.0f, 7.0f, 6.0f));
-	testBoxTransform2->setRotation(float3(45.0f, 45.0f, 45.0f));
-	testBoxTransform2->setScale(float3(1, 1, 1));
+	testBoxTransform2->SetPosition(float3(4.0f, 7.0f, 6.0f));
+	testBoxTransform2->SetRotation(float3(45.0f, 45.0f, 45.0f));
+	testBoxTransform2->SetScale(float3(1, 1, 1));
 	testBoxWithNormal->SetTransfrom(testBoxTransform2);
 	testBoxWithNormal->SetMesh(ArcApplication::m_assets->findMesh("Normal Box Mesh"));
 	testBoxWithNormal->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));

@@ -6,61 +6,90 @@ namespace DX11Engine {
 		m_scale(1.0f, 1.0f, 1.0f),
 		m_rotation(0.0f, 0.0f, 0.0f)
 	{
+		m_children = {};
+		m_parent = nullptr;
 	}
 
-	const float3 ArcTransform::position() const {
+	const float3 ArcTransform::Position() const {
+		if (m_parent != nullptr) {
+			float4 tempVec = float4(LocalPosition().x, LocalPosition().y, LocalPosition().z, 1);
+			float4 tempResult = MatrixMultVector(m_parent->ScaleMatrix() * m_parent->RotationMatrix() * m_parent->PositionMatrix(), tempVec);
+			return float3(tempResult.x, tempResult.y, tempResult.z);
+		}
+		return LocalPosition();
+	}
+
+	const float3 ArcTransform::LocalPosition() const {
 		return m_position;
 	}
 
-	const float3 ArcTransform::scale() const {
-		return m_scale;
+	const float3 ArcTransform::Rotation() const {
+		if (m_parent != nullptr) {
+			float4 tempVec = float4(LocalPosition().x, LocalPosition().y, LocalPosition().z, 1);
+			float4 tempResult = MatrixMultVector(m_parent->ScaleMatrix() * m_parent->RotationMatrix(), tempVec);
+			return float3(tempResult.x, tempResult.y, tempResult.z);
+		}
+		return LocalRotation();
 	}
 
-	const float3 ArcTransform::rotation() const {
+	const float3 ArcTransform::LocalRotation() const {
 		return m_rotation;
 	}
 
-	const quaternion ArcTransform::quaternion() const {
+	const float3 ArcTransform::Scale() const {
+		if (m_parent != nullptr) {
+			float4 tempVec = float4(LocalScale().x, LocalScale().y, LocalScale().z, 1);
+			float4 tempResult = MatrixMultVector(m_parent->ScaleMatrix(), tempVec);
+			return float3(tempResult.x, tempResult.y, tempResult.z);
+		}
+		return LocalScale();
+	}
+
+	const float3 ArcTransform::LocalScale() const {
+		return m_scale;
+	}
+
+	const quaternion ArcTransform::Quaternion() const {
 		return QuaternionTORotation(m_rotation);
 	}
 
-	const mat4 ArcTransform::positionMatrix() const {
-		return Vector3ToTranslationMatrix(m_position);
+	const mat4 ArcTransform::PositionMatrix() const {
+		return Vector3ToTranslationMatrix(Position());
 	}
 
-	const mat4 ArcTransform::rotationMatrix() const {
-		return EularAngleToRotationMatrix(m_rotation);
+	const mat4 ArcTransform::RotationMatrix() const {
+		return EularAngleToRotationMatrix(Rotation());
 	}
 
-	const mat4 ArcTransform::scaleMatrix() const {
-		return Vector3ToScaleMatrix(m_scale);
+	const mat4 ArcTransform::ScaleMatrix() const {
+		return Vector3ToScaleMatrix(Scale());
 	}
 
-	const mat4 ArcTransform::transformMatrix() const {
-		return scaleMatrix() * rotationMatrix() * positionMatrix();//DX的mvp要和Opengl反着乘
+	const mat4 ArcTransform::TransformMatrix() const {
+		return ScaleMatrix() * RotationMatrix() * PositionMatrix();//DX的mvp要和Opengl反着乘
 	}
 
-	void ArcTransform::setPosition(float3 position) {
+	void ArcTransform::SetPosition(float3 position) {
 		m_position = position;
 	}
 
-	void ArcTransform::setScale(float3 scale) {
+	void ArcTransform::SetScale(float3 scale) {
 		m_scale = scale;
 	}
 
-	void ArcTransform::setRotation(float3 rotation) {
+	void ArcTransform::SetRotation(float3 rotation) {
 		m_rotation = rotation;
 	}
 
-	void ArcTransform::translate(float3 offset) {
+	void ArcTransform::Translate(float3 offset) {
 		m_position = float3(m_position.x + offset.x, m_position.y + offset.y, m_position.y + offset.y);
 	}
 
-	void ArcTransform::rotate(float3 eularAngle) {
-		rotate(eularAngle.x, eularAngle.y, eularAngle.z);
+	void ArcTransform::Rotate(float3 eularAngle) {
+		Rotate(eularAngle.x, eularAngle.y, eularAngle.z);
 	}
 
-	void ArcTransform::lookAt(float3 target) {  // 这个lookat的Up
+	void ArcTransform::LookAt(float3 target) {  // 这个lookat的Up
 		if (NearlyEquals(target, m_position)) {
 			return;
 		}
@@ -70,23 +99,23 @@ namespace DX11Engine {
 		normalizeRotation();
 	}
 
-	void ArcTransform::rotate(float rightAngle, float upAngle, float forwardAngle) {
+	void ArcTransform::Rotate(float rightAngle, float upAngle, float forwardAngle) {
 		m_rotation = float3(m_rotation.x + rightAngle, m_rotation.y + upAngle, m_rotation.z + forwardAngle);
 		normalizeRotation();
 	}
 
-	float3 ArcTransform::forward() const {
-		float4 forward = MatrixMultVector(Inverse(ArcTransform::rotationMatrix()), float4(0, 0, -1, 1));
+	float3 ArcTransform::Forward() const {
+		float4 forward = MatrixMultVector(Inverse(ArcTransform::RotationMatrix()), float4(0, 0, -1, 1));
 		return float3(forward.x, forward.y, forward.z);
 	}
 
-	float3 ArcTransform::right() const {
-		float4 right = MatrixMultVector(Inverse(ArcTransform::rotationMatrix()), float4(1, 0, 0, 1));
+	float3 ArcTransform::Right() const {
+		float4 right = MatrixMultVector(Inverse(ArcTransform::RotationMatrix()), float4(1, 0, 0, 1));
 		return float3(right.x, right.y, right.z);
 	}
 
-	float3 ArcTransform::up() const {
-		float4 up = MatrixMultVector(Inverse(ArcTransform::rotationMatrix()), float4(0, 1, 0, 1));
+	float3 ArcTransform::Up() const {
+		float4 up = MatrixMultVector(Inverse(ArcTransform::RotationMatrix()), float4(0, 1, 0, 1));
 		return float3(up.x, up.y, up.z);
 	}
 
@@ -107,5 +136,12 @@ namespace DX11Engine {
 			angleZ += 360.0f;
 
 		m_rotation = float3(angleX, angleY, angleZ);
+	}
+
+	void ArcTransform::SetParent(std::shared_ptr<ArcTransform> self, std::shared_ptr<ArcTransform> parent) {
+		self->m_parent = parent;
+		if (std::find((parent->m_children).cbegin(), (parent->m_children).cend(), self) == (parent->m_children).cend()) {
+			(parent->m_children).push_back(self);
+		}
 	}
 }

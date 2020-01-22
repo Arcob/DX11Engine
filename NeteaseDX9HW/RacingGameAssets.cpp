@@ -22,7 +22,7 @@
 RacingGameAssets::RacingGameAssets() : ArcAssets() {
 	Load();
 }
-/*
+/* 加载的资源名称：
 Mesh:
 	Box Mesh
 	Normal Box Mesh

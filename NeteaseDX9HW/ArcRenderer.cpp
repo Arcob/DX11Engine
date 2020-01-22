@@ -24,7 +24,7 @@ namespace DX11Engine {
 		immediateContext->PSSetConstantBuffers(1, 1, &pMaterial->m_pMainLightConstantBuffer);//设置Light buffer为buffer1 光照在pshader用所以用PSSet
 		
 		ConstantBufferMvp cbMVP;
-		cbMVP.mWorld = Transpose(pTransform->transformMatrix());//DX的mvp要反着乘
+		cbMVP.mWorld = Transpose(pTransform->TransformMatrix());//DX的mvp要反着乘
 		cbMVP.mView = Transpose(pCamera->View());
 		cbMVP.mProjection = Transpose(pCamera->Projection());
 
