@@ -102,6 +102,12 @@
     <ClCompile Include="Common\DDSTextureLoader.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Common\Keyboard.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Mouse.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -188,6 +194,12 @@
     <ClInclude Include="Common\DDSTextureLoader.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Common\Keyboard.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Mouse.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\TestBoxShader.fx">
@@ -197,6 +209,9 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\StandardShader.fx">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\SkyBoxShader.fx">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

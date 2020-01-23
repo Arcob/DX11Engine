@@ -31,6 +31,10 @@ Material:
 	SimpleMaterial
 	TestBoxMaterial
 	StandardMaterial
+	SkyBoxMaterial
+Texture:
+	BoxTexture
+	SkyBoxTexture
 */
 
 bool RacingGameAssets::Load() {
@@ -103,21 +107,43 @@ bool RacingGameAssets::Load() {
 	std::shared_ptr<DX11Engine::ArcMaterial> StandardMaterial = std::make_shared<DX11Engine::ArcMaterial>("StandardMaterial", misStandardMat.m_vertexShader, misStandardMat.m_pixelShader, misStandardMat.m_inputLayout, tempConstantBuffer3, lightConstantBuffer3);
 	ArcAssets::m_materialVector.push_back(std::move(StandardMaterial));
 
-	//ÌùÍ¼
+	//ºÐ×ÓÌùÍ¼
 	std::string texturePath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::TEXTURE_PATH + "WoodCrate.dds";
 	auto boxTexture = DX11Engine::ArcAssetLoader::LoadTexture("BoxTexture", texturePath);
 
+	//Ìì¿ÕºÐÌùÍ¼
+	std::string skyBoxTexturePath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::TEXTURE_PATH + "desertcube1024.dds";
+	auto skyBoxTexture = DX11Engine::ArcAssetLoader::LoadTexture("SkyBoxTexture", skyBoxTexturePath);
+
 	D3D11_SAMPLER_DESC sampDesc;
 	ZeroMemory(&sampDesc, sizeof(sampDesc));
-	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampDesc.Filter = D3D11_FILTER_ANISOTROPIC;
 	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sampDesc.MaxAnisotropy = 4;
 	sampDesc.MinLOD = 0;
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
 	DX11Engine::ArcAssetLoader::SetTexture(&sampDesc, boxTexture, 0, 0);
-	
+	DX11Engine::ArcAssetLoader::SetTexture(&sampDesc, skyBoxTexture, 1, 0);
+
+	//Ìì¿ÕºÐ
+	DX11Engine::MaterialInitStruct misSkyBoxMat = DX11Engine::MaterialInitStruct();
+	std::string shaderPathSkyBox = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "SkyBoxShader.fx";
+	FL(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPathSkyBox, "VS", "vs_4_0", &(misSkyBoxMat.m_vertexShaderBuffer), &(misSkyBoxMat.m_vertexShader)));
+	FL(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::VertextNormalTangentTexcoordLayout, ARRAYSIZE(DX11Engine::VertextNormalTangentTexcoordLayout), &(misSkyBoxMat.m_vertexShaderBuffer), &(misSkyBoxMat.m_inputLayout)));
+	FL(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPathSkyBox, "PS", "ps_4_0", &(misSkyBoxMat.m_pixelShaderBuffer), &(misSkyBoxMat.m_pixelShader)));
+
+	ID3D11Buffer* tempConstantBuffer4 = NULL;
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescMVP, &tempConstantBuffer4);
+
+	ID3D11Buffer* lightConstantBuffer4 = NULL;
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescLight, &lightConstantBuffer4);
+
+	std::shared_ptr<DX11Engine::ArcMaterial> skyBoxMaterial = std::make_shared<DX11Engine::ArcMaterial>("SkyBoxMaterial", misSkyBoxMat.m_vertexShader, misSkyBoxMat.m_pixelShader, misSkyBoxMat.m_inputLayout, tempConstantBuffer4, lightConstantBuffer4);
+	ArcAssets::m_materialVector.push_back(std::move(skyBoxMaterial));
+
 	return true;
 }

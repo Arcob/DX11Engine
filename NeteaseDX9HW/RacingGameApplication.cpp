@@ -25,7 +25,7 @@ void RacingGameApplication::LoadApplication() {
 	auto tempTransform = std::make_shared<DX11Engine::ArcTransform>();
 	tempTransform->SetLocalPosition(float3(2.5f, 7.f, 1.f));
 	tempTransform->SetLocalRotation(float3(-10.f, 10.f, 2.f));
-	tempTransform->SetLocalScale(float3(2.f, 2.f, 2.f));
+	//tempTransform->SetLocalScale(float3(2.f, 2.f, 2.f));
 	auto mainCamera = std::make_shared<DX11Engine::ArcCamera>();
 	mainCamera->SetViewportAspectRatio(((float)ArcApplication::Width()) / ((float)ArcApplication::Height()));
 	mainCameraGameObject->SetTransfrom(tempTransform);
@@ -38,9 +38,13 @@ void RacingGameApplication::LoadApplication() {
 
 	auto skyBox = std::make_shared<DX11Engine::ArcGameObject>("SkyBox");
 	auto tempSkyBoxTransform = std::make_shared<DX11Engine::ArcTransform>();
-	tempSkyBoxTransform->SetLocalPosition(float3(0.5f, 2.f, 1.f));
+	tempSkyBoxTransform->SetLocalPosition(float3(0.f, 0.f, 0.f));
 	tempSkyBoxTransform->SetLocalRotation(float3(0, 0, 0));
 	DX11Engine::ArcTransform::SetParent(tempSkyBoxTransform, tempTransform);
+	skyBox->SetTransfrom(tempSkyBoxTransform);
+	skyBox->SetMesh(ArcApplication::m_assets->findMesh("Normal Box Mesh"));
+	skyBox->SetMaterial(ArcApplication::m_assets->findMaterial("SkyBoxMaterial"));
+	MainScene()->AddGameObject(skyBox);
 	//print(tempSkyBoxTransform->Position().x << " " << tempSkyBoxTransform->Position().y << " " << tempSkyBoxTransform->Position().z);
 
 	auto testBox = std::make_shared<DX11Engine::ArcGameObject>("TestBox");
@@ -51,7 +55,7 @@ void RacingGameApplication::LoadApplication() {
 	testBox->SetTransfrom(testBoxTransform);
 	testBox->SetMesh(ArcApplication::m_assets->findMesh("Box Mesh"));
 	testBox->SetMaterial(ArcApplication::m_assets->findMaterial("TestBoxMaterial"));
-	ArcApplication::m_mainScene->AddGameObject(testBox);
+	MainScene()->AddGameObject(testBox);
 
 	auto testBoxWithNormal = std::make_shared<DX11Engine::ArcGameObject>("TestBoxWithNormal");
 	auto testBoxTransform2 = std::make_shared<DX11Engine::ArcTransform>();
@@ -61,5 +65,5 @@ void RacingGameApplication::LoadApplication() {
 	testBoxWithNormal->SetTransfrom(testBoxTransform2);
 	testBoxWithNormal->SetMesh(ArcApplication::m_assets->findMesh("Normal Box Mesh"));
 	testBoxWithNormal->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
-	ArcApplication::m_mainScene->AddGameObject(testBoxWithNormal);
+	MainScene()->AddGameObject(testBoxWithNormal);
 }
