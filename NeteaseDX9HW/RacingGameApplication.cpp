@@ -8,7 +8,7 @@
 #include "ArcBehaviour.h"
 #include "ArcCamera.h"
 #include "Light.h"
-#include "CameraMove.h"
+#include "DebugCameraMove.h"
 
 RacingGameApplication::RacingGameApplication(unsigned int WIDTH, unsigned int HEIGHT, std::shared_ptr<DX11Engine::ArcAssets> assets) : ArcApplication(WIDTH, HEIGHT, assets) {
 	ArcApplication::SetName("RacingGameApplication");
@@ -32,7 +32,7 @@ void RacingGameApplication::LoadApplication() {
 	mainCamera->SetViewportAspectRatio(((float)ArcApplication::Width()) / ((float)ArcApplication::Height()));
 	mainCameraGameObject->SetTransfrom(tempTransform);
 	mainCameraGameObject->AttachScript(mainCamera);
-	auto cameraMove = std::make_shared<CameraMove>();
+	auto cameraMove = std::make_shared<DebugCameraMove>();
 	mainCameraGameObject->AttachScript(cameraMove);
 	MainScene()->SetMainCamera(mainCamera);
 	MainScene()->AddGameObject(mainCameraGameObject);

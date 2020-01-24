@@ -8,6 +8,7 @@ namespace DX11Engine {
 	unsigned int ArcRHI::createDeviceFlags = 0;
 	unsigned int ArcRHI::numDriverTypes = 0;
 	unsigned int ArcRHI::numFeatureLevels = 0;
+	ID3D11DepthStencilState* ArcRHI::DDSLessEqual(NULL);
 	D3D_DRIVER_TYPE ArcRHI::g_driverType = (D3D_DRIVER_TYPE)0;
 	IDXGISwapChain* ArcRHI::g_pSwapChain(NULL);
 	ID3D11Device* ArcRHI::g_pd3dDevice(NULL);
@@ -134,6 +135,26 @@ namespace DX11Engine {
 		vp.TopLeftX = topLeftX;
 		vp.TopLeftY = topLeftY;
 		g_pImmediateContext->RSSetViewports(1, &vp);
+	}
+
+	long ArcRHI::ConfigDepthStencilState() {
+		D3D11_DEPTH_STENCIL_DESC dsDesc;
+
+		// 允许使用深度值一致的像素进行替换的深度/模板状态
+		// 该状态用于绘制天空盒，因为深度值为1.0时默认无法通过深度测试
+		dsDesc.DepthEnable = true;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+
+		dsDesc.StencilEnable = false;
+
+		if (g_pd3dDevice->CreateDepthStencilState(&dsDesc, &DDSLessEqual) < 0) {
+			print("CreateDepthStencilState Error");
+			return false;
+		}
+
+		g_pImmediateContext->OMSetDepthStencilState(DDSLessEqual, 0);
+		return true;
 	}
 
 	void ArcRHI::CleanUp() {

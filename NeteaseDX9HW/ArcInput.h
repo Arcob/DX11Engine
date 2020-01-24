@@ -8,6 +8,13 @@
 
 namespace DX11Engine {
 
+	enum MouseKey {
+		LeftClick = 0,
+		RightClick = 1,
+		ScrollWheel = 2,
+		Max = 3
+	};
+
 	const int MAX_KEY_INDEX = 349; // GLFW_KEY_LAST
 
 	typedef void(*pInputCallback)(int);
@@ -19,7 +26,9 @@ namespace DX11Engine {
 		static void Update();
 		static float2 GetMouseDelta();
 		static bool getKeyDown(const int key);
-		static bool getKey(const int key);
+		static bool getKeyboardKey(const int key);
+		static bool getMouseKey(MouseKey key);
+		static float2 GetMousePos();
 		static bool getKeyUp(const int key);
 		static void setWindowAndKeyboardCallback(ArcWindow* window);
 		//给你一个重载callback的机会

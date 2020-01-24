@@ -108,7 +108,7 @@
     <ClCompile Include="Common\Mouse.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="CameraMove.cpp">
+    <ClCompile Include="DebugCameraMove.cpp">
       <Filter>RacingGame\源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -203,7 +203,7 @@
     <ClInclude Include="Common\Mouse.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="CameraMove.h">
+    <ClInclude Include="DebugCameraMove.h">
       <Filter>RacingGame\头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,7 +6,7 @@
 #include "ArcInput.h"
 #include "ArcTime.h"
 
-class CameraMove :
+class DebugCameraMove :
 	public DX11Engine::ArcBehaviour
 {
 public:
@@ -15,5 +15,6 @@ public:
 	void Update();
 private:
 	float moveSpeed = 1.f;
+	float rotateSpeed = 30.f;
 };
 

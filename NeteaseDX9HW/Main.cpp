@@ -20,7 +20,7 @@ using namespace DX11Engine;
 
 bool SetupRenderHardwareInterface(size_t windowsHandle);
 
-const int WIDTH = 1024, HEIGHT = 768;
+//const int WIDTH = 1024, HEIGHT = 768;
 float clearColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
 std::shared_ptr<ArcWindow> pWindow;
 std::shared_ptr<ArcAssets> assets;
@@ -93,7 +93,11 @@ bool SetupRenderHardwareInterface(size_t windowsHandle) {
 	if (ArcRHI::CreateDeviceAndSwapChain() < 0) {
 		return false;
 	}
-	if (FAILED(ArcRHI::CreateRenderView())) {
+	if (ArcRHI::CreateRenderView() < 0) {
+		return false;
+	}
+	if (!ArcRHI::ConfigDepthStencilState()) {
+		print("asas");
 		return false;
 	}
 	ArcRHI::ConfigViewPort(0.0f, 1.0f, 0, 0);

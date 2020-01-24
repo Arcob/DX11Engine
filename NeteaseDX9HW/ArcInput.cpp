@@ -1,4 +1,5 @@
 #include "ArcInput.h"
+#include "DriverSetting.h"
 
 namespace DX11Engine {
 
@@ -48,7 +49,11 @@ namespace DX11Engine {
 	}
 
 	float2 ArcInput::GetMouseDelta() {
-		return float2(mouseState.x - lastMouseState.x, mouseState.y - lastMouseState.y);
+		return float2((mouseState.x - lastMouseState.x) / ((float)WIDTH), (mouseState.y - lastMouseState.y) / ((float)HEIGHT));
+	}
+
+	float2 ArcInput::GetMousePos() {
+		return float2(mouseState.x /((float)WIDTH), mouseState.y / ((float)HEIGHT));
 	}
 	/*
 	void ArcInput::setWindowAndKeyboardCallback(ArcWindows* window) {
@@ -93,14 +98,21 @@ namespace DX11Engine {
 		return false;
 	}
 
-	bool ArcInput::getKey(const int key) {
-		/*for (int i = 0; i < _tempKeyRepeatCache.size(); i++) {
-			if (_tempKeyRepeatCache[i] == key) {
-				return true;
-			}
-		}
-		return false;*/
+	bool ArcInput::getKeyboardKey(const int key) {
 		return keyState.IsKeyDown((DirectX::Keyboard::Keys)key);
+	}
+
+	bool ArcInput::getMouseKey(MouseKey key) {
+		if (key == MouseKey::LeftClick) {
+			return mouseState.leftButton;
+		}
+		else if (key == MouseKey::RightClick) 
+		{
+			return mouseState.rightButton;
+		}
+		else if (key == MouseKey::ScrollWheel) {
+			return mouseState.middleButton;
+		}
 	}
 
 	bool ArcInput::getKeyUp(const int key) {
