@@ -29,6 +29,8 @@ namespace DX11Engine {
 		void SetMaterial(std::shared_ptr<ArcMaterial> material);
 		const std::shared_ptr<ArcMaterial> Material() const;
 
+		static void RegisterGameObject(std::shared_ptr<ArcGameObject> pGameObject);
+
 		template<typename T>
 		T* getComponent() {
 			for (int i = 0; i < ArcBehaviourList.size(); i++) {
@@ -56,6 +58,8 @@ namespace DX11Engine {
 			}
 			return result;
 		}
+
+		static std::shared_ptr<ArcGameObject> Find(std::string name);
 
 	private:
 		static std::list<ArcGameObject>* m_gameObjectList;

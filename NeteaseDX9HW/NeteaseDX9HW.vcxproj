@@ -174,6 +174,7 @@
     <ClCompile Include="ArcTool.cpp" />
     <ClCompile Include="ArcTransform.cpp" />
     <ClCompile Include="ArcWindow.cpp" />
+    <ClCompile Include="CameraMove.cpp" />
     <ClCompile Include="Common\DDSTextureLoader.cpp" />
     <ClCompile Include="Common\Keyboard.cpp" />
     <ClCompile Include="Common\Mouse.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="ArcTool.h" />
     <ClInclude Include="ArcTransform.h" />
     <ClInclude Include="ArcWindow.h" />
+    <ClInclude Include="CameraMove.h" />
     <ClInclude Include="CommonHeaders.h" />
     <ClInclude Include="Common\DDSTextureLoader.h" />
     <ClInclude Include="Common\Keyboard.h" />

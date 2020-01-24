@@ -13,6 +13,7 @@
 #include "ArcScene.h"
 #include "ArcRenderer.h"
 #include "ArcGameObject.h"
+#include "ArcInput.h"
 
 
 using namespace DX11Engine;
@@ -41,13 +42,32 @@ int main()
 	assets = std::make_shared<Assets>(); //加载资源
 	app = std::make_shared<Application>(WIDTH, HEIGHT, assets); //加载应用
 
-	//app = std::make_shared<Application>();
-	
+	ArcInput::Init(pWindow);
+
+	for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
+		for (auto behaviour : gameObject->GetBehaviourList()) {
+			behaviour->Awake();
+		}
+	}
+
+	for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
+		for (auto behaviour : gameObject->GetBehaviourList()) {
+			behaviour->Start();
+		}
+	}
+
 	while (isRunning) 
 	{
 		pWindow->TreatMessage(isRunning);
 		ArcTime::Update((float)ArcFramework::getTime());
+		ArcInput::Update();
 		ArcRHI::ClearScreen(clearColor);
+
+		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
+			for (auto behaviour : gameObject->GetBehaviourList()) {
+				behaviour->Update();
+			}
+		}
 
 		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
 			if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {

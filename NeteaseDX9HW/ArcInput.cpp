@@ -2,25 +2,53 @@
 
 namespace DX11Engine {
 
-	ArcWindow* ArcInput::m_window = nullptr;
+	std::shared_ptr<ArcWindow> ArcInput::m_window = nullptr;
 	std::vector<int> ArcInput::m_tempKeyPress = std::vector<int>();
 	std::vector<int> ArcInput::m_tempKeyRelease = std::vector<int>();
 	std::vector<int> ArcInput::m_tempKeyPressCache = std::vector<int>();
 	std::vector<int> ArcInput::m_tempKeyReleaseCache = std::vector<int>();
-	std::unique_ptr<DirectX::Mouse> ArcInput::m_ArcMouse = nullptr;
-	std::unique_ptr<DirectX::Keyboard> ArcInput::m_ArcKeyboard = nullptr;
+	std::shared_ptr<DirectX::Mouse> ArcInput::m_pMouse = nullptr;
+	std::shared_ptr<DirectX::Keyboard> ArcInput::m_pKeyboard = nullptr;
+	DirectX::Mouse::State ArcInput::mouseState;
+	DirectX::Mouse::State ArcInput::lastMouseState;
+	DirectX::Keyboard::State ArcInput::keyState;
+	DirectX::Keyboard::State ArcInput::lastKeyState;
+	DirectX::Mouse::ButtonStateTracker ArcInput::m_MouseTracker;
+	DirectX::Keyboard::KeyboardStateTracker ArcInput::m_KeyboardTracker;
 	bool ArcInput::m_downHash[] = { false };
 	bool ArcInput::m_downHashCache[] = { false };
 
-	bool ArcInput::Init() {
-		m_ArcMouse = std::make_unique<DirectX::Mouse>();
-		m_ArcKeyboard = std::make_unique<DirectX::Keyboard>();
-
+	bool ArcInput::Init(std::shared_ptr<ArcWindow> window) {
+		m_window = window;
+		m_pMouse = std::make_unique<DirectX::Mouse>();
+		m_pKeyboard = std::make_unique<DirectX::Keyboard>();
 		// 初始化鼠标，键盘不需要
-		m_ArcMouse->SetWindow((HWND)(m_window->GetHandle()));
-		m_ArcMouse->SetMode(DirectX::Mouse::MODE_ABSOLUTE);
+		m_pMouse->SetWindow((HWND)(m_window->GetHandle()));
+		m_pMouse->SetMode(DirectX::Mouse::MODE_ABSOLUTE);
 
+		m_window->SetMouseAndKeyboard(m_pMouse, m_pKeyboard);
 		return true;
+	}
+
+	void ArcInput::Update() {
+		//print(m_Mouse->GetState().x);
+		// 获取鼠标状态
+		mouseState = m_pMouse->GetState();
+		lastMouseState = m_MouseTracker.GetLastState();
+		// 获取键盘状态
+		keyState = m_pKeyboard->GetState();
+		lastKeyState = m_KeyboardTracker.GetLastState();
+
+		// 更新鼠标按钮状态跟踪器，仅当鼠标按住的情况下才进行移动
+		m_MouseTracker.Update(mouseState);
+		m_KeyboardTracker.Update(keyState);
+
+		//print(keyState.IsKeyDown(DirectX::Keyboard::Keys::A));
+		//print(GetMouseDelta().x << " " << GetMouseDelta().y);
+	}
+
+	float2 ArcInput::GetMouseDelta() {
+		return float2(mouseState.x - lastMouseState.x, mouseState.y - lastMouseState.y);
 	}
 	/*
 	void ArcInput::setWindowAndKeyboardCallback(ArcWindows* window) {
@@ -72,7 +100,7 @@ namespace DX11Engine {
 			}
 		}
 		return false;*/
-		return ArcInput::m_downHashCache[key];
+		return keyState.IsKeyDown((DirectX::Keyboard::Keys)key);
 	}
 
 	bool ArcInput::getKeyUp(const int key) {

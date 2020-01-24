@@ -4,6 +4,7 @@
 #include "ArcWindow.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "ArcMath.h"
 
 namespace DX11Engine {
 
@@ -14,7 +15,9 @@ namespace DX11Engine {
 	class ArcInput
 	{
 	public:
-		static bool Init();
+		static bool Init(std::shared_ptr<ArcWindow> window);
+		static void Update();
+		static float2 GetMouseDelta();
 		static bool getKeyDown(const int key);
 		static bool getKey(const int key);
 		static bool getKeyUp(const int key);
@@ -24,10 +27,17 @@ namespace DX11Engine {
 		static void clearCache();
 		static void swapTwoArray(bool * cache, bool* origin, const int size);
 
+		static DirectX::Mouse::State mouseState;
+		static DirectX::Mouse::State lastMouseState;
+		static DirectX::Keyboard::State keyState;
+		static DirectX::Keyboard::State lastKeyState;
+
 	private:
-		static ArcWindow* m_window;
-		static std::unique_ptr<DirectX::Mouse> m_ArcMouse;
-		static std::unique_ptr<DirectX::Keyboard> m_ArcKeyboard;
+		static std::shared_ptr<ArcWindow> m_window;
+		static std::shared_ptr<DirectX::Mouse> m_pMouse;
+		static std::shared_ptr<DirectX::Keyboard> m_pKeyboard;
+		static DirectX::Mouse::ButtonStateTracker m_MouseTracker;
+		static DirectX::Keyboard::KeyboardStateTracker m_KeyboardTracker;
 		static bool m_inited;
 		static std::vector<int> m_tempKeyPress;
 		static std::vector<int> m_tempKeyRelease;

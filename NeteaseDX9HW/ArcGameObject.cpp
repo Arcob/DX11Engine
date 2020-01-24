@@ -70,4 +70,17 @@ namespace DX11Engine {
 		return m_material;
 	}
 
+	void ArcGameObject::RegisterGameObject(std::shared_ptr<ArcGameObject> pGameObject) {
+		m_gameObjectVector.push_back(pGameObject);
+	}
+
+	std::shared_ptr<ArcGameObject> ArcGameObject::Find(std::string name) {
+		for (auto pGameObject : m_gameObjectVector) {
+			if (pGameObject->name() == name) {
+				return pGameObject;
+			}
+		}
+		return nullptr;
+	}
+
 }

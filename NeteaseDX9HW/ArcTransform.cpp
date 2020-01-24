@@ -83,7 +83,7 @@ namespace DX11Engine {
 	}
 
 	void ArcTransform::Translate(float3 offset) {
-		m_position = float3(m_position.x + offset.x, m_position.y + offset.y, m_position.y + offset.y);
+		m_position = float3(m_position.x + offset.x, m_position.y + offset.y, m_position.z + offset.z);
 	}
 
 	void ArcTransform::Rotate(float3 eularAngle) {

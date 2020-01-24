@@ -12,6 +12,8 @@ namespace DX11Engine {
 		this->m_width = width;
 		this->m_height = height;
 		this->escPushed = false;
+		this->m_pMouse = nullptr;
+		this->m_pKeyboard = nullptr;
 		ZeroMemory(&m_msg, sizeof(MSG));
 	}
 
@@ -48,6 +50,7 @@ namespace DX11Engine {
 		ShowWindow(tempHandle, SW_SHOW);
 		UpdateWindow(tempHandle);
 		m_handle = reinterpret_cast<size_t>(tempHandle);
+		
 		return true;
 	}
 
@@ -67,6 +70,11 @@ namespace DX11Engine {
 		}
 	}
 
+	void ArcWindow::SetMouseAndKeyboard(std::shared_ptr<DirectX::Mouse> mouse, std::shared_ptr<DirectX::Keyboard> keyboard) {
+		this->m_pMouse = mouse;
+		this->m_pKeyboard = keyboard;
+	}
+
 	static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 	{
 		switch (message)
@@ -82,17 +90,60 @@ namespace DX11Engine {
 
 	LRESULT CALLBACK ArcWindow::MessageHandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 	{
-		switch (message)
-		{
-			//检测按键消息
-		case WM_KEYDOWN:
-			if (wparam == VK_ESCAPE)//用户按下退出键
-				escPushed = true;
-			return 0;
+		if (m_pMouse != nullptr && m_pKeyboard != nullptr) {
+			switch (message)
+			{
+				//检测按键消息
+				case WM_INPUT:
 
-			//其他消息发送windows缺省处理
-		default:
-			return DefWindowProc(hwnd, message, wparam, lparam);
+				case WM_LBUTTONDOWN:
+				case WM_MBUTTONDOWN:
+				case WM_RBUTTONDOWN:
+				case WM_XBUTTONDOWN:
+
+				case WM_LBUTTONUP:
+				case WM_MBUTTONUP:
+				case WM_RBUTTONUP:
+				case WM_XBUTTONUP:
+
+				case WM_MOUSEWHEEL:
+				case WM_MOUSEHOVER:
+				case WM_MOUSEMOVE:
+					m_pMouse->ProcessMessage(message, wparam, lparam);
+					return 0;
+				case WM_KEYDOWN:
+					//用户按下退出键
+					if (wparam == VK_ESCAPE) {
+						escPushed = true;
+						return 0;
+					}		
+				case WM_SYSKEYDOWN:
+				case WM_KEYUP:
+				case WM_SYSKEYUP:
+					m_pKeyboard->ProcessMessage(message, wparam, lparam);
+					return 0;
+
+				case WM_ACTIVATEAPP:
+					m_pMouse->ProcessMessage(message, wparam, lparam);
+					m_pKeyboard->ProcessMessage(message, wparam, lparam);
+					return 0;
+				//其他消息发送windows缺省处理
+				default:
+					return DefWindowProc(hwnd, message, wparam, lparam);
+			}
 		}
+		else {
+			switch (message)
+			{
+			case WM_KEYDOWN:
+				//用户按下退出键
+				if (wparam == VK_ESCAPE) {
+					escPushed = true;
+					return 0;
+				}
+			default:
+				return DefWindowProc(hwnd, message, wparam, lparam);
+			}
+		}	
 	}
 }
