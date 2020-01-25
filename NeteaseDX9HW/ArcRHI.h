@@ -24,6 +24,7 @@ namespace DX11Engine {
 		static long CreateDeviceAndSwapChain();
 		static long CreateRenderView();
 		static long ConfigDepthStencilState();
+		static long ConfigRasterizerState();
 		static void ConfigViewPort(float minDepth, float maxDepth, float topLeftX, float topLeftY);
 		static void CleanUp();
 		static void ClearScreen(float ClearColor[4]);
@@ -45,7 +46,8 @@ namespace DX11Engine {
 		static unsigned int createDeviceFlags;
 		static unsigned int numDriverTypes;
 		static unsigned int numFeatureLevels;
-		static ID3D11DepthStencilState *DDSLessEqual;
+		static ID3D11DepthStencilState* DDSLessEqual;
+		static ID3D11RasterizerState* RSNoCull;
 		static std::vector<D3D_DRIVER_TYPE> driverTypes;
 		static std::vector<D3D_FEATURE_LEVEL> featureLevels;
 

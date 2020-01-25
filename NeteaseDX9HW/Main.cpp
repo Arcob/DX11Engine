@@ -68,6 +68,10 @@ int main()
 				behaviour->Update();
 			}
 		}
+		float3 cameraPos = ArcGameObject::Find("Camera")->TransformPtr()->Position();
+		float3 skyboxPos = ArcGameObject::Find("SkyBox")->TransformPtr()->Position();
+		print("Camera: " << cameraPos.x << " " << cameraPos.y << " " << cameraPos.z);
+		print("Skybox: " << skyboxPos.x << " " << skyboxPos.y << " " << skyboxPos.z);
 
 		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
 			if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
@@ -97,7 +101,9 @@ bool SetupRenderHardwareInterface(size_t windowsHandle) {
 		return false;
 	}
 	if (!ArcRHI::ConfigDepthStencilState()) {
-		print("asas");
+		return false;
+	}
+	if (!ArcRHI::ConfigRasterizerState()) {
 		return false;
 	}
 	ArcRHI::ConfigViewPort(0.0f, 1.0f, 0, 0);

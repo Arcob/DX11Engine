@@ -47,7 +47,7 @@ void RacingGameApplication::LoadApplication() {
 	tempSkyBoxTransform->SetLocalRotation(float3(0, 0, 0));
 	DX11Engine::ArcTransform::SetParent(tempSkyBoxTransform, tempTransform);
 	skyBox->SetTransfrom(tempSkyBoxTransform);
-	skyBox->SetMesh(ArcApplication::m_assets->findMesh("Normal Box Mesh"));
+	skyBox->SetMesh(ArcApplication::m_assets->findMesh("Sphere Mesh"));
 	skyBox->SetMaterial(ArcApplication::m_assets->findMaterial("SkyBoxMaterial"));
 	MainScene()->AddGameObject(skyBox);
 	//print(tempSkyBoxTransform->Position().x << " " << tempSkyBoxTransform->Position().y << " " << tempSkyBoxTransform->Position().z);

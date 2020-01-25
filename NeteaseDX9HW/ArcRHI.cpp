@@ -9,6 +9,7 @@ namespace DX11Engine {
 	unsigned int ArcRHI::numDriverTypes = 0;
 	unsigned int ArcRHI::numFeatureLevels = 0;
 	ID3D11DepthStencilState* ArcRHI::DDSLessEqual(NULL);
+	ID3D11RasterizerState* ArcRHI::RSNoCull(NULL);
 	D3D_DRIVER_TYPE ArcRHI::g_driverType = (D3D_DRIVER_TYPE)0;
 	IDXGISwapChain* ArcRHI::g_pSwapChain(NULL);
 	ID3D11Device* ArcRHI::g_pd3dDevice(NULL);
@@ -122,6 +123,7 @@ namespace DX11Engine {
 
 		//绑定到渲染管线
 		g_pImmediateContext->OMSetRenderTargets(1, &g_pRenderTargetView, NULL);
+		//g_pd3dDevice->setrenders
 		return hResult;
 	}
 
@@ -157,6 +159,24 @@ namespace DX11Engine {
 		return true;
 	}
 
+	long ArcRHI::ConfigRasterizerState() {
+		D3D11_RASTERIZER_DESC rasterizerDesc;
+		ZeroMemory(&rasterizerDesc, sizeof(rasterizerDesc));
+
+		// 无背面剔除模式
+		rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+		rasterizerDesc.CullMode = D3D11_CULL_NONE;
+		rasterizerDesc.FrontCounterClockwise = false;
+		rasterizerDesc.DepthClipEnable = true;
+
+		if (g_pd3dDevice->CreateRasterizerState(&rasterizerDesc, &RSNoCull) < 0) {
+			print("CreateRasterizerState Error");
+			return false;
+		}
+
+		g_pImmediateContext->RSSetState(RSNoCull);
+		return true;
+	}
 	void ArcRHI::CleanUp() {
 		if (g_pImmediateContext)
 			g_pImmediateContext->ClearState();

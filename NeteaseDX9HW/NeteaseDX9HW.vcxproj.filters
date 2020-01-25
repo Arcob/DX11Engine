@@ -111,6 +111,9 @@
     <ClCompile Include="DebugCameraMove.cpp">
       <Filter>RacingGame\源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ArcGeometryGenerator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -205,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="DebugCameraMove.h">
       <Filter>RacingGame\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcGeometryGenerator.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
