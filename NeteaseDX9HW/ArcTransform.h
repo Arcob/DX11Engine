@@ -42,7 +42,7 @@ namespace DX11Engine { //跨平台无关
 		float3 m_scale;
 		float3 m_rotation;
 		
-		void normalizeRotation();
+		void normalizeLocalRotation();
 	};
 
 }

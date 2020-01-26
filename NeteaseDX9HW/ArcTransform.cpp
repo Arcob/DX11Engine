@@ -25,9 +25,15 @@ namespace DX11Engine {
 
 	const float3 ArcTransform::Rotation() const {
 		if (m_parent != nullptr) {
-			float4 tempVec = float4(LocalPosition().x, LocalPosition().y, LocalPosition().z, 1);
+			/*float4 tempVec = float4(LocalRotation().x, LocalRotation().y, LocalRotation().z, 1);
+			
+			//PrintMat(m_parent->RotationMatrix());
+			//PrintFloat4(MatrixMultVector(m_parent->ScaleMatrix() * m_parent->RotationMatrix(), tempVec));
+			//PrintFloat4(MatrixMultVector(m_parent->RotationMatrix(), tempVec));
 			float4 tempResult = MatrixMultVector(m_parent->ScaleMatrix() * m_parent->RotationMatrix(), tempVec);
-			return float3(tempResult.x, tempResult.y, tempResult.z);
+			return float3(tempResult.x, tempResult.y, tempResult.z);*/
+			float3 parentRotation = m_parent->Rotation();
+			return normalizeRotation(float3(parentRotation.x + m_rotation.x, parentRotation.y + m_rotation.y, parentRotation.z + m_rotation.z));
 		}
 		return LocalRotation();
 	}
@@ -50,7 +56,7 @@ namespace DX11Engine {
 	}
 
 	const quaternion ArcTransform::Quaternion() const {
-		return QuaternionTORotation(m_rotation);
+		return RotationTOQuaternion(m_rotation);
 	}
 
 	const mat4 ArcTransform::PositionMatrix() const {
@@ -79,7 +85,7 @@ namespace DX11Engine {
 
 	void ArcTransform::SetLocalRotation(float3 rotation) {
 		m_rotation = rotation;
-		normalizeRotation();
+		normalizeLocalRotation();
 	}
 
 	void ArcTransform::Translate(float3 offset) {
@@ -91,36 +97,34 @@ namespace DX11Engine {
 	}
 
 	void ArcTransform::LookAt(float3 target) {  // Õâ¸ölookatµÄUp
-		if (NearlyEquals(target, m_position)) {
+		if (NearlyEquals(target, Position())) {
 			return;
 		}
-		float3 direction = NormalizeFloat3(float3(target.x - m_position.x, target.y - m_position.y, target.z - m_position.z));
+		float3 pos = Position();
+		float3 direction = NormalizeFloat3(float3(target.x - pos.x, target.y - pos.y, target.z - pos.z));
 		float angleX = DegreeToRadians(asinf(-direction.y));
 		float angleY = -DegreeToRadians(atan2f(-direction.x, -direction.z));
-		normalizeRotation();
+		normalizeLocalRotation();
 	}
 
 	void ArcTransform::Rotate(float rightAngle, float upAngle, float forwardAngle) {
 		m_rotation = float3(m_rotation.x + rightAngle, m_rotation.y + upAngle, m_rotation.z + forwardAngle);
-		normalizeRotation();
+		normalizeLocalRotation();
 	}
 
 	float3 ArcTransform::Forward() const {
-		float4 forward = MatrixMultVector(Inverse(ArcTransform::RotationMatrix()), float4(0, 0, -1, 1));
-		return float3(forward.x, forward.y, forward.z);
+		return TransformCoord(Float3Forward(), RotationMatrix());
 	}
 
 	float3 ArcTransform::Right() const {
-		float4 right = MatrixMultVector(Inverse(ArcTransform::RotationMatrix()), float4(1, 0, 0, 1));
-		return float3(right.x, right.y, right.z);
+		return TransformCoord(Float3Right(), RotationMatrix());
 	}
 
 	float3 ArcTransform::Up() const {
-		float4 up = MatrixMultVector(Inverse(ArcTransform::RotationMatrix()), float4(0, 1, 0, 1));
-		return float3(up.x, up.y, up.z);
+		return TransformCoord(Float3Up(), RotationMatrix());
 	}
 
-	void ArcTransform::normalizeRotation() {
+	void ArcTransform::normalizeLocalRotation() {
 		float angleX = m_rotation.x;
 		float angleY = m_rotation.y;
 		float angleZ = m_rotation.z;

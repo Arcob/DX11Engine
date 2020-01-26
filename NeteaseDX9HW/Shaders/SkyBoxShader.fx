@@ -30,11 +30,12 @@ VertexOut VS(VertexIn vin)
 	vout.PosH = mul(vout.PosH, Projection);
 	vout.PosH = vout.PosH.xyww;
 	vout.PosL = vin.Pos;
-
+	
 	return vout;
 }
 
 float4 PS(VertexOut pin) : SV_Target
 {
+	//return pin.PosH;
 	return gTexCube.Sample(gSam, pin.PosL);
 }

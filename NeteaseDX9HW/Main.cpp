@@ -63,17 +63,25 @@ int main()
 		ArcInput::Update();
 		ArcRHI::ClearScreen(clearColor);
 
-		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
+		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //Update
 			for (auto behaviour : gameObject->GetBehaviourList()) {
 				behaviour->Update();
 			}
 		}
-		float3 cameraPos = ArcGameObject::Find("Camera")->TransformPtr()->Position();
-		float3 skyboxPos = ArcGameObject::Find("SkyBox")->TransformPtr()->Position();
-		print("Camera: " << cameraPos.x << " " << cameraPos.y << " " << cameraPos.z);
-		print("Skybox: " << skyboxPos.x << " " << skyboxPos.y << " " << skyboxPos.z);
+
+		FL(ArcRHI::ConfigRasterizerStateCullNone());
+
+		auto pSkybox = ArcGameObject::Find("SkyBox");
+		if (pSkybox->Mesh() != nullptr && pSkybox->Material() != nullptr) {
+			DX11Engine::ArcRenderer::Render(pSkybox->Mesh(), pSkybox->Material(), pSkybox->TransformPtr(), app->MainScene()->GetMainCamera(), app->MainScene()->GetMainLight());
+		}
+
+		FL(ArcRHI::ConfigRasterizerStateCullBack());
 
 		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
+			if (gameObject->name() == "SkyBox") {
+				continue;
+			}
 			if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
 				DX11Engine::ArcRenderer::Render(gameObject->Mesh(), gameObject->Material(), gameObject->TransformPtr(), app->MainScene()->GetMainCamera(), app->MainScene()->GetMainLight());
 			}		
@@ -103,9 +111,7 @@ bool SetupRenderHardwareInterface(size_t windowsHandle) {
 	if (!ArcRHI::ConfigDepthStencilState()) {
 		return false;
 	}
-	if (!ArcRHI::ConfigRasterizerState()) {
-		return false;
-	}
+	
 	ArcRHI::ConfigViewPort(0.0f, 1.0f, 0, 0);
 	return true;
 }

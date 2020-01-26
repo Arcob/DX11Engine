@@ -19,7 +19,7 @@ inline float DegreeToRadians(float degree) {
 	return degree * DEGREE_TO_RADIANS;
 }
 
-inline quaternion QuaternionTORotation(float3 rotation) {
+inline quaternion RotationTOQuaternion(float3 rotation) {
 	return DirectX::XMQuaternionRotationRollPitchYaw(rotation.x, rotation.y, rotation.z);
 }
 
@@ -88,7 +88,61 @@ inline void PrintMat(mat4 matIn) {
 	//print(mScalFL._11);
 }
 
+inline void PrintFloat3(float3 in) {
+	std::cout << in.x << " " << in.y << " " << in.z << " " << std::endl;
+}
+
+inline void PrintFloat4(float4 in) {
+	std::cout << in.x << " " << in.y << " " << in.z << " " << in.w << " " << std::endl;
+}
+
 inline mat4 Transpose(mat4 mat) {
 	return XMMatrixTranspose(mat);
+}
+
+inline float3 normalizeRotation(float3 rot) {
+	float angleX = rot.x;
+	float angleY = rot.y;
+	float angleZ = rot.z;
+
+	angleX = fmodf(angleX, 360.0f); //fmodf可能返回负数，所以之后还得加360.。。
+	angleY = fmodf(angleY, 360.0f);
+	angleZ = fmodf(angleZ, 360.0f);
+
+	if (angleX < 0.0f)
+		angleX += 360.0f;
+	if (angleY < 0.0f)
+		angleY += 360.0f;
+	if (angleZ < 0.0f)
+		angleZ += 360.0f;
+
+	return float3(angleX, angleY, angleZ);
+}
+
+inline float3 AddFloat3(float3 a, float3 b) {
+	return float3(a.x + b.x, a.y + b.y, a.z + b.z);
+}
+
+inline float3 Float3Forward() {
+	return float3(0.f, 0.f, 1.f);
+}
+
+inline float3 Float3Up() {
+	return float3(0.f, 1.f, 0.f);
+}
+
+inline float3 Float3Right() {
+	return float3(1.f, 0.f, 0.f);
+}
+
+inline float3 TransformCoord(float3 vec, mat4 mat) {
+	DirectX::XMVECTOR temp = DirectX::XMVector3TransformCoord(DirectX::XMLoadFloat3(&vec), mat);
+	float3 tempOut;
+	DirectX::XMStoreFloat3(&tempOut, temp);
+	return tempOut;
+}
+
+inline float3 MultFloat3(float3 vec, float fl) {
+	return float3(vec.x * fl, vec.y * fl, vec.z * fl);
 }
 

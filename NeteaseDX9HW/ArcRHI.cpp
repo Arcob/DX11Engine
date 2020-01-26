@@ -159,7 +159,7 @@ namespace DX11Engine {
 		return true;
 	}
 
-	long ArcRHI::ConfigRasterizerState() {
+	long ArcRHI::ConfigRasterizerStateCullNone() {
 		D3D11_RASTERIZER_DESC rasterizerDesc;
 		ZeroMemory(&rasterizerDesc, sizeof(rasterizerDesc));
 
@@ -177,6 +177,26 @@ namespace DX11Engine {
 		g_pImmediateContext->RSSetState(RSNoCull);
 		return true;
 	}
+
+	long ArcRHI::ConfigRasterizerStateCullBack() {
+		D3D11_RASTERIZER_DESC rasterizerDesc;
+		ZeroMemory(&rasterizerDesc, sizeof(rasterizerDesc));
+
+		// 无背面剔除模式
+		rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+		rasterizerDesc.CullMode = D3D11_CULL_BACK;
+		rasterizerDesc.FrontCounterClockwise = false;
+		rasterizerDesc.DepthClipEnable = true;
+
+		if (g_pd3dDevice->CreateRasterizerState(&rasterizerDesc, &RSNoCull) < 0) {
+			print("CreateRasterizerState Error");
+			return false;
+		}
+
+		g_pImmediateContext->RSSetState(RSNoCull);
+		return true;
+	}
+
 	void ArcRHI::CleanUp() {
 		if (g_pImmediateContext)
 			g_pImmediateContext->ClearState();

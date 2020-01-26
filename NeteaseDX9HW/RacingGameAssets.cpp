@@ -56,7 +56,7 @@ bool RacingGameAssets::Load() {
 	ArcAssets::m_meshVector.push_back(std::move(pBoxMeshWithNormal));
 
 	std::shared_ptr<ArcGeometryGenerator::MeshData> sphereMeshData = std::make_shared<ArcGeometryGenerator::MeshData>();
-	ArcGeometryGenerator::CreateSphere(2, 30, 30, *sphereMeshData);
+	ArcGeometryGenerator::CreateSphere(0.3f, 30, 30, *sphereMeshData);
 	std::shared_ptr<DX11Engine::ArcMesh> pSkyboxMesh = DX11Engine::ArcAssetLoader::LoadMesh("Sphere Mesh", sphereMeshData->vertices.data(), sizeof(DX11Engine::VertexNormalTangentTex), sphereMeshData->vertices.size(), sphereMeshData->indices.data(), sphereMeshData->indices.size(), nullptr);
 	if (pSkyboxMesh == nullptr) {
 		print("Unable to load mesh");

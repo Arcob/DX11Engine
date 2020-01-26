@@ -24,7 +24,8 @@ namespace DX11Engine {
 		static long CreateDeviceAndSwapChain();
 		static long CreateRenderView();
 		static long ConfigDepthStencilState();
-		static long ConfigRasterizerState();
+		static long ConfigRasterizerStateCullNone();
+		static long ConfigRasterizerStateCullBack();
 		static void ConfigViewPort(float minDepth, float maxDepth, float topLeftX, float topLeftY);
 		static void CleanUp();
 		static void ClearScreen(float ClearColor[4]);

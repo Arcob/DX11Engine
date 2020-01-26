@@ -13,5 +13,7 @@ public:
 	};
 
 	static void CreateSphere(float radius, int slice, int stack, MeshData &mesh);
+	static void CreateBox(float width, float height, float depth, MeshData &mesh);
+	static void CreateCylinder(float topRadius, float bottomRadius, float height, int slice, int stack, MeshData &mesh);
 };
 

@@ -28,6 +28,8 @@ namespace DX11Engine {
 		cbMVP.mView = Transpose(pCamera->View());
 		cbMVP.mProjection = Transpose(pCamera->Projection());
 
+		//PrintMat(cbMVP.mWorld);
+
 		SetConstantBuffer(immediateContext, pMaterial->m_pMVPConstantBuffer, &cbMVP, sizeof(cbMVP));
 
 		ConstantBufferLight cbl;
