@@ -12,10 +12,20 @@ namespace DX11Engine {
 
 	struct VertexNormalTangentTex
 	{
+	public:
 		float3 pos;
 		float3 normal;
 		float3 tangent;
 		float2 texCoord;
+
+		VertexNormalTangentTex() = default;
+
+		VertexNormalTangentTex(float3 _pos, float3 _normal, float3 _tangent, float2 _texCoord) {
+			pos = _pos;
+			normal = _normal;
+			tangent = _tangent;
+			texCoord = _texCoord;
+		}
 	};
 
 	struct ConstantBufferMvp

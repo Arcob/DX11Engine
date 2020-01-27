@@ -291,6 +291,9 @@ void ArcGeometryGenerator::CreateCylinder(float topRadius, float bottomRadius, f
 			float theta = PI * 2 * j / slice;
 			int index = i * vertsPerRow + j;
 			mesh.vertices[index].pos = float3(tmpRadius*cos(theta), tmpY, tmpRadius*sin(theta));
+			mesh.vertices[index].normal = float3(0.0f, 1.0f, 0.0f);
+			mesh.vertices[index].tangent = float3(1.0f, 0.0f, 0.0f);
+			mesh.vertices[index].texCoord = float2(cos(theta) / 2.0f + 0.5f, sin(theta) / 2.0f + 0.5f);
 		}
 	}
 
@@ -308,5 +311,63 @@ void ArcGeometryGenerator::CreateCylinder(float topRadius, float bottomRadius, f
 
 			tmp += 6;
 		}
+	}
+}
+
+void ArcGeometryGenerator::AddCylinderTopCap(float topRadius, float bottomRadius, float height, int slice, int stack, MeshData &mesh)
+{
+	UINT start = mesh.vertices.size();
+
+	for (int i = 0; i < slice + 1; ++i)
+	{
+		float theta = PI * 2.f * i / slice;
+
+		float x = topRadius * cosf(theta);
+		float y = height * 0.5f;
+		float z = topRadius * sinf(theta);
+
+		float u = x / height + 0.5f;
+		float v = z / height + 0.5f;
+
+		mesh.vertices.push_back(DX11Engine::VertexNormalTangentTex(float3(x, y, z), float3(0.f, 1.f, 0.f), float3(1.f, 0.f, 0.f), float2(u, v)));
+	}
+
+	mesh.vertices.push_back(DX11Engine::VertexNormalTangentTex(float3(0.f, height*0.5f, 0.f), float3(0.f, 1.f, 0.f), float3(1.f, 0.f, 0.f), float2(0.5f, 0.5f)));
+
+	UINT center = mesh.vertices.size() - 1;
+	for (int i = 0; i < slice; ++i)
+	{
+		mesh.indices.push_back(center);
+		mesh.indices.push_back(start + i + 1);
+		mesh.indices.push_back(start + i);
+	}
+}
+
+void ArcGeometryGenerator::AddCylinderBottomCap(float topRadius, float bottomRadius, float height, int slice, int stack, MeshData &mesh)
+{
+	UINT start = mesh.vertices.size();
+
+	for (int i = 0; i < slice + 1; ++i)
+	{
+		float theta = PI * 2.f * i / slice;
+
+		float x = bottomRadius * cosf(theta);
+		float y = -height * 0.5f;
+		float z = bottomRadius * sinf(theta);
+
+		float u = x / height + 0.5f;
+		float v = z / height + 0.5f;
+
+		mesh.vertices.push_back(DX11Engine::VertexNormalTangentTex(float3(x, y, z), float3(0.f, -1.f, 0.f), float3(1.f, 0.f, 0.f), float2(u, v)));
+	}
+
+	mesh.vertices.push_back(DX11Engine::VertexNormalTangentTex(float3(0.f, -height * 0.5f, 0.f), float3(0.f, -1.f, 0.f), float3(1.f, 0.f, 0.f), float2(0.5f, 0.5f)));
+
+	UINT center = mesh.vertices.size() - 1;
+	for (int i = 0; i < slice; ++i)
+	{
+		mesh.indices.push_back(center);
+		mesh.indices.push_back(start + i);
+		mesh.indices.push_back(start + i + 1);
 	}
 }

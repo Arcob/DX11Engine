@@ -114,6 +114,9 @@
     <ClCompile Include="ArcGeometryGenerator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SkyboxFollowCamera.cpp">
+      <Filter>RacingGame\源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -211,6 +214,12 @@
     </ClInclude>
     <ClInclude Include="ArcGeometryGenerator.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyboxFollowCamera.h">
+      <Filter>RacingGame\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Model.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

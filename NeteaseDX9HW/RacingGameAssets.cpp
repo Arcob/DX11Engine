@@ -28,6 +28,8 @@ Mesh:
 	Box Mesh
 	Normal Box Mesh
 	Sphere Mesh
+	Cylinder Mesh
+	Generated Box Mesh
 
 Material:
 	SimpleMaterial
@@ -62,6 +64,24 @@ bool RacingGameAssets::Load() {
 		print("Unable to load mesh");
 	}
 	ArcAssets::m_meshVector.push_back(std::move(pSkyboxMesh));
+
+	std::shared_ptr<ArcGeometryGenerator::MeshData> cylinderMeshData = std::make_shared<ArcGeometryGenerator::MeshData>();
+	ArcGeometryGenerator::CreateCylinder(0.5f, 0.5f, 2, 20, 20, *cylinderMeshData);
+	ArcGeometryGenerator::AddCylinderTopCap(0.5f, 0.5f, 2, 20, 20, *cylinderMeshData);
+	ArcGeometryGenerator::AddCylinderBottomCap(0.5f, 0.5f, 2, 20, 20, *cylinderMeshData);
+	std::shared_ptr<DX11Engine::ArcMesh> pCylinderMesh = DX11Engine::ArcAssetLoader::LoadMesh("Cylinder Mesh", cylinderMeshData->vertices.data(), sizeof(DX11Engine::VertexNormalTangentTex), cylinderMeshData->vertices.size(), cylinderMeshData->indices.data(), cylinderMeshData->indices.size(), nullptr);
+	if (pCylinderMesh == nullptr) {
+		print("Unable to load mesh");
+	}
+	ArcAssets::m_meshVector.push_back(std::move(pCylinderMesh));
+
+	std::shared_ptr<ArcGeometryGenerator::MeshData> generatedCubeMeshData = std::make_shared<ArcGeometryGenerator::MeshData>();
+	ArcGeometryGenerator::CreateBox(1.f, 1.f, 1.f, *generatedCubeMeshData);
+	std::shared_ptr<DX11Engine::ArcMesh> pGeneratedBoxMesh = DX11Engine::ArcAssetLoader::LoadMesh("Generated Box Mesh", generatedCubeMeshData->vertices.data(), sizeof(DX11Engine::VertexNormalTangentTex), generatedCubeMeshData->vertices.size(), generatedCubeMeshData->indices.data(), generatedCubeMeshData->indices.size(), nullptr);
+	if (pGeneratedBoxMesh == nullptr) {
+		print("Unable to load mesh");
+	}
+	ArcAssets::m_meshVector.push_back(std::move(pGeneratedBoxMesh));
 
 	DX11Engine::MaterialInitStruct misTriangle = DX11Engine::MaterialInitStruct();
 	std::string shaderPath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "SimpleShader.fx";

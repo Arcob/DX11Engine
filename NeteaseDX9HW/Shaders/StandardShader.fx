@@ -55,5 +55,6 @@ float4 PS(VertexOut pin) : SV_Target
 	float3 result = Albedo.rgb +diffuse + Ambient.rgb;
 
     return float4(result, 1.0f);
+	//return float4(pin.Tex, 0.0f, 1.0f);
 	//return float4(diffuseIntensity, diffuseIntensity, diffuseIntensity, 1.0f);
 }
