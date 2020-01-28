@@ -4,6 +4,9 @@
 namespace DX11Engine {
 	const std::string ArcAssetLoader::SHADER_PATH = "\\NeteaseDX9HW\\Shaders\\";
 	const std::string ArcAssetLoader::TEXTURE_PATH = "\\NeteaseDX9HW\\Textures\\";
+	const std::string ArcAssetLoader::MODEL_PATH = "\\NeteaseDX9HW\\Models\\";
+
+	std::shared_ptr<DirectX::EffectFactory> ArcAssetLoader::m_fxFactory = nullptr;
 
 	bool ArcAssetLoader::CompileD3DShader(std::string filePath, const char* entry, const char* shaderModel, ID3DBlob** buffer) {
 		DWORD shaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -96,19 +99,19 @@ namespace DX11Engine {
 	}
 
 	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadMesh(std::string name, void* vertexs, unsigned int nodeLength, unsigned int nodeCount, unsigned int* indices, unsigned int indicesLength, ID3D11InputLayout *inputLayout) {
-		std::shared_ptr<DX11Engine::ArcMesh> pBoxMesh = std::make_shared<DX11Engine::ArcMesh>(name, ArcRHI::g_pd3dDevice);
-		pBoxMesh->m_nodeLength = nodeLength;
-		pBoxMesh->m_nodeCount = nodeCount;
-		if (!pBoxMesh->BindVertexBuffer(vertexs, nodeLength * nodeCount)) {
+		std::shared_ptr<DX11Engine::ArcMesh> pTempMesh = std::make_shared<DX11Engine::ArcMesh>(name, ArcRHI::g_pd3dDevice);
+		pTempMesh->m_nodeLength = nodeLength;
+		pTempMesh->m_nodeCount = nodeCount;
+		if (!pTempMesh->BindVertexBuffer(vertexs, nodeLength * nodeCount)) {
 			return nullptr;
 		}
 
-		if (!pBoxMesh->BindIndexBuffer(indices, indicesLength)) {
+		if (!pTempMesh->BindIndexBuffer(indices, indicesLength)) {
 			return nullptr;
 		}
 
-		pBoxMesh->m_pInputLayout = inputLayout;
-		return std::move(pBoxMesh);
+		pTempMesh->m_pInputLayout = inputLayout;
+		return std::move(pTempMesh);
 	}
 	//$(ProjectDir)Common
 	std::shared_ptr<ArcTexture> ArcAssetLoader::LoadTexture(std::string textureName, std::string path) {
@@ -136,5 +139,37 @@ namespace DX11Engine {
 		ArcRHI::g_pd3dDevice->CreateSamplerState(sampDescription, &(texture->m_sampleState));
 		ArcRHI::g_pImmediateContext->PSSetShaderResources(textureSlot, 1, &(texture->m_textureView));//贴图绑定
 		ArcRHI::g_pImmediateContext->PSSetSamplers(descSlot, 1, &(texture->m_sampleState));//采样状态绑定
+	}
+
+	std::unique_ptr<DirectX::Model> ArcAssetLoader::LoadModelFormFileInner(std::string path) {
+		if (m_fxFactory == nullptr) {
+			m_fxFactory = std::make_shared<DirectX::EffectFactory>(ArcRHI::g_pd3dDevice);
+		}
+		return DirectX::Model::CreateFromCMO(ArcRHI::g_pd3dDevice, ArcTool::stringToLPCWSTR(path), *m_fxFactory, true, true);
+	}
+
+	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadModelFormFile(std::string name, std::string path) {
+		auto dxModelTypeMesh = LoadModelFormFileInner(path);
+		std::shared_ptr<DX11Engine::ArcMesh> pTempMesh = std::make_shared<DX11Engine::ArcMesh>(name, ArcRHI::g_pd3dDevice);
+		auto innerModelData = dxModelTypeMesh->meshes[0];// ->meshParts;
+		pTempMesh->m_pVertexBuffer = innerModelData->meshParts[0]->vertexBuffer.Get();
+		innerModelData->meshParts[0]->vertexBuffer.Detach();
+		//print(dxModelTypeMesh->meshes.size());
+		//print(innerModelData->meshParts.size());
+		print("m_pVertexBuffer: " << pTempMesh->m_pVertexBuffer);
+		pTempMesh->m_nodeLength = innerModelData->meshParts[0]->vertexStride;
+		print("m_nodeLength: " << pTempMesh->m_nodeLength);
+		//pTempMesh->m_nodeCount = innerModelData->meshParts[0]->vertexOffset;//??
+		//print("m_nodeCount: " << pTempMesh->m_nodeCount);
+		pTempMesh->m_pIndexBuffer = innerModelData->meshParts[0]->indexBuffer.Get();
+		innerModelData->meshParts[0]->indexBuffer.Detach();
+		print("m_pIndexBuffer : " << pTempMesh->m_pIndexBuffer);
+		pTempMesh->m_indexLength = innerModelData->meshParts[0]->indexCount;
+		print("m_indexLength : " << pTempMesh->m_indexLength);
+		pTempMesh->m_pInputLayout = innerModelData->meshParts[0]->inputLayout.Get();
+		innerModelData->meshParts[0]->inputLayout.Detach();
+		print("m_pInputLayout : " << pTempMesh->m_pInputLayout);
+		
+		return pTempMesh;
 	}
 }

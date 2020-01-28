@@ -30,12 +30,15 @@ Mesh:
 	Sphere Mesh
 	Cylinder Mesh
 	Generated Box Mesh
+	Cat Mesh
 
 Material:
 	SimpleMaterial
 	TestBoxMaterial
 	StandardMaterial
 	SkyBoxMaterial
+	CatMaterial
+
 Texture:
 	BoxTexture
 	SkyBoxTexture
@@ -74,6 +77,13 @@ bool RacingGameAssets::Load() {
 		print("Unable to load mesh");
 	}
 	ArcAssets::m_meshVector.push_back(std::move(pCylinderMesh));
+
+	/*std::string catMeshPath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::MODEL_PATH + "cat.cmo";
+	std::shared_ptr<DX11Engine::ArcMesh> pCatMesh = DX11Engine::ArcAssetLoader::LoadModelFormFile("Cat Mesh", catMeshPath);
+	if (pCatMesh == nullptr) {
+		print("Unable to load mesh");
+	}
+	ArcAssets::m_meshVector.push_back(pCatMesh);//mesh的引用可能出问题*/
 
 	std::shared_ptr<ArcGeometryGenerator::MeshData> generatedCubeMeshData = std::make_shared<ArcGeometryGenerator::MeshData>();
 	ArcGeometryGenerator::CreateBox(1.f, 1.f, 1.f, *generatedCubeMeshData);
@@ -136,6 +146,24 @@ bool RacingGameAssets::Load() {
 
 	std::shared_ptr<DX11Engine::ArcMaterial> StandardMaterial = std::make_shared<DX11Engine::ArcMaterial>("StandardMaterial", misStandardMat.m_vertexShader, misStandardMat.m_pixelShader, misStandardMat.m_inputLayout, tempConstantBuffer3, lightConstantBuffer3);
 	ArcAssets::m_materialVector.push_back(std::move(StandardMaterial));
+
+	/*//猫材质
+	DX11Engine::MaterialInitStruct misCatMat = DX11Engine::MaterialInitStruct();
+	std::string shaderPathCat = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "StandardShader.fx";
+	FL(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPathCat, "VS", "vs_4_0", &(misCatMat.m_vertexShaderBuffer), &(misCatMat.m_vertexShader)));
+	//FL(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::VertextNormalTangentTexcoordLayout, ARRAYSIZE(DX11Engine::VertextNormalTangentTexcoordLayout), &(misCatMat.m_vertexShaderBuffer), &(misStandardMat.m_inputLayout)));
+	//print(pCatMesh->m_pInputLayout);
+	misCatMat.m_inputLayout = pCatMesh->m_pInputLayout;
+	FL(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPathCat, "PS", "ps_4_0", &(misCatMat.m_pixelShaderBuffer), &(misCatMat.m_pixelShader)));
+
+	ID3D11Buffer* tempConstantBufferCat = NULL;
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescMVP, &tempConstantBufferCat);
+
+	ID3D11Buffer* lightConstantBufferCat = NULL;
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescLight, &lightConstantBufferCat);
+
+	std::shared_ptr<DX11Engine::ArcMaterial> CatMaterial = std::make_shared<DX11Engine::ArcMaterial>("CatMaterial", misCatMat.m_vertexShader, misCatMat.m_pixelShader, misCatMat.m_inputLayout, tempConstantBufferCat, lightConstantBufferCat);
+	ArcAssets::m_materialVector.push_back(std::move(CatMaterial));*/
 
 	//盒子贴图
 	std::string texturePath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::TEXTURE_PATH + "WoodCrate.dds";

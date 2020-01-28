@@ -14,7 +14,8 @@
 #include "ArcRenderer.h"
 #include "ArcGameObject.h"
 #include "ArcInput.h"
-
+#include "ArcAssetLoader.h"
+#include "CommonStates.h"
 
 using namespace DX11Engine;
 
@@ -26,6 +27,8 @@ std::shared_ptr<ArcWindow> pWindow;
 std::shared_ptr<ArcAssets> assets;
 std::shared_ptr<ArcApplication> app;
 bool isRunning = false;
+
+std::unique_ptr <DirectX::CommonStates> m_states;
 
 int main()
 {
@@ -56,6 +59,11 @@ int main()
 		}
 	}
 
+	std::string catMeshPath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::MODEL_PATH + "cat.cmo";
+	auto pCatMesh = DX11Engine::ArcAssetLoader::LoadModelFormFileInner(catMeshPath);
+
+	m_states = std::make_unique<DirectX::CommonStates>(ArcRHI::g_pd3dDevice);/**/
+
 	while (isRunning) 
 	{
 		pWindow->TreatMessage(isRunning);
@@ -76,8 +84,20 @@ int main()
 			DX11Engine::ArcRenderer::Render(pSkybox->Mesh(), pSkybox->Material(), pSkybox->TransformPtr(), app->MainScene()->GetMainCamera(), app->MainScene()->GetMainLight());
 		}
 
+		//画模型加载的猫
+		auto pCatTransform = ArcGameObject::Find("Cat")->TransformPtr();
+		//PrintFloat3(pCatTransform->Rotation());
+		ConstantBufferMvp cbMVP;
+		cbMVP.mWorld = pCatTransform->TransformMatrix();//DX的mvp要反着乘
+		cbMVP.mView = app->MainScene()->GetMainCamera()->View();
+		cbMVP.mProjection = app->MainScene()->GetMainCamera()->Projection();
+		pCatMesh->Draw(ArcRHI::g_pImmediateContext, *m_states, cbMVP.mWorld, cbMVP.mView, cbMVP.mProjection, false);/**/
+
 		FL(ArcRHI::ConfigRasterizerStateCullBack());
 
+		
+		
+		//PrintFloat3(app->MainScene()->GetMainCamera()->GameObject()->TransformPtr()->Position());
 		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
 			if (gameObject->name() == "SkyBox") {
 				continue;

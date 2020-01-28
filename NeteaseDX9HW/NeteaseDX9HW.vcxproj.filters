@@ -28,6 +28,9 @@
     <Filter Include="Common">
       <UniqueIdentifier>{65ed1211-3f9c-4676-9928-7f8398eb59b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{6f0436d1-2149-462a-b4f7-74a48e508f45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArcFramework.cpp">
@@ -100,12 +103,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Common\DDSTextureLoader.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Common\Keyboard.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Common\Mouse.cpp">
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="DebugCameraMove.cpp">
@@ -203,12 +200,6 @@
     <ClInclude Include="Common\DDSTextureLoader.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Common\Keyboard.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Common\Mouse.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="DebugCameraMove.h">
       <Filter>RacingGame\头文件</Filter>
     </ClInclude>
@@ -219,6 +210,9 @@
       <Filter>RacingGame\头文件</Filter>
     </ClInclude>
     <ClInclude Include="Common\Model.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\CommonStates.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
@@ -235,5 +229,10 @@
     <FxCompile Include="Shaders\SkyBoxShader.fx">
       <Filter>Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Models\cat.fbx">
+      <Filter>Models</Filter>
+    </MeshContentTask>
   </ItemGroup>
 </Project>

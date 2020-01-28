@@ -7,6 +7,8 @@
 #include "ArcRHI.h"
 #include "ArcMesh.h"
 #include "ArcTexture.h"
+#include "Model.h"
+#include "Effects.h"
 
 #ifdef USING_DX11_ARC
 
@@ -30,10 +32,15 @@ namespace DX11Engine {
 		static std::shared_ptr<ArcMesh> LoadMesh(std::string name, void* vertexs, unsigned int nodeLength, unsigned int nodeCount, unsigned int* indices, unsigned int indicesLength, ID3D11InputLayout *pInputLayout);
 		static std::shared_ptr<ArcTexture> LoadTexture(std::string name, std::string path);
 		static bool CreateConstantBuffer(ID3D11Device* device, D3D11_BUFFER_DESC* description, ID3D11Buffer** constantBuffer);
-		static void SetTexture(D3D11_SAMPLER_DESC* sampDescription, std::shared_ptr<ArcTexture> texture, unsigned int textureSlot, unsigned int descSlot);
+		static void SetTexture(D3D11_SAMPLER_DESC* sampDescription, std::shared_ptr<ArcTexture> texture, unsigned int textureSlot, unsigned int descSlot);	
+		static std::shared_ptr<ArcMesh> LoadModelFormFile(std::string name, std::string path);
+		static std::unique_ptr<DirectX::Model> LoadModelFormFileInner(std::string name);
 		const static std::string SHADER_PATH;
 		const static std::string TEXTURE_PATH;
+		const static std::string MODEL_PATH;
 	private:
+		
+		static std::shared_ptr<DirectX::EffectFactory> m_fxFactory;
 		static bool CompileD3DShader(std::string filePath, const char* entry, const char* shaderModel, ID3DBlob** buffer);
 	};
 };

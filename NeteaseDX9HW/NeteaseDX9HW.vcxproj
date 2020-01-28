@@ -54,6 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\MeshContentTask.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -113,7 +114,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;winmm.lib;d2d1.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;winmm.lib;d2d1.lib;dwrite.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,7 +152,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;winmm.lib;d2d1.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;winmm.lib;d2d1.lib;dwrite.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -177,8 +178,6 @@
     <ClCompile Include="ArcWindow.cpp" />
     <ClCompile Include="DebugCameraMove.cpp" />
     <ClCompile Include="Common\DDSTextureLoader.cpp" />
-    <ClCompile Include="Common\Keyboard.cpp" />
-    <ClCompile Include="Common\Mouse.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RacingGameApplication.cpp" />
@@ -208,12 +207,11 @@
     <ClInclude Include="ArcTool.h" />
     <ClInclude Include="ArcTransform.h" />
     <ClInclude Include="ArcWindow.h" />
+    <ClInclude Include="Common\CommonStates.h" />
     <ClInclude Include="Common\Model.h" />
     <ClInclude Include="DebugCameraMove.h" />
     <ClInclude Include="CommonHeaders.h" />
     <ClInclude Include="Common\DDSTextureLoader.h" />
-    <ClInclude Include="Common\Keyboard.h" />
-    <ClInclude Include="Common\Mouse.h" />
     <ClInclude Include="DriverSetting.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="RacingGameApplication.h" />
@@ -239,7 +237,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Models\cat.fbx" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\MeshContentTask.targets" />
   </ImportGroup>
 </Project>

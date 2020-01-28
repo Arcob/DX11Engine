@@ -52,6 +52,7 @@ namespace DX11Engine {
 	}
 
 	mat4 ArcCamera::Projection() const {
+		//print(m_viewportAspectRatio);
 		return CalculatePerspectiveMatrix(DegreeToRadians(m_fieldOfView), m_viewportAspectRatio, m_nearPlane, m_farPlane);
 	}
 

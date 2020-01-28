@@ -26,7 +26,7 @@ void DebugCameraMove::Update() {
 	else if (DX11Engine::ArcInput::getKeyboardKey('D')) {
 		camera->TransformPtr()->Translate(MultFloat3(camera->TransformPtr()->Right(), moveSpeed * DX11Engine::ArcTime::DeltaTime()));
 	}
-
+	//PrintFloat3(camera->TransformPtr()->Right());
 	/**/if (DX11Engine::ArcInput::getMouseKey(DX11Engine::MouseKey::LeftClick)) {
 		float2 mousePosOrigin = DX11Engine::ArcInput::GetMousePos();
 		float2 mousePos = float2(mousePosOrigin.x-0.5f, mousePosOrigin.y-0.5f);

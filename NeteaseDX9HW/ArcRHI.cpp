@@ -17,6 +17,8 @@ namespace DX11Engine {
 	DXGI_SWAP_CHAIN_DESC* ArcRHI::g_swapChainDescription(NULL);
 	ID3D11DeviceContext* ArcRHI::g_pImmediateContext(NULL);
 	ID3D11RenderTargetView* ArcRHI::g_pRenderTargetView(NULL);
+	ID3D11Texture2D * ArcRHI::g_pDepthStencilBuffer(NULL);
+	ID3D11DepthStencilView* ArcRHI::g_pDepthStencilView(NULL);
 	ID3D11Texture2D* ArcRHI::g_pBackBuffer(NULL);
 	std::vector<D3D_DRIVER_TYPE> ArcRHI::driverTypes(0);
 	std::vector<D3D_FEATURE_LEVEL> ArcRHI::featureLevels(0);
@@ -103,7 +105,7 @@ namespace DX11Engine {
 			return hResult;
 	}
 
-	long ArcRHI::CreateRenderView() {//报错
+	long ArcRHI::CreateRenderView() {
 		long hResult;
 		//创建渲染目标视图
 		g_pBackBuffer = NULL;
@@ -121,10 +123,30 @@ namespace DX11Engine {
 			return hResult;
 		}
 
+		D3D11_TEXTURE2D_DESC depthStencilDesc;
+		depthStencilDesc.Width = m_width;
+		depthStencilDesc.Height = m_height;
+		depthStencilDesc.MipLevels = 1;
+		depthStencilDesc.ArraySize = 1;
+		depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		depthStencilDesc.SampleDesc.Count = 1;
+		depthStencilDesc.SampleDesc.Quality = 0;
+		depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+		depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		depthStencilDesc.CPUAccessFlags = 0;
+		depthStencilDesc.MiscFlags = 0;
+
+		HR(g_pd3dDevice->CreateTexture2D(&depthStencilDesc, nullptr, &g_pDepthStencilBuffer));
+		HR(g_pd3dDevice->CreateDepthStencilView(g_pDepthStencilBuffer, nullptr, &g_pDepthStencilView));
+
 		//绑定到渲染管线
-		g_pImmediateContext->OMSetRenderTargets(1, &g_pRenderTargetView, NULL);
+		g_pImmediateContext->OMSetRenderTargets(1, &g_pRenderTargetView, g_pDepthStencilView);
 		//g_pd3dDevice->setrenders
 		return hResult;
+	}
+
+	long ArcRHI::CreateDepthStencilView() {
+		return 1;
 	}
 
 	void ArcRHI::ConfigViewPort(float minDepth, float maxDepth, float topLeftX, float topLeftY) {
@@ -213,6 +235,7 @@ namespace DX11Engine {
 	void ArcRHI::ClearScreen(float ClearColor[4]) {
 		//float ClearColor[4] = { 0.5f, 0.1f, 0.2f, 1.0f }; //red,green,blue,alpha
 		g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, ClearColor);
+		g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 		//g_pSwapChain->Present(0, 0);
 	}
 

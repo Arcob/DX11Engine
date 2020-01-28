@@ -6,6 +6,7 @@
 namespace DX11Engine {
 
 	layoutStruct::layoutStruct(int index, int size, int totalLength, int phase, int dataSize) : m_index(index), m_width(size), m_totalLength(totalLength), m_phase(phase), m_dataSize(dataSize) {}
+	std::unique_ptr <DirectX::CommonStates> ArcRenderer::m_states;
 
 	bool ArcRenderer::Render(std::shared_ptr<ArcMesh> pMesh, std::shared_ptr<ArcMaterial> pMaterial, std::shared_ptr<ArcTransform> pTransform, std::shared_ptr<ArcCamera> pCamera, std::shared_ptr<DirectionalLight> pMainLight) {
 		UINT stride = pMesh->m_nodeLength;
@@ -55,5 +56,12 @@ namespace DX11Engine {
 
 		immediateContext->UpdateSubresource(constantBuffer, 0, NULL, resources, 0, 0);
 		return true;
+	}
+
+	void ArcRenderer::RenderLoadedMesh(std::unique_ptr<DirectX::Model> mesh, mat4 m, mat4 v, mat4 p) {
+		if (m_states == nullptr) {
+			m_states = std::make_unique<DirectX::CommonStates>(ArcRHI::g_pd3dDevice);
+		}
+		mesh->Draw(ArcRHI::g_pImmediateContext, *m_states, m, v, p);
 	}
 }

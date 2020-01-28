@@ -15,6 +15,6 @@ public:
 	void Update();
 private:
 	float moveSpeed = 1.f;
-	float rotateSpeed = 30.f;
+	float rotateSpeed = 50.f;
 };
 

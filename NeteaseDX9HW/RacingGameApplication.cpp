@@ -26,8 +26,8 @@ void RacingGameApplication::LoadApplication() {
 	auto mainCameraGameObject = std::make_shared<DX11Engine::ArcGameObject>("Camera");
 	DX11Engine::ArcGameObject::RegisterGameObject(mainCameraGameObject);
 	auto mainCameraTransform = std::make_shared<DX11Engine::ArcTransform>();
-	mainCameraTransform->SetLocalPosition(float3(2.5f, 7.f, 1.f));
-	mainCameraTransform->SetLocalRotation(float3(0.f, 0.f, 0.f));
+	mainCameraTransform->SetLocalPosition(float3(-1.6f, 7.f, 1.f));
+	mainCameraTransform->SetLocalRotation(float3(0.f, 45.f, 0.f));
 	auto mainCamera = std::make_shared<DX11Engine::ArcCamera>();
 	mainCamera->SetViewportAspectRatio(((float)ArcApplication::Width()) / ((float)ArcApplication::Height()));
 	mainCameraGameObject->SetTransfrom(mainCameraTransform);
@@ -70,7 +70,7 @@ void RacingGameApplication::LoadApplication() {
 	auto testBoxTransform2 = std::make_shared<DX11Engine::ArcTransform>();
 	testBoxTransform2->SetLocalPosition(float3(4.0f, 7.0f, 6.0f));
 	testBoxTransform2->SetLocalRotation(float3(45.0f, 45.0f, 45.0f));
-	testBoxTransform2->SetLocalScale(float3(1, 1, 1));
+	testBoxTransform2->SetLocalScale(float3(2, 2, 2));
 	testBoxWithNormal->SetTransfrom(testBoxTransform2);
 	testBoxWithNormal->SetMesh(ArcApplication::m_assets->findMesh("Generated Box Mesh"));
 	testBoxWithNormal->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
@@ -81,9 +81,21 @@ void RacingGameApplication::LoadApplication() {
 	auto cylinderTransform = std::make_shared<DX11Engine::ArcTransform>();
 	cylinderTransform->SetLocalPosition(float3(0.0f, 7.0f, 6.0f));
 	cylinderTransform->SetLocalRotation(float3(0.0f, 0.0f, 0.0f));
-	cylinderTransform->SetLocalScale(float3(1, 1, 1));
+	//cylinderTransform->SetLocalScale(float3(0.01f, 0.01f, 0.01f));
+	cylinderTransform->SetLocalScale(float3(1.f, 1.f, 1.f));
 	cylinder->SetTransfrom(cylinderTransform);
 	cylinder->SetMesh(ArcApplication::m_assets->findMesh("Cylinder Mesh"));
 	cylinder->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
 	MainScene()->AddGameObject(cylinder);
+
+	auto cat= std::make_shared<DX11Engine::ArcGameObject>("Cat");
+	DX11Engine::ArcGameObject::RegisterGameObject(cat);
+	auto catTransform = std::make_shared<DX11Engine::ArcTransform>();
+	catTransform->SetLocalPosition(float3(0.0f, 7.0f, 6.0f));
+	catTransform->SetLocalRotation(float3(0.0f, 0.0f, 0.0f));
+	catTransform->SetLocalScale(float3(0.003f, 0.003f, 0.003f));
+	cat->SetTransfrom(catTransform);
+	//cat->SetMesh(ArcApplication::m_assets->findMesh("Cat Mesh"));
+	//cat->SetMaterial(ArcApplication::m_assets->findMaterial("CatMaterial"));
+	MainScene()->AddGameObject(cat);/**/
 }

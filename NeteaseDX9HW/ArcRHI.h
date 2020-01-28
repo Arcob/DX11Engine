@@ -23,6 +23,7 @@ namespace DX11Engine {
 		static void ConfigSwapChain();
 		static long CreateDeviceAndSwapChain();
 		static long CreateRenderView();
+		static long CreateDepthStencilView();
 		static long ConfigDepthStencilState();
 		static long ConfigRasterizerStateCullNone();
 		static long ConfigRasterizerStateCullBack();
@@ -38,6 +39,8 @@ namespace DX11Engine {
 		static DXGI_SWAP_CHAIN_DESC* g_swapChainDescription;
 		static ID3D11DeviceContext* g_pImmediateContext;
 		static ID3D11RenderTargetView* g_pRenderTargetView;
+		static ID3D11Texture2D * g_pDepthStencilBuffer;
+		static ID3D11DepthStencilView* g_pDepthStencilView;
 		static ID3D11Texture2D* g_pBackBuffer;
 
 	private:
