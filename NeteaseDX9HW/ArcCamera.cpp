@@ -9,7 +9,7 @@ namespace DX11Engine {
 	ArcCamera::ArcCamera() :
 		m_fieldOfView(60.0f),
 		m_nearPlane(0.3f),
-		m_farPlane(100.0f),
+		m_farPlane(1000.0f),
 		m_viewportAspectRatio(4.0f / 3.0f)
 	{
 	}

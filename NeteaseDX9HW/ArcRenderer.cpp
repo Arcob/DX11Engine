@@ -13,6 +13,10 @@ namespace DX11Engine {
 		UINT offset = 0;
 		//设置数据信息格式控制信息
 		auto immediateContext = ArcRHI::g_pImmediateContext;
+
+		//immediateContext->RSSetState(nullptr);
+		//immediateContext->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
+
 		immediateContext->IASetInputLayout(pMaterial->m_pInputLayout);
 		//设置要绘制的几何体信息
 		immediateContext->IASetVertexBuffers(0, 1, &pMesh->m_pVertexBuffer, &stride, &offset);

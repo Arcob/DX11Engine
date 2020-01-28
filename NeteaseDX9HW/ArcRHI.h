@@ -25,6 +25,7 @@ namespace DX11Engine {
 		static long CreateRenderView();
 		static long CreateDepthStencilView();
 		static long ConfigDepthStencilState();
+		static void ResetDepthStencilState();
 		static long ConfigRasterizerStateCullNone();
 		static long ConfigRasterizerStateCullBack();
 		static void ConfigViewPort(float minDepth, float maxDepth, float topLeftX, float topLeftY);

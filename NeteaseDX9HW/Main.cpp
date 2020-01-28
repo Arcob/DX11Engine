@@ -84,7 +84,9 @@ int main()
 			DX11Engine::ArcRenderer::Render(pSkybox->Mesh(), pSkybox->Material(), pSkybox->TransformPtr(), app->MainScene()->GetMainCamera(), app->MainScene()->GetMainLight());
 		}
 
-		//画模型加载的猫
+		FL(ArcRHI::ConfigRasterizerStateCullBack());
+
+		//画模型加载的猫 妈个逼画这玩意会改g_pImmediateContext的渲染状态
 		auto pCatTransform = ArcGameObject::Find("Cat")->TransformPtr();
 		//PrintFloat3(pCatTransform->Rotation());
 		ConstantBufferMvp cbMVP;
@@ -93,10 +95,7 @@ int main()
 		cbMVP.mProjection = app->MainScene()->GetMainCamera()->Projection();
 		pCatMesh->Draw(ArcRHI::g_pImmediateContext, *m_states, cbMVP.mWorld, cbMVP.mView, cbMVP.mProjection, false);/**/
 
-		FL(ArcRHI::ConfigRasterizerStateCullBack());
-
-		
-		
+		FL(ArcRHI::ConfigDepthStencilState());
 		//PrintFloat3(app->MainScene()->GetMainCamera()->GameObject()->TransformPtr()->Position());
 		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
 			if (gameObject->name() == "SkyBox") {

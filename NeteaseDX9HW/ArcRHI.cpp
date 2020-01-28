@@ -31,6 +31,8 @@ namespace DX11Engine {
 		RECT rc;
 		m_windowsHandle = handle;
 		GetClientRect((HWND)m_windowsHandle, &rc);//获取窗口客户区大小
+		//m_width = rc.right - rc.left;
+		//m_height = rc.bottom - rc.top;
 		m_width = rc.right - rc.left;
 		m_height = rc.bottom - rc.top;
 	}
@@ -124,6 +126,7 @@ namespace DX11Engine {
 		}
 
 		D3D11_TEXTURE2D_DESC depthStencilDesc;
+		ZeroMemory(&depthStencilDesc, sizeof(depthStencilDesc));
 		depthStencilDesc.Width = m_width;
 		depthStencilDesc.Height = m_height;
 		depthStencilDesc.MipLevels = 1;
@@ -137,16 +140,28 @@ namespace DX11Engine {
 		depthStencilDesc.MiscFlags = 0;
 
 		HR(g_pd3dDevice->CreateTexture2D(&depthStencilDesc, nullptr, &g_pDepthStencilBuffer));
-		HR(g_pd3dDevice->CreateDepthStencilView(g_pDepthStencilBuffer, nullptr, &g_pDepthStencilView));
 
+		D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+		ZeroMemory(&descDSV, sizeof(descDSV));
+		descDSV.Format = depthStencilDesc.Format;
+		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		descDSV.Texture2D.MipSlice = 0;
+
+		HR(g_pd3dDevice->CreateDepthStencilView(g_pDepthStencilBuffer, &descDSV, &g_pDepthStencilView));
+		g_pDepthStencilBuffer->Release();
 		//绑定到渲染管线
 		g_pImmediateContext->OMSetRenderTargets(1, &g_pRenderTargetView, g_pDepthStencilView);
+
 		//g_pd3dDevice->setrenders
 		return hResult;
 	}
 
 	long ArcRHI::CreateDepthStencilView() {
 		return 1;
+	}
+
+	void ArcRHI::ResetDepthStencilState() {
+		g_pImmediateContext->OMSetDepthStencilState(nullptr, 0);
 	}
 
 	void ArcRHI::ConfigViewPort(float minDepth, float maxDepth, float topLeftX, float topLeftY) {
@@ -169,6 +184,8 @@ namespace DX11Engine {
 		dsDesc.DepthEnable = true;
 		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 		dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+		//dsDesc.FrontFace = true;
+
 
 		dsDesc.StencilEnable = false;
 
