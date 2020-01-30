@@ -59,9 +59,10 @@ int main()
 		}
 	}
 
+	//加载外部mesh 待修改
 	std::string catMeshPath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::MODEL_PATH + "cat.cmo";
 	auto pCatMesh = DX11Engine::ArcAssetLoader::LoadModelFormFileInner(catMeshPath);
-
+	
 	m_states = std::make_unique<DirectX::CommonStates>(ArcRHI::g_pd3dDevice);/**/
 
 	while (isRunning) 
@@ -86,9 +87,8 @@ int main()
 
 		FL(ArcRHI::ConfigRasterizerStateCullBack());
 
-		//画模型加载的猫 妈个逼画这玩意会改g_pImmediateContext的渲染状态
+		//画模型加载的猫 画这玩意会改g_pImmediateContext的渲染状态 待修改
 		auto pCatTransform = ArcGameObject::Find("Cat")->TransformPtr();
-		//PrintFloat3(pCatTransform->Rotation());
 		ConstantBufferMvp cbMVP;
 		cbMVP.mWorld = pCatTransform->TransformMatrix();//DX的mvp要反着乘
 		cbMVP.mView = app->MainScene()->GetMainCamera()->View();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CommonHeaders.h"
+#include <algorithm>
 #include <DirectXMath.h>
 
 const float JUDGE_EQUAL_BIAS = 0.0001f;
@@ -144,5 +145,17 @@ inline float3 TransformCoord(float3 vec, mat4 mat) {
 
 inline float3 MultFloat3(float3 vec, float fl) {
 	return float3(vec.x * fl, vec.y * fl, vec.z * fl);
+}
+
+inline float clamp(float in, float min, float max) {
+	float result = in < min ? min : in;
+	result = result > max ? max : result;
+	return result;
+}
+
+inline float3 Float3Lerp(float3 min, float3 max, float factor) {
+	return float3(clamp(min.x + (max.x - min.x) * factor, min.x, max.x), 
+		clamp(min.y + (max.y - min.y) * factor, min.y, max.y), 
+		clamp(min.y + (max.y - min.y) * factor, min.z, max.z));
 }
 
