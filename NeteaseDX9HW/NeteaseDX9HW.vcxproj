@@ -180,7 +180,7 @@
     <ClCompile Include="Common\DDSTextureLoader.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="RacingGameApplication.cpp" />
+    <ClCompile Include="DebugApplication.cpp" />
     <ClCompile Include="RacingGameAssets.cpp" />
     <ClCompile Include="SkyboxFollowCamera.cpp" />
   </ItemGroup>
@@ -214,7 +214,7 @@
     <ClInclude Include="Common\DDSTextureLoader.h" />
     <ClInclude Include="DriverSetting.h" />
     <ClInclude Include="Light.h" />
-    <ClInclude Include="RacingGameApplication.h" />
+    <ClInclude Include="DebugApplication.h" />
     <ClInclude Include="RacingGameAssets.h" />
     <ClInclude Include="SimpleVertexs.h" />
     <ClInclude Include="SkyboxFollowCamera.h" />

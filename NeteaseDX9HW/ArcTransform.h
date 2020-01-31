@@ -22,8 +22,12 @@ namespace DX11Engine { //跨平台无关
 		const mat4 ScaleMatrix() const;
 		const mat4 TransformMatrix() const;
 		void SetLocalPosition(float3 position);
-		void SetLocalScale(float3 scale);
 		void SetLocalRotation(float3 rotation);
+		void SetLocalScale(float3 scale);	
+		void SetPosition(float3 position);
+		void SetRotation(float3 rotation);
+		void SetScale(float3 scale);
+		float3 GetParentsScales();
 		void Translate(float3 offset);
 		void Rotate(float3 eularAngle);
 		void Rotate(float rightAngle, float upAngle, float forwardAngle);
@@ -43,6 +47,7 @@ namespace DX11Engine { //跨平台无关
 		float3 m_rotation;
 		
 		void normalizeLocalRotation();
+		
 	};
 
 }

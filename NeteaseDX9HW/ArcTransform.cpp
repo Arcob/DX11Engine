@@ -79,15 +79,56 @@ namespace DX11Engine {
 		m_position = position;
 	}
 
-	void ArcTransform::SetLocalScale(float3 scale) {
-		m_scale = scale;
-	}
-
 	void ArcTransform::SetLocalRotation(float3 rotation) {
 		m_rotation = rotation;
 		normalizeLocalRotation();
 	}
 
+	void ArcTransform::SetLocalScale(float3 scale) {
+		m_scale = scale;
+	}
+
+	void ArcTransform::SetPosition(float3 position) {
+		if (m_parent != nullptr) {
+			mat4 parentPositionMatrix = m_parent->PositionMatrix();
+			mat4 parentRotationMatrix = m_parent->RotationMatrix();
+			mat4 parentScaleMatrix = m_parent->ScaleMatrix();
+			float4 tempVec = float4(position.x, position.y, position.z, 1);
+			float4 tempResult = MatrixMultVector(Inverse(parentPositionMatrix) * Inverse(parentRotationMatrix) * Inverse(parentScaleMatrix), tempVec);
+			SetLocalPosition(float3(tempResult.x, tempResult.y, tempResult.z));
+		}
+		else {
+			SetLocalPosition(position);
+		}	
+	}
+
+	void ArcTransform::SetRotation(float3 rotation) {
+		if (m_parent != nullptr) {
+			float3 parentRotation = m_parent->Rotation();
+			SetLocalRotation(float3(rotation.x - parentRotation.x, rotation.y - parentRotation.y, rotation.z - parentRotation.z));
+		}
+		else {
+			SetLocalRotation(rotation);
+		}		
+	}
+
+	void ArcTransform::SetScale(float3 scale) {
+		if (m_parent != nullptr) {
+			float3 parentScale = m_parent->Scale();
+			SetLocalScale(float3(scale.x / parentScale.x, scale.y / parentScale.y, scale.z / parentScale.z));
+		}
+		else {
+			SetLocalScale(scale);
+		}
+	}
+
+	float3 ArcTransform::GetParentsScales() {
+		if (m_parent != nullptr) {
+			return Float3MultFloat3(m_parent->GetParentsScales(), LocalScale());
+		}
+		return LocalScale();
+	}
+	
 	void ArcTransform::Translate(float3 offset) {
 		m_position = float3(m_position.x + offset.x, m_position.y + offset.y, m_position.z + offset.z);
 	}

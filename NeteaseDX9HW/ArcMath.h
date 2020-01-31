@@ -147,6 +147,10 @@ inline float3 MultFloat3(float3 vec, float fl) {
 	return float3(vec.x * fl, vec.y * fl, vec.z * fl);
 }
 
+inline float3 Float3MultFloat3(float3 a, float3 b) {
+	return float3(a.x * b.x, a.y * b.y, a.z * b.z);
+}
+
 inline float clamp(float in, float min, float max) {
 	float result = in < min ? min : in;
 	result = result > max ? max : result;

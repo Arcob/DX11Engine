@@ -78,6 +78,8 @@ int main()
 			}
 		}
 
+		auto pTestbox = ArcGameObject::Find("TestBox");
+
 		FL(ArcRHI::ConfigRasterizerStateCullNone());
 
 		auto pSkybox = ArcGameObject::Find("SkyBox");

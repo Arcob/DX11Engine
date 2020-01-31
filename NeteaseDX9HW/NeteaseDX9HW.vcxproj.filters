@@ -93,9 +93,6 @@
     <ClCompile Include="RacingGameAssets.cpp">
       <Filter>RacingGame\源文件</Filter>
     </ClCompile>
-    <ClCompile Include="RacingGameApplication.cpp">
-      <Filter>RacingGame\源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ArcCamera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -112,6 +109,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="SkyboxFollowCamera.cpp">
+      <Filter>RacingGame\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugApplication.cpp">
       <Filter>RacingGame\源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,9 +188,6 @@
     <ClInclude Include="RacingGameAssets.h">
       <Filter>RacingGame\头文件</Filter>
     </ClInclude>
-    <ClInclude Include="RacingGameApplication.h">
-      <Filter>RacingGame\头文件</Filter>
-    </ClInclude>
     <ClInclude Include="ArcCamera.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -214,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="Common\CommonStates.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugApplication.h">
+      <Filter>RacingGame\头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
