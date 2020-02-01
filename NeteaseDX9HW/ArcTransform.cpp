@@ -190,4 +190,12 @@ namespace DX11Engine {
 			(parent->m_children).push_back(self);
 		}
 	}
+
+	void ArcTransform::RotateAround(float3 center, float3 vec, float degree) {
+		float3 LookAt = NormalizeFloat3(float3(Position().x - center.x, Position().y - center.y, Position().z - center.z));
+		float length = MagnitureFloat3(float3(Position().x - center.x, Position().y - center.y, Position().z - center.z));
+		float3 cross = CrossFloat3(LookAt, vec);
+		float3 result = AddFloat3(center, AddFloat3(MultFloat3(LookAt, length * cos(DegreeToRadians(degree))), MultFloat3(cross, length * sin(DegreeToRadians(degree)))));
+		SetPosition(result);
+	}
 }

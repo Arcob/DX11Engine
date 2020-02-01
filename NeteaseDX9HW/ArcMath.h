@@ -48,9 +48,19 @@ inline bool NearlyEquals(float3 a, float3 b) {
 	return false;
 }
 
+inline float MagnitureFloat3(float3 a) {
+	return sqrtf(a.x * a.x + a.y * a.y + a.z * a.z);
+}
+
 inline float3 NormalizeFloat3(float3 a) {
-	float total = sqrtf(a.x * a.x + a.y * a.y + a.z * a.z);
+	float total = MagnitureFloat3(a);
 	return float3(a.x/total, a.y / total, a.z / total);
+}
+
+inline float3 CrossFloat3(float3 a, float3 b) {
+	float3 result;
+	DirectX::XMStoreFloat3(&result, DirectX::XMVector3Cross(XMLoadFloat3(&a), XMLoadFloat3(&b)));
+	return result;
 }
 
 

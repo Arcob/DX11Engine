@@ -32,6 +32,7 @@ namespace DX11Engine { //跨平台无关
 		void Rotate(float3 eularAngle);
 		void Rotate(float rightAngle, float upAngle, float forwardAngle);
 		void LookAt(float3 target);
+		void RotateAround(float3 pos, float3 vec, float angle);
 		
 		float3 Forward() const; //Vector3(0, 0, 1)
 		float3 Right() const; //Vector3(1, 0, 0)

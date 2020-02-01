@@ -176,11 +176,14 @@
     <ClCompile Include="ArcTool.cpp" />
     <ClCompile Include="ArcTransform.cpp" />
     <ClCompile Include="ArcWindow.cpp" />
+    <ClCompile Include="CameraController.cpp" />
+    <ClCompile Include="CarMove.cpp" />
     <ClCompile Include="DebugCameraMove.cpp" />
     <ClCompile Include="Common\DDSTextureLoader.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DebugApplication.cpp" />
+    <ClCompile Include="RacingGameApplication.cpp" />
     <ClCompile Include="RacingGameAssets.cpp" />
     <ClCompile Include="SkyboxFollowCamera.cpp" />
   </ItemGroup>
@@ -207,6 +210,8 @@
     <ClInclude Include="ArcTool.h" />
     <ClInclude Include="ArcTransform.h" />
     <ClInclude Include="ArcWindow.h" />
+    <ClInclude Include="CameraController.h" />
+    <ClInclude Include="CarMove.h" />
     <ClInclude Include="Common\CommonStates.h" />
     <ClInclude Include="Common\Model.h" />
     <ClInclude Include="DebugCameraMove.h" />
@@ -215,6 +220,7 @@
     <ClInclude Include="DriverSetting.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="DebugApplication.h" />
+    <ClInclude Include="RacingGameApplication.h" />
     <ClInclude Include="RacingGameAssets.h" />
     <ClInclude Include="SimpleVertexs.h" />
     <ClInclude Include="SkyboxFollowCamera.h" />

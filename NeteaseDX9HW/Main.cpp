@@ -90,12 +90,12 @@ int main()
 		FL(ArcRHI::ConfigRasterizerStateCullBack());
 
 		//画模型加载的猫 画这玩意会改g_pImmediateContext的渲染状态 待修改
-		auto pCatTransform = ArcGameObject::Find("Cat")->TransformPtr();
+		/*auto pCatTransform = ArcGameObject::Find("Cat")->TransformPtr();
 		ConstantBufferMvp cbMVP;
 		cbMVP.mWorld = pCatTransform->TransformMatrix();//DX的mvp要反着乘
 		cbMVP.mView = app->MainScene()->GetMainCamera()->View();
 		cbMVP.mProjection = app->MainScene()->GetMainCamera()->Projection();
-		pCatMesh->Draw(ArcRHI::g_pImmediateContext, *m_states, cbMVP.mWorld, cbMVP.mView, cbMVP.mProjection, false);/**/
+		pCatMesh->Draw(ArcRHI::g_pImmediateContext, *m_states, cbMVP.mWorld, cbMVP.mView, cbMVP.mProjection, false);*/
 
 		FL(ArcRHI::ConfigDepthStencilState());
 		//PrintFloat3(app->MainScene()->GetMainCamera()->GameObject()->TransformPtr()->Position());
