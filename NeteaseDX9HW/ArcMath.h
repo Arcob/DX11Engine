@@ -63,7 +63,6 @@ inline float3 CrossFloat3(float3 a, float3 b) {
 	return result;
 }
 
-
 inline mat4 Inverse(mat4 matrix){
 	return DirectX::XMMatrixInverse(nullptr, matrix);
 }
@@ -171,5 +170,9 @@ inline float3 Float3Lerp(float3 min, float3 max, float factor) {
 	return float3(clamp(min.x + (max.x - min.x) * factor, min.x, max.x), 
 		clamp(min.y + (max.y - min.y) * factor, min.y, max.y), 
 		clamp(min.y + (max.y - min.y) * factor, min.z, max.z));
+}
+
+inline float DistanceFloat3(float3 a, float3 b) {
+	return MagnitureFloat3(float3(a.x - b.x, a.y - b.y, a.z - b.z));
 }
 

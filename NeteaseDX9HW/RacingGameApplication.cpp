@@ -39,7 +39,7 @@ void RacingGameApplication::LoadApplication() {
 	MainScene()->SetMainCamera(mainCamera);
 	MainScene()->AddGameObject(mainCameraGameObject);
 
-	auto directionalLight = std::make_shared<DX11Engine::DirectionalLight>(float3(50.0f, 30.0f, -10.0f), 0.2f, float4(1.f, 0.96f, 0.84f, 1.f));
+	auto directionalLight = std::make_shared<DX11Engine::DirectionalLight>(float3(50.0f, 30.0f, -10.0f), 0.5f, float4(1.f, 0.96f, 0.84f, 1.f));
 	MainScene()->SetMainLight(std::move(directionalLight));
 
 	auto skyBox = std::make_shared<DX11Engine::ArcGameObject>("SkyBox");
