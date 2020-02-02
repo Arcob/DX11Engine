@@ -20,6 +20,10 @@ inline float DegreeToRadians(float degree) {
 	return degree * DEGREE_TO_RADIANS;
 }
 
+inline float RadiansToDegree(float radians) {
+	return radians * 57.29578049f;
+}
+
 inline quaternion RotationTOQuaternion(float3 rotation) {
 	return DirectX::XMQuaternionRotationRollPitchYaw(rotation.x, rotation.y, rotation.z);
 }
@@ -57,7 +61,7 @@ inline float3 NormalizeFloat3(float3 a) {
 	return float3(a.x/total, a.y / total, a.z / total);
 }
 
-inline float3 CrossFloat3(float3 a, float3 b) {
+inline float3 Float3Cross(float3 a, float3 b) {
 	float3 result;
 	DirectX::XMStoreFloat3(&result, DirectX::XMVector3Cross(XMLoadFloat3(&a), XMLoadFloat3(&b)));
 	return result;
@@ -160,19 +164,69 @@ inline float3 Float3MultFloat3(float3 a, float3 b) {
 	return float3(a.x * b.x, a.y * b.y, a.z * b.z);
 }
 
-inline float clamp(float in, float min, float max) {
+inline float clamp(float in, float a, float b) {
+	float min = 0;
+	float max = 0;
+	if (a < b) {
+		min = a;
+		max = b;
+	}
+	else {
+		min = b;
+		max = a;
+	}
 	float result = in < min ? min : in;
 	result = result > max ? max : result;
 	return result;
 }
 
-inline float3 Float3Lerp(float3 min, float3 max, float factor) {
-	return float3(clamp(min.x + (max.x - min.x) * factor, min.x, max.x), 
-		clamp(min.y + (max.y - min.y) * factor, min.y, max.y), 
-		clamp(min.y + (max.y - min.y) * factor, min.z, max.z));
+inline float3 Float3Lerp(float3 minFl, float3 maxFl, float factor) {
+	//print(minFl.z << " " << maxFl.z << " " << factor << " " << minFl.z + (maxFl.z - minFl.z) * factor);
+	return float3(clamp(minFl.x + (maxFl.x - minFl.x) * factor, minFl.x, maxFl.x), 
+		clamp(minFl.y + (maxFl.y - minFl.y) * factor, minFl.y, maxFl.y), 
+		clamp(minFl.z + (maxFl.z - minFl.z) * factor, minFl.z, maxFl.z));
 }
 
 inline float DistanceFloat3(float3 a, float3 b) {
 	return MagnitureFloat3(float3(a.x - b.x, a.y - b.y, a.z - b.z));
 }
 
+inline float DotFloat3(float3 a, float3 b) {
+	return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+inline float AngleFloat3Degree(float3 a, float3 b) {
+	float up = DotFloat3(a, b);
+	float down = MagnitureFloat3(a) * MagnitureFloat3(b);
+	return RadiansToDegree(acosf(up / down));
+}
+
+inline float3 Float3Minus(float3 a, float3 b) {
+	return float3(a.x-b.x, a.y-b.y, a.z-b.z);
+}
+/*
+float3 RotationMatrixToEulerAngles(mat4 mat)
+{
+	float sy = sqrt(mat.at<double>(0, 0) * R.at<double>(0, 0) + R.at<double>(1, 0) * R.at<double>(1, 0));
+	bool singular = sy < 1e-6; // If
+	float x, y, z;
+	if (!singular)
+	{
+		x = atan2(R.at<double>(2, 1), R.at<double>(2, 2));
+		y = atan2(-R.at<double>(2, 0), sy);
+		z = atan2(R.at<double>(1, 0), R.at<double>(0, 0));
+	}
+	else
+	{
+		x = atan2(-R.at<double>(1, 2), R.at<double>(1, 1));
+		y = atan2(-R.at<double>(2, 0), sy);
+		z = 0;
+	}
+#if 1
+	x = x * 180.0f / 3.141592653589793f;
+	y = y * 180.0f / 3.141592653589793f;
+	z = z * 180.0f / 3.141592653589793f;
+#endif
+	return float3(x, y, z);
+}
+*/

@@ -138,14 +138,28 @@ namespace DX11Engine {
 	}
 
 	void ArcTransform::LookAt(float3 target) {  // Õâ¸ölookatµÄUp
-		if (NearlyEquals(target, Position())) {
+		/*if (NearlyEquals(target, Position())) {
 			return;
 		}
-		float3 pos = Position();
-		float3 direction = NormalizeFloat3(float3(target.x - pos.x, target.y - pos.y, target.z - pos.z));
-		float angleX = DegreeToRadians(asinf(-direction.y));
-		float angleY = -DegreeToRadians(atan2f(-direction.x, -direction.z));
-		normalizeLocalRotation();
+		float3 direction = NormalizeFloat3(Float3Minus(target, Position()));
+		float3 forward = Forward();
+		
+		float angle = AngleFloat3Degree(direction, forward);
+
+		float3 up = NormalizeFloat3(Float3Cross(forward, direction));
+
+		Rotate(normalizeRotation(MultFloat3(up, angle)));
+		
+		normalizeLocalRotation();*/
+		float3 direction = NormalizeFloat3(Float3Minus(target, Position()));
+		//float angleX = acosf(sqrtf((direction.x * direction.x + direction.z * direction.z)/ (direction.x * direction.x + direction.y * direction.y + direction.z * direction.z)));
+		float angleX = RadiansToDegree(asinf(-direction.y));
+		if (direction.y > 0) angleX = 360.f - angleX;
+		float angleY = RadiansToDegree(atan2f(-direction.x, -direction.z));
+		if (angleY < 0) angleY += 180;
+		if (direction.x < 0) angleY += 180;
+		float angleZ = 0;
+		SetRotation(float3(angleX, angleY, angleZ));/**/
 	}
 
 	void ArcTransform::Rotate(float rightAngle, float upAngle, float forwardAngle) {
@@ -194,7 +208,7 @@ namespace DX11Engine {
 	void ArcTransform::RotateAround(float3 center, float3 vec, float degree) {
 		float3 LookAt = NormalizeFloat3(float3(Position().x - center.x, Position().y - center.y, Position().z - center.z));
 		float length = MagnitureFloat3(float3(Position().x - center.x, Position().y - center.y, Position().z - center.z));
-		float3 cross = CrossFloat3(LookAt, vec);
+		float3 cross = Float3Cross(LookAt, vec);
 		float3 result = AddFloat3(center, AddFloat3(MultFloat3(LookAt, length * cos(DegreeToRadians(degree))), MultFloat3(cross, length * sin(DegreeToRadians(degree)))));
 		SetPosition(result);
 	}

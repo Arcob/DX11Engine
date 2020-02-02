@@ -102,7 +102,15 @@ namespace DX11Engine {
 		return keyState.IsKeyDown((DirectX::Keyboard::Keys)key);
 	}
 
-	bool ArcInput::getMouseKey(MouseKey key) {
+	bool ArcInput::getKeyboardKeyDown(const int key) {
+		return (keyState.IsKeyDown((DirectX::Keyboard::Keys)key) && !lastKeyState.IsKeyDown((DirectX::Keyboard::Keys)key));
+	}
+
+	bool ArcInput::getKeyboardKeyUp(const int key) {
+		return (!keyState.IsKeyDown((DirectX::Keyboard::Keys)key) && lastKeyState.IsKeyDown((DirectX::Keyboard::Keys)key));
+	}
+
+	bool ArcInput::GetMouseKey(MouseKey key) {
 		if (key == MouseKey::LeftClick) {
 			return mouseState.leftButton;
 		}
@@ -128,5 +136,9 @@ namespace DX11Engine {
 		for (int i = 0; i < size; i++) {
 			cache[i] = origin[i];
 		}
+	}
+
+	float ArcInput::GetMouseScrollWheel() {
+		return (mouseState.scrollWheelValue - lastMouseState.scrollWheelValue)/100.f;
 	}
 }

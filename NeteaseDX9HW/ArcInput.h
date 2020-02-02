@@ -27,8 +27,11 @@ namespace DX11Engine {
 		static float2 GetMouseDelta();
 		static bool getKeyDown(const int key);
 		static bool getKeyboardKey(const int key);
-		static bool getMouseKey(MouseKey key);
+		static bool getKeyboardKeyDown(const int key);
+		static bool getKeyboardKeyUp(const int key);
+		static bool GetMouseKey(MouseKey key);
 		static float2 GetMousePos();
+		static float GetMouseScrollWheel();
 		static bool getKeyUp(const int key);
 		static void setWindowAndKeyboardCallback(ArcWindow* window);
 		//给你一个重载callback的机会

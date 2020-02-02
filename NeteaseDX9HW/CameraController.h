@@ -1,6 +1,7 @@
 #pragma once
 #include "ArcBehaviour.h"
 #include "ArcTransform.h"
+
 class CameraController :
 	public DX11Engine::ArcBehaviour
 {
@@ -17,8 +18,8 @@ public:
 	void Update();
 
 private:
-	FollowType followType = (FollowType)1;
-	FollowType lastFrameType = (FollowType)1;
+	FollowType followType = FirstPerson;
+	FollowType lastFrameType = FirstPerson;
 
 	std::shared_ptr<DX11Engine::ArcTransform> firstPersonPivot;
 	std::shared_ptr<DX11Engine::ArcTransform> thirdPersonPivot;

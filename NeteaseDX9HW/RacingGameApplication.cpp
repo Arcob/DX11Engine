@@ -11,6 +11,7 @@
 #include "CarMove.h"
 #include "DebugCameraMove.h"
 #include "SkyboxFollowCamera.h"
+#include "CameraController.h"
 
 RacingGameApplication::RacingGameApplication(unsigned int WIDTH, unsigned int HEIGHT, std::shared_ptr<DX11Engine::ArcAssets> assets) : ArcApplication(WIDTH, HEIGHT, assets) {
 	ArcApplication::SetName("RacingGameApplication");
@@ -34,8 +35,8 @@ void RacingGameApplication::LoadApplication() {
 	mainCamera->SetViewportAspectRatio(((float)ArcApplication::Width()) / ((float)ArcApplication::Height()));
 	mainCameraGameObject->SetTransfrom(mainCameraTransform);
 	mainCameraGameObject->AttachScript(mainCamera);
-	//auto cameraMove = std::make_shared<DebugCameraMove>();
-	//mainCameraGameObject->AttachScript(cameraMove);
+	auto cameraController = std::make_shared<CameraController>();
+	mainCameraGameObject->AttachScript(cameraController);
 	MainScene()->SetMainCamera(mainCamera);
 	MainScene()->AddGameObject(mainCameraGameObject);
 
