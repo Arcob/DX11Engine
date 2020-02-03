@@ -19,9 +19,21 @@ void CarMove::Update() {
 		GameObject()->TransformPtr()->Translate(MultFloat3(GameObject()->TransformPtr()->Forward(), -moveSpeed * 0.5f * DX11Engine::ArcTime::DeltaTime()));
 	}
 	if (DX11Engine::ArcInput::getKeyboardKey('A')) {
-		GameObject()->TransformPtr()->Rotate(MultFloat3(GameObject()->TransformPtr()->Up(), -rotateSpeed * DX11Engine::ArcTime::DeltaTime()));
+		if (DX11Engine::ArcInput::getKeyboardKey('W')) {
+			GameObject()->TransformPtr()->Rotate(MultFloat3(GameObject()->TransformPtr()->Up(), -rotateSpeed * DX11Engine::ArcTime::DeltaTime()));
+		}
+		else if (DX11Engine::ArcInput::getKeyboardKey('S')) 
+		{
+			GameObject()->TransformPtr()->Rotate(MultFloat3(GameObject()->TransformPtr()->Up(), rotateSpeed * DX11Engine::ArcTime::DeltaTime()));
+		}
 	}
 	if (DX11Engine::ArcInput::getKeyboardKey('D')) {
-		GameObject()->TransformPtr()->Rotate(MultFloat3(GameObject()->TransformPtr()->Up(), rotateSpeed * DX11Engine::ArcTime::DeltaTime()));
+		if (DX11Engine::ArcInput::getKeyboardKey('W')) {
+			GameObject()->TransformPtr()->Rotate(MultFloat3(GameObject()->TransformPtr()->Up(), rotateSpeed * DX11Engine::ArcTime::DeltaTime()));
+		}
+		else if (DX11Engine::ArcInput::getKeyboardKey('S')) 
+		{
+			GameObject()->TransformPtr()->Rotate(MultFloat3(GameObject()->TransformPtr()->Up(), -rotateSpeed * DX11Engine::ArcTime::DeltaTime()));
+		}
 	}
 }

@@ -12,6 +12,7 @@
 #include "DebugCameraMove.h"
 #include "SkyboxFollowCamera.h"
 #include "CameraController.h"
+#include "WheelMove.h"
 
 RacingGameApplication::RacingGameApplication(unsigned int WIDTH, unsigned int HEIGHT, std::shared_ptr<DX11Engine::ArcAssets> assets) : ArcApplication(WIDTH, HEIGHT, assets) {
 	ArcApplication::SetName("RacingGameApplication");
@@ -72,47 +73,62 @@ void RacingGameApplication::LoadApplication() {
 	car->SetTransfrom(carTransform);
 	carTransform->SetPosition(float3(0.0f, 0.2f, 0.0f));
 	carTransform->SetRotation(float3(0.0f, 0.0f, 0.0f));
-	carTransform->SetScale(float3(1.0f, 0.2f, 2.0f));
-	car->SetMesh(ArcApplication::m_assets->findMesh("Generated Box Mesh"));
-	car->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
+	carTransform->SetScale(float3(1.0f, 1.0f, 1.0f));
 	auto carMove = std::make_shared<CarMove>();
 	car->AttachScript(carMove);
 	MainScene()->AddGameObject(car);
+
+	auto carBody = std::make_shared<DX11Engine::ArcGameObject>("CarBody");
+	DX11Engine::ArcGameObject::RegisterGameObject(carBody);
+	auto carBodyTransform = std::make_shared<DX11Engine::ArcTransform>();
+	carBody->SetTransfrom(carBodyTransform);
+	DX11Engine::ArcTransform::SetParent(carBodyTransform, carTransform);
+	carBodyTransform->SetLocalPosition(float3(0.0f, 0.0f, 0.0f));
+	carBodyTransform->SetLocalRotation(float3(0.0f, 0.0f, 0.0f));
+	carBodyTransform->SetLocalScale(float3(1.0f, 0.2f, 2.0f));
+	carBody->SetMesh(ArcApplication::m_assets->findMesh("Generated Box Mesh"));
+	carBody->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
+	MainScene()->AddGameObject(carBody);
 
 	auto carHead = std::make_shared<DX11Engine::ArcGameObject>("CarHead");
 	DX11Engine::ArcGameObject::RegisterGameObject(carHead);
 	auto carHeadTransform = std::make_shared<DX11Engine::ArcTransform>();
 	carHead->SetTransfrom(carHeadTransform);
 	DX11Engine::ArcTransform::SetParent(carHeadTransform, carTransform);
-	carHeadTransform->SetLocalPosition(float3(0.0f, 1.f, 0.0f));
+	carHeadTransform->SetLocalPosition(float3(0.0f, 0.2f, 0.0f));
 	carHeadTransform->SetLocalRotation(float3(0.0f, 0.0f, 0.0f));
-	carHeadTransform->SetLocalScale(float3(1.0f, 1.0f, 0.4f));
+	carHeadTransform->SetLocalScale(float3(1.0f, 0.2f, 0.8f));
 	carHead->SetMesh(ArcApplication::m_assets->findMesh("Generated Box Mesh"));
 	carHead->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
 	MainScene()->AddGameObject(carHead);
 
-	auto leftForwardWheel = std::make_shared<DX11Engine::ArcGameObject>("LeftForwardWheel");
+	auto leftForwardWheel = std::make_shared<DX11Engine::ArcGameObject>("LeftBackwardWheel");
 	DX11Engine::ArcGameObject::RegisterGameObject(leftForwardWheel);
 	auto leftForwardWheelTransform = std::make_shared<DX11Engine::ArcTransform>();
 	leftForwardWheel->SetTransfrom(leftForwardWheelTransform);
 	DX11Engine::ArcTransform::SetParent(leftForwardWheelTransform, carTransform);
-	leftForwardWheelTransform->SetLocalPosition(float3(-0.5f, 0.f, 0.3f));
+	leftForwardWheelTransform->SetLocalPosition(float3(-0.5f, 0.f, -0.6f));
 	leftForwardWheelTransform->SetLocalRotation(float3(90.0f, 0.0f, 90.0f));
 	leftForwardWheelTransform->SetScale(float3(0.4f, 0.05f, 0.4f));
 	leftForwardWheel->SetMesh(ArcApplication::m_assets->findMesh("Cylinder Mesh"));
 	leftForwardWheel->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
+	auto wheelMoveLB = std::make_shared<WheelMove>();
+	leftForwardWheel->AttachScript(wheelMoveLB);
 	MainScene()->AddGameObject(leftForwardWheel);
 
-	auto rightBackwardWheel = std::make_shared<DX11Engine::ArcGameObject>("RightBackwardWheel");
+	auto rightBackwardWheel = std::make_shared<DX11Engine::ArcGameObject>("LeftForwardWheel");
 	DX11Engine::ArcGameObject::RegisterGameObject(rightBackwardWheel);
 	auto rightBackwardWheelTransform = std::make_shared<DX11Engine::ArcTransform>();
 	rightBackwardWheel->SetTransfrom(rightBackwardWheelTransform);
 	DX11Engine::ArcTransform::SetParent(rightBackwardWheelTransform, carTransform);
-	rightBackwardWheelTransform->SetLocalPosition(float3(0.5f, 0.f, -0.3f));
+	rightBackwardWheelTransform->SetLocalPosition(float3(-0.5f, 0.f, 0.6f));
 	rightBackwardWheelTransform->SetLocalRotation(float3(90.0f, 0.0f, 90.0f));
 	rightBackwardWheelTransform->SetScale(float3(0.4f, 0.05f, 0.4f));
 	rightBackwardWheel->SetMesh(ArcApplication::m_assets->findMesh("Cylinder Mesh"));
 	rightBackwardWheel->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
+	auto wheelMoveLF = std::make_shared<WheelMove>();
+	wheelMoveLF->isForwardWheel = true;
+	rightBackwardWheel->AttachScript(wheelMoveLF);
 	MainScene()->AddGameObject(rightBackwardWheel);
 
 	auto rightForwardWheel = std::make_shared<DX11Engine::ArcGameObject>("RightForwardWheel");
@@ -120,11 +136,14 @@ void RacingGameApplication::LoadApplication() {
 	auto rightForwardWheelTransform = std::make_shared<DX11Engine::ArcTransform>();
 	rightForwardWheel->SetTransfrom(rightForwardWheelTransform);
 	DX11Engine::ArcTransform::SetParent(rightForwardWheelTransform, carTransform);
-	rightForwardWheelTransform->SetLocalPosition(float3(0.5f, 0.f, 0.3f));
+	rightForwardWheelTransform->SetLocalPosition(float3(0.5f, 0.f, 0.6f));
 	rightForwardWheelTransform->SetLocalRotation(float3(90.0f, 0.0f, 90.0f));
 	rightForwardWheelTransform->SetScale(float3(0.4f, 0.05f, 0.4f));
 	rightForwardWheel->SetMesh(ArcApplication::m_assets->findMesh("Cylinder Mesh"));
 	rightForwardWheel->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
+	auto wheelMoveRF = std::make_shared<WheelMove>();
+	wheelMoveRF->isForwardWheel = true;
+	rightForwardWheel->AttachScript(wheelMoveRF);
 	MainScene()->AddGameObject(rightForwardWheel);
 
 	auto leftBackwardWheel = std::make_shared<DX11Engine::ArcGameObject>("RightBackwardWheel");
@@ -132,11 +151,13 @@ void RacingGameApplication::LoadApplication() {
 	auto leftBackwardWheelTransform = std::make_shared<DX11Engine::ArcTransform>();
 	leftBackwardWheel->SetTransfrom(leftBackwardWheelTransform);
 	DX11Engine::ArcTransform::SetParent(leftBackwardWheelTransform, carTransform);
-	leftBackwardWheelTransform->SetLocalPosition(float3(-0.5f, 0.f, -0.3f));
+	leftBackwardWheelTransform->SetLocalPosition(float3(0.5f, 0.f, -0.6f));
 	leftBackwardWheelTransform->SetLocalRotation(float3(90.0f, 0.0f, 90.0f));
 	leftBackwardWheelTransform->SetScale(float3(0.4f, 0.05f, 0.4f));
 	leftBackwardWheel->SetMesh(ArcApplication::m_assets->findMesh("Cylinder Mesh"));
 	leftBackwardWheel->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
+	auto wheelMoveRB = std::make_shared<WheelMove>();
+	leftBackwardWheel->AttachScript(wheelMoveRB);
 	MainScene()->AddGameObject(leftBackwardWheel);
 
 	auto cameraPivotFirstPerson = std::make_shared<DX11Engine::ArcGameObject>("CameraPivotFirstPerson");
@@ -144,7 +165,7 @@ void RacingGameApplication::LoadApplication() {
 	auto cameraPivotFirstPersonTransform = std::make_shared<DX11Engine::ArcTransform>();
 	cameraPivotFirstPerson->SetTransfrom(cameraPivotFirstPersonTransform);
 	DX11Engine::ArcTransform::SetParent(cameraPivotFirstPersonTransform, carTransform);
-	cameraPivotFirstPersonTransform->SetLocalPosition(float3(0.f, 2.7f, 0.f));
+	cameraPivotFirstPersonTransform->SetLocalPosition(float3(0.f, 0.54f, 0.f));
 	cameraPivotFirstPersonTransform->SetLocalRotation(float3(0.0f, 0.0f, 0.0f));
 	cameraPivotFirstPersonTransform->SetScale(float3(1.f, 1.f, 1.f));
 	MainScene()->AddGameObject(cameraPivotFirstPerson);
@@ -154,7 +175,7 @@ void RacingGameApplication::LoadApplication() {
 	auto cameraPivotThirdPersonTransform = std::make_shared<DX11Engine::ArcTransform>();
 	cameraPivotThirdPerson->SetTransfrom(cameraPivotThirdPersonTransform);
 	DX11Engine::ArcTransform::SetParent(cameraPivotThirdPersonTransform, carTransform);
-	cameraPivotThirdPersonTransform->SetLocalPosition(float3(0.f, 1.4f, -1.25f));
+	cameraPivotThirdPersonTransform->SetLocalPosition(float3(0.f, 1.48f, -2.5f));
 	cameraPivotThirdPersonTransform->SetLocalRotation(float3(0.0f, 0.0f, 0.0f));
 	cameraPivotThirdPersonTransform->SetScale(float3(1.f, 1.f, 1.f));
 	MainScene()->AddGameObject(cameraPivotThirdPerson);

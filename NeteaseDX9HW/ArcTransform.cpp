@@ -133,7 +133,7 @@ namespace DX11Engine {
 		m_position = float3(m_position.x + offset.x, m_position.y + offset.y, m_position.z + offset.z);
 	}
 
-	void ArcTransform::Rotate(float3 eularAngle) {
+	void ArcTransform::Rotate(float3 eularAngle) {//传进来的是模型空间下的欧拉角
 		Rotate(eularAngle.x, eularAngle.y, eularAngle.z);
 	}
 
@@ -206,10 +206,14 @@ namespace DX11Engine {
 	}
 
 	void ArcTransform::RotateAround(float3 center, float3 vec, float degree) {
-		float3 LookAt = NormalizeFloat3(float3(Position().x - center.x, Position().y - center.y, Position().z - center.z));
-		float length = MagnitureFloat3(float3(Position().x - center.x, Position().y - center.y, Position().z - center.z));
-		float3 cross = Float3Cross(LookAt, vec);
-		float3 result = AddFloat3(center, AddFloat3(MultFloat3(LookAt, length * cos(DegreeToRadians(degree))), MultFloat3(cross, length * sin(DegreeToRadians(degree)))));
-		SetPosition(result);
+		if (DistanceFloat3(Position(), center) > 0.1f){
+			float3 LookAt = NormalizeFloat3(float3(Position().x - center.x, Position().y - center.y, Position().z - center.z));
+			float length = MagnitureFloat3(float3(Position().x - center.x, Position().y - center.y, Position().z - center.z));
+			float3 cross = Float3Cross(LookAt, vec);
+			float3 result = AddFloat3(center, AddFloat3(MultFloat3(LookAt, length * cos(DegreeToRadians(degree))), MultFloat3(cross, length * sin(DegreeToRadians(degree)))));
+			SetPosition(result);
+		}
+		Rotate(MultFloat3(vec, degree));
+		
 	}
 }

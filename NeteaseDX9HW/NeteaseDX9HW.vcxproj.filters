@@ -123,6 +123,9 @@
     <ClCompile Include="CameraController.cpp">
       <Filter>RacingGame\源文件</Filter>
     </ClCompile>
+    <ClCompile Include="WheelMove.cpp">
+      <Filter>RacingGame\源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -231,6 +234,9 @@
       <Filter>RacingGame\头文件</Filter>
     </ClInclude>
     <ClInclude Include="CameraController.h">
+      <Filter>RacingGame\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WheelMove.h">
       <Filter>RacingGame\头文件</Filter>
     </ClInclude>
   </ItemGroup>
