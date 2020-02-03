@@ -17,8 +17,9 @@
 #include <direct.h>
 #include "D3DCompiler.h"
 
-
 #endif // USING_DX11
+
+
 
 namespace DX11Engine {
 
@@ -35,6 +36,7 @@ namespace DX11Engine {
 		static void SetTexture(D3D11_SAMPLER_DESC* sampDescription, std::shared_ptr<ArcTexture> texture, unsigned int textureSlot, unsigned int descSlot);	
 		static std::shared_ptr<ArcMesh> LoadModelFormFile(std::string name, std::string path);
 		static std::unique_ptr<DirectX::Model> LoadModelFormFileInner(std::string name);
+		static std::shared_ptr<ArcMesh> LoadModelFormObj(std::string name, std::string path);
 		const static std::string SHADER_PATH;
 		const static std::string TEXTURE_PATH;
 		const static std::string MODEL_PATH;

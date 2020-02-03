@@ -180,14 +180,14 @@ void RacingGameApplication::LoadApplication() {
 	cameraPivotThirdPersonTransform->SetScale(float3(1.f, 1.f, 1.f));
 	MainScene()->AddGameObject(cameraPivotThirdPerson);
 	
-	/*auto cat = std::make_shared<DX11Engine::ArcGameObject>("Cat");
+	auto cat = std::make_shared<DX11Engine::ArcGameObject>("Cat");
 	DX11Engine::ArcGameObject::RegisterGameObject(cat);
 	auto catTransform = std::make_shared<DX11Engine::ArcTransform>();
-	catTransform->SetLocalPosition(float3(0.0f, 7.0f, 6.0f));
-	catTransform->SetLocalRotation(float3(0.0f, 0.0f, 0.0f));
+	catTransform->SetLocalPosition(float3(6.0f, 0.2f, 6.0f));
+	catTransform->SetLocalRotation(float3(00.0f, 00.0f, 0.0f));
 	catTransform->SetLocalScale(float3(0.003f, 0.003f, 0.003f));
 	cat->SetTransfrom(catTransform);
 	//cat->SetMesh(ArcApplication::m_assets->findMesh("Cat Mesh"));
 	//cat->SetMaterial(ArcApplication::m_assets->findMaterial("CatMaterial"));
-	MainScene()->AddGameObject(cat);*/
+	MainScene()->AddGameObject(cat);/**/
 }

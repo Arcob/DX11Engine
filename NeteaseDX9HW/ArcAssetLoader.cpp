@@ -1,6 +1,9 @@
 #include "ArcAssetLoader.h"
 #include "ArcTool.h"
 
+#define TINYOBJLOADER_IMPLEMENTATION // define this in only *one* .cc
+#include "tiny_obj_loader.h"
+
 namespace DX11Engine {
 	const std::string ArcAssetLoader::SHADER_PATH = "\\NeteaseDX9HW\\Shaders\\";
 	const std::string ArcAssetLoader::TEXTURE_PATH = "\\NeteaseDX9HW\\Textures\\";
@@ -145,7 +148,7 @@ namespace DX11Engine {
 		if (m_fxFactory == nullptr) {
 			m_fxFactory = std::make_shared<DirectX::EffectFactory>(ArcRHI::g_pd3dDevice);
 		}
-		return DirectX::Model::CreateFromCMO(ArcRHI::g_pd3dDevice, ArcTool::stringToLPCWSTR(path), *m_fxFactory, true, true);
+		return DirectX::Model::CreateFromCMO(ArcRHI::g_pd3dDevice, ArcTool::stringToLPCWSTR(path), *m_fxFactory);
 	}
 
 	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadModelFormFile(std::string name, std::string path) {
@@ -171,5 +174,44 @@ namespace DX11Engine {
 		print("m_pInputLayout : " << pTempMesh->m_pInputLayout);
 		
 		return pTempMesh;
+	}
+
+	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadModelFormObj(std::string name, std::string path) {
+		std::cout << "Loading " << path << std::endl;
+
+		tinyobj::attrib_t attrib; // 所有的数据放在这里
+		std::vector<tinyobj::shape_t> shapes;
+		// 一个shape,表示一个部分,
+		// 其中主要存的是索引坐标 mesh_t类,
+		// 放在indices中
+		/*
+		// -1 means not used.
+		typedef struct {
+		  int vertex_index;
+		  int normal_index;
+		  int texcoord_index;
+		} index_t;
+		*/
+		std::vector<tinyobj::material_t> materials;
+
+		std::string warn;
+		std::string err;
+
+		bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str());
+
+		// 接下里就是从上面的属性中取值了
+		if (!warn.empty()) {
+			std::cout << "WARN: " << warn << std::endl;
+		}
+
+		if (!err.empty()) {
+			std::cerr << "ERR: " << err << std::endl;
+		}
+
+		if (!ret) {
+			printf("Failed to load/parse .obj.\n");
+			return false;
+		}
+
 	}
 }

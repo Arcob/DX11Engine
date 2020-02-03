@@ -239,6 +239,9 @@
     <ClInclude Include="WheelMove.h">
       <Filter>RacingGame\头文件</Filter>
     </ClInclude>
+    <ClInclude Include="tiny_obj_loader.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\TestBoxShader.fx">

@@ -225,6 +225,7 @@
     <ClInclude Include="RacingGameAssets.h" />
     <ClInclude Include="SimpleVertexs.h" />
     <ClInclude Include="SkyboxFollowCamera.h" />
+    <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="WheelMove.h" />
   </ItemGroup>
   <ItemGroup>
