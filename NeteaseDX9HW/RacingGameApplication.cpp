@@ -184,10 +184,10 @@ void RacingGameApplication::LoadApplication() {
 	DX11Engine::ArcGameObject::RegisterGameObject(cat);
 	auto catTransform = std::make_shared<DX11Engine::ArcTransform>();
 	catTransform->SetLocalPosition(float3(6.0f, 0.2f, 6.0f));
-	catTransform->SetLocalRotation(float3(00.0f, 00.0f, 0.0f));
-	catTransform->SetLocalScale(float3(0.003f, 0.003f, 0.003f));
+	catTransform->SetLocalRotation(float3(0.0f, 270.0f, 0.0f));
+	//catTransform->SetLocalScale(float3(0.005f, 0.005f, 0.005f));
 	cat->SetTransfrom(catTransform);
-	//cat->SetMesh(ArcApplication::m_assets->findMesh("Cat Mesh"));
-	//cat->SetMaterial(ArcApplication::m_assets->findMaterial("CatMaterial"));
+	cat->SetMesh(ArcApplication::m_assets->findMesh("Cornell Box"));
+	cat->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
 	MainScene()->AddGameObject(cat);/**/
 }

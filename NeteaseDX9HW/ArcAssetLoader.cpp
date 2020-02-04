@@ -9,8 +9,6 @@ namespace DX11Engine {
 	const std::string ArcAssetLoader::TEXTURE_PATH = "\\NeteaseDX9HW\\Textures\\";
 	const std::string ArcAssetLoader::MODEL_PATH = "\\NeteaseDX9HW\\Models\\";
 
-	std::shared_ptr<DirectX::EffectFactory> ArcAssetLoader::m_fxFactory = nullptr;
-
 	bool ArcAssetLoader::CompileD3DShader(std::string filePath, const char* entry, const char* shaderModel, ID3DBlob** buffer) {
 		DWORD shaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
 
@@ -144,61 +142,19 @@ namespace DX11Engine {
 		ArcRHI::g_pImmediateContext->PSSetSamplers(descSlot, 1, &(texture->m_sampleState));//采样状态绑定
 	}
 
-	std::unique_ptr<DirectX::Model> ArcAssetLoader::LoadModelFormFileInner(std::string path) {
-		if (m_fxFactory == nullptr) {
-			m_fxFactory = std::make_shared<DirectX::EffectFactory>(ArcRHI::g_pd3dDevice);
-		}
-		return DirectX::Model::CreateFromCMO(ArcRHI::g_pd3dDevice, ArcTool::stringToLPCWSTR(path), *m_fxFactory);
-	}
+	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadModelFromObj(std::string name, std::string fileName, std::string basePath) {
+		//std::cout << "Loading " << fileName << std::endl;
 
-	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadModelFormFile(std::string name, std::string path) {
-		auto dxModelTypeMesh = LoadModelFormFileInner(path);
-		std::shared_ptr<DX11Engine::ArcMesh> pTempMesh = std::make_shared<DX11Engine::ArcMesh>(name, ArcRHI::g_pd3dDevice);
-		auto innerModelData = dxModelTypeMesh->meshes[0];// ->meshParts;
-		pTempMesh->m_pVertexBuffer = innerModelData->meshParts[0]->vertexBuffer.Get();
-		innerModelData->meshParts[0]->vertexBuffer.Detach();
-		//print(dxModelTypeMesh->meshes.size());
-		//print(innerModelData->meshParts.size());
-		print("m_pVertexBuffer: " << pTempMesh->m_pVertexBuffer);
-		pTempMesh->m_nodeLength = innerModelData->meshParts[0]->vertexStride;
-		print("m_nodeLength: " << pTempMesh->m_nodeLength);
-		//pTempMesh->m_nodeCount = innerModelData->meshParts[0]->vertexOffset;//??
-		//print("m_nodeCount: " << pTempMesh->m_nodeCount);
-		pTempMesh->m_pIndexBuffer = innerModelData->meshParts[0]->indexBuffer.Get();
-		innerModelData->meshParts[0]->indexBuffer.Detach();
-		print("m_pIndexBuffer : " << pTempMesh->m_pIndexBuffer);
-		pTempMesh->m_indexLength = innerModelData->meshParts[0]->indexCount;
-		print("m_indexLength : " << pTempMesh->m_indexLength);
-		pTempMesh->m_pInputLayout = innerModelData->meshParts[0]->inputLayout.Get();
-		innerModelData->meshParts[0]->inputLayout.Detach();
-		print("m_pInputLayout : " << pTempMesh->m_pInputLayout);
-		
-		return pTempMesh;
-	}
-
-	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadModelFormObj(std::string name, std::string path) {
-		std::cout << "Loading " << path << std::endl;
-
-		tinyobj::attrib_t attrib; // 所有的数据放在这里
+		//std::shared_ptr<tinyobj::attrib_t> attrib; // 所有的数据放在这里
+		tinyobj::attrib_t attrib;
 		std::vector<tinyobj::shape_t> shapes;
-		// 一个shape,表示一个部分,
-		// 其中主要存的是索引坐标 mesh_t类,
-		// 放在indices中
-		/*
-		// -1 means not used.
-		typedef struct {
-		  int vertex_index;
-		  int normal_index;
-		  int texcoord_index;
-		} index_t;
-		*/
 		std::vector<tinyobj::material_t> materials;
 
 		std::string warn;
 		std::string err;
 
-		bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str());
-
+		bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, fileName.c_str(), basePath.c_str(), true);
+		
 		// 接下里就是从上面的属性中取值了
 		if (!warn.empty()) {
 			std::cout << "WARN: " << warn << std::endl;
@@ -210,8 +166,56 @@ namespace DX11Engine {
 
 		if (!ret) {
 			printf("Failed to load/parse .obj.\n");
-			return false;
+			return nullptr;
 		}
 
+		/*
+		//int vertexSize = attrib.vertices.size();
+		std::cout << "# of vertices  : " << (attrib.vertices.size() / 3) << std::endl;
+		std::cout << "# of normals   : " << (attrib.normals.size() / 3) << std::endl;
+		std::cout << "# of texcoords : " << (attrib.texcoords.size() / 2)
+			<< std::endl;
+
+		std::cout << "# of shapes    : " << shapes.size() << std::endl;
+		std::cout << "# of materials : " << materials.size() << std::endl;
+		*/
+
+		std::vector<VertexNormalTangentTex> vertexVec;
+		std::vector<unsigned int> indicesVec;
+
+		for (const auto& shape : shapes) {
+			for (const auto& index : shape.mesh.indices) {
+				VertexNormalTangentTex vertex = {};
+
+				if (attrib.vertices.size() > 0) {
+					vertex.pos = float3(attrib.vertices[3 * index.vertex_index + 0], attrib.vertices[3 * index.vertex_index + 1], attrib.vertices[3 * index.vertex_index + 2]);
+					//PrintFloat3(vertex.pos);
+				}
+
+				if (attrib.normals.size() > 0) {
+					vertex.normal = float3(attrib.normals[3 * index.normal_index + 0], attrib.normals[3 * index.normal_index + 1], attrib.normals[3 * index.normal_index + 2]);
+					vertex.tangent = float3(0.0f, 1.0f, 0.0f);
+				}
+				else {
+					vertex.normal = float3(1.0f, 0.0f, 0.0f);
+					vertex.tangent = float3(0.0f, 1.0f, 0.0f);
+				}
+
+
+				if (attrib.texcoords.size() > 0) {
+					vertex.texCoord = float2(attrib.texcoords[2 * index.texcoord_index + 0], 1.0f - attrib.texcoords[2 * index.texcoord_index + 1]);
+				}
+				else {
+					vertex.texCoord = float2(0.9f, 0.9f);
+				}
+				
+				vertexVec.push_back(vertex);
+				indicesVec.push_back(indicesVec.size());
+			}
+		}
+
+		std::shared_ptr<ArcMesh> result = LoadMesh(name, vertexVec.data(), sizeof(DX11Engine::VertexNormalTangentTex), vertexVec.size(), indicesVec.data(), indicesVec.size(), nullptr);
+
+		return result;
 	}
 }

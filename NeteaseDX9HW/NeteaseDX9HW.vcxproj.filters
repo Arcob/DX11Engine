@@ -218,9 +218,6 @@
     <ClInclude Include="SkyboxFollowCamera.h">
       <Filter>RacingGame\头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Common\Model.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="Common\CommonStates.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -261,5 +258,15 @@
     <MeshContentTask Include="Models\cat.fbx">
       <Filter>Models</Filter>
     </MeshContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Models\cornell_box.obj">
+      <Filter>Models</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Models\cornell_box.mtl">
+      <Filter>Models</Filter>
+    </None>
   </ItemGroup>
 </Project>

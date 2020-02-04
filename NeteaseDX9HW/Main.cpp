@@ -59,12 +59,6 @@ int main()
 		}
 	}
 
-	//加载外部mesh 待修改
-	std::string catMeshPath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::MODEL_PATH + "cat.cmo";
-	auto pCatMesh = DX11Engine::ArcAssetLoader::LoadModelFormFileInner(catMeshPath);
-	
-	m_states = std::make_unique<DirectX::CommonStates>(ArcRHI::g_pd3dDevice);/**/
-
 	while (isRunning) 
 	{
 		pWindow->TreatMessage(isRunning);
@@ -78,8 +72,6 @@ int main()
 			}
 		}
 
-		auto pTestbox = ArcGameObject::Find("TestBox");
-
 		FL(ArcRHI::ConfigRasterizerStateCullNone());
 
 		auto pSkybox = ArcGameObject::Find("SkyBox");
@@ -87,15 +79,16 @@ int main()
 			DX11Engine::ArcRenderer::Render(pSkybox->Mesh(), pSkybox->Material(), pSkybox->TransformPtr(), app->MainScene()->GetMainCamera(), app->MainScene()->GetMainLight());
 		}
 
-		FL(ArcRHI::ConfigRasterizerStateCullBack());
+		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
+			if (gameObject->name() != "Cat") {
+				continue;
+			}
+			if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
+				DX11Engine::ArcRenderer::Render(gameObject->Mesh(), gameObject->Material(), gameObject->TransformPtr(), app->MainScene()->GetMainCamera(), app->MainScene()->GetMainLight());
+			}
+		}
 
-		//画模型加载的猫 画这玩意会改g_pImmediateContext的渲染状态 待修改
-		auto pCatTransform = ArcGameObject::Find("Cat")->TransformPtr();
-		ConstantBufferMvp cbMVP;
-		cbMVP.mWorld = pCatTransform->TransformMatrix();//DX的mvp要反着乘
-		cbMVP.mView = app->MainScene()->GetMainCamera()->View();
-		cbMVP.mProjection = app->MainScene()->GetMainCamera()->Projection();
-		pCatMesh->Draw(ArcRHI::g_pImmediateContext, *m_states, cbMVP.mWorld, cbMVP.mView, cbMVP.mProjection, false);/**/
+		FL(ArcRHI::ConfigRasterizerStateCullBack());
 
 		FL(ArcRHI::ConfigDepthStencilState());
 		//PrintFloat3(app->MainScene()->GetMainCamera()->GameObject()->TransformPtr()->Position());

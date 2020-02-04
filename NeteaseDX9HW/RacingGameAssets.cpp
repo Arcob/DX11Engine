@@ -30,7 +30,8 @@ Mesh:
 	Sphere Mesh
 	Cylinder Mesh
 	Generated Box Mesh
-	Cat Mesh
+	//Cat Mesh
+	Cornell Box
 
 Material:
 	SimpleMaterial
@@ -77,6 +78,14 @@ bool RacingGameAssets::Load() {
 		print("Unable to load mesh");
 	}
 	ArcAssets::m_meshVector.push_back(std::move(pCylinderMesh));
+
+	std::string objPath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::MODEL_PATH;
+	std::string objName = "Stickman.obj";
+	std::shared_ptr<DX11Engine::ArcMesh> pObjMesh = DX11Engine::ArcAssetLoader::LoadModelFromObj("Cornell Box", objPath + objName, objPath);
+	if (pObjMesh == nullptr) {
+		print("Unable to load mesh");
+	}
+	ArcAssets::m_meshVector.push_back(std::move(pObjMesh));
 
 	/*std::string catMeshPath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::MODEL_PATH + "cat.cmo";
 	std::shared_ptr<DX11Engine::ArcMesh> pCatMesh = DX11Engine::ArcAssetLoader::LoadModelFormFile("Cat Mesh", catMeshPath);
