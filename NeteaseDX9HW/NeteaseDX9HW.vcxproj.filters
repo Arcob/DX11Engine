@@ -224,9 +224,6 @@
     <ClInclude Include="SkyboxFollowCamera.h">
       <Filter>RacingGame\头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Common\CommonStates.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="DebugApplication.h">
       <Filter>RacingGame\头文件</Filter>
     </ClInclude>

@@ -215,7 +215,6 @@
     <ClInclude Include="ArcWindow.h" />
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="CarMove.h" />
-    <ClInclude Include="Common\CommonStates.h" />
     <ClInclude Include="Common\Keyboard.h" />
     <ClInclude Include="Common\Mouse.h" />
     <ClInclude Include="DebugCameraMove.h" />
