@@ -126,6 +126,12 @@
     <ClCompile Include="WheelMove.cpp">
       <Filter>RacingGame\源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Common\Keyboard.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Mouse.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -239,6 +245,12 @@
     <ClInclude Include="tiny_obj_loader.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Common\Keyboard.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Mouse.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\TestBoxShader.fx">
@@ -253,11 +265,6 @@
     <FxCompile Include="Shaders\SkyBoxShader.fx">
       <Filter>Shaders</Filter>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <MeshContentTask Include="Models\cat.fbx">
-      <Filter>Models</Filter>
-    </MeshContentTask>
   </ItemGroup>
   <ItemGroup>
     <Object Include="Models\cornell_box.obj">

@@ -15,7 +15,6 @@
 #include "ArcGameObject.h"
 #include "ArcInput.h"
 #include "ArcAssetLoader.h"
-#include "CommonStates.h"
 
 using namespace DX11Engine;
 
@@ -27,8 +26,6 @@ std::shared_ptr<ArcWindow> pWindow;
 std::shared_ptr<ArcAssets> assets;
 std::shared_ptr<ArcApplication> app;
 bool isRunning = false;
-
-std::unique_ptr <DirectX::CommonStates> m_states;
 
 int main()
 {
@@ -58,6 +55,7 @@ int main()
 			behaviour->Start();
 		}
 	}
+	print("Current working dictionary is: " << ArcTool::getCurrentPath());
 
 	while (isRunning) 
 	{
