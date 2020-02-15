@@ -17,16 +17,16 @@ void DebugCameraMove::Start() {
 void DebugCameraMove::Update() {
 	//print("Update");
 	auto camera = DX11Engine::ArcGameObject::Find("Camera");
-	if (DX11Engine::ArcInput::getKeyboardKey('W')) {		
+	if (DX11Engine::ArcInput::GetKeyboardKey('W')) {		
 		camera->TransformPtr()->Translate(MultFloat3(camera->TransformPtr()->Forward(),  moveSpeed * DX11Engine::ArcTime::DeltaTime()));
 	}
-	else if (DX11Engine::ArcInput::getKeyboardKey('A')) {
+	else if (DX11Engine::ArcInput::GetKeyboardKey('A')) {
 		camera->TransformPtr()->Translate(MultFloat3(camera->TransformPtr()->Right(), -moveSpeed * DX11Engine::ArcTime::DeltaTime()));
 	}
-	else if (DX11Engine::ArcInput::getKeyboardKey('S')) {
+	else if (DX11Engine::ArcInput::GetKeyboardKey('S')) {
 		camera->TransformPtr()->Translate(MultFloat3(camera->TransformPtr()->Forward(), -moveSpeed * DX11Engine::ArcTime::DeltaTime()));
 	}
-	else if (DX11Engine::ArcInput::getKeyboardKey('D')) {
+	else if (DX11Engine::ArcInput::GetKeyboardKey('D')) {
 		camera->TransformPtr()->Translate(MultFloat3(camera->TransformPtr()->Right(), moveSpeed * DX11Engine::ArcTime::DeltaTime()));
 	}
 	/**/if (DX11Engine::ArcInput::GetMouseKey(DX11Engine::MouseKey::LeftClick)) {

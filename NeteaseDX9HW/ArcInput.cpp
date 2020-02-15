@@ -89,7 +89,7 @@ namespace DX11Engine {
 		m_tempKeyRelease.clear();
 	}
 
-	bool ArcInput::getKeyDown(const int key) {
+	bool ArcInput::GetKeyDown(const int key) {
 		for (int i = 0; i < m_tempKeyPressCache.size(); i++) {
 			if (m_tempKeyPressCache[i] == key) {
 				return true;
@@ -98,15 +98,15 @@ namespace DX11Engine {
 		return false;
 	}
 
-	bool ArcInput::getKeyboardKey(const int key) {
+	bool ArcInput::GetKeyboardKey(const int key) {
 		return keyState.IsKeyDown((DirectX::Keyboard::Keys)key);
 	}
 
-	bool ArcInput::getKeyboardKeyDown(const int key) {
+	bool ArcInput::GetKeyboardKeyDown(const int key) {
 		return (keyState.IsKeyDown((DirectX::Keyboard::Keys)key) && !lastKeyState.IsKeyDown((DirectX::Keyboard::Keys)key));
 	}
 
-	bool ArcInput::getKeyboardKeyUp(const int key) {
+	bool ArcInput::GetKeyboardKeyUp(const int key) {
 		return (!keyState.IsKeyDown((DirectX::Keyboard::Keys)key) && lastKeyState.IsKeyDown((DirectX::Keyboard::Keys)key));
 	}
 
@@ -123,7 +123,7 @@ namespace DX11Engine {
 		}
 	}
 
-	bool ArcInput::getKeyUp(const int key) {
+	bool ArcInput::GetKeyUp(const int key) {
 		for (int i = 0; i < m_tempKeyReleaseCache.size(); i++) {
 			if (m_tempKeyReleaseCache[i] == key) {
 				return true;
@@ -132,7 +132,7 @@ namespace DX11Engine {
 		return false;
 	}
 
-	void ArcInput::swapTwoArray(bool * cache, bool* origin, const int size) {
+	void ArcInput::SwapTwoArray(bool * cache, bool* origin, const int size) {
 		for (int i = 0; i < size; i++) {
 			cache[i] = origin[i];
 		}

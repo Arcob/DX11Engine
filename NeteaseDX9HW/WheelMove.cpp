@@ -13,15 +13,15 @@ void WheelMove::Start() {
 
 void WheelMove::Update() {
 	//print("Update");
-	if (DX11Engine::ArcInput::getKeyboardKey('W')) {
+	if (DX11Engine::ArcInput::GetKeyboardKey('W')) {
 		GameObject()->TransformPtr()->RotateAround(GameObject()->TransformPtr()->Position(), float3(1.0f, 0.f, 0.f), moveSpeed / circumference * 360.f * DX11Engine::ArcTime::DeltaTime());
 	}
-	if (DX11Engine::ArcInput::getKeyboardKey('S')) {
+	if (DX11Engine::ArcInput::GetKeyboardKey('S')) {
 		GameObject()->TransformPtr()->RotateAround(GameObject()->TransformPtr()->Position(), float3(1.0f, 0.f, 0.f), -0.5f * moveSpeed / circumference * 360.f * DX11Engine::ArcTime::DeltaTime());
 	}
 	if (isForwardWheel)
 	{
-		if (DX11Engine::ArcInput::getKeyboardKey('A'))
+		if (DX11Engine::ArcInput::GetKeyboardKey('A'))
 		{
 			if (rotateSum > -forwardWheelMaxRotate)
 			{
@@ -29,7 +29,7 @@ void WheelMove::Update() {
 				rotateSum += -rotateSpeed * DX11Engine::ArcTime::DeltaTime();
 			}
 		}
-		else if (DX11Engine::ArcInput::getKeyboardKey('D'))
+		else if (DX11Engine::ArcInput::GetKeyboardKey('D'))
 		{
 			if (rotateSum < forwardWheelMaxRotate)
 			{

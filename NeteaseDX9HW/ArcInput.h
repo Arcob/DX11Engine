@@ -25,19 +25,19 @@ namespace DX11Engine {
 		static bool Init(std::shared_ptr<ArcWindow> window);
 		static void Update();
 		static float2 GetMouseDelta();
-		static bool getKeyDown(const int key);
-		static bool getKeyboardKey(const int key);
-		static bool getKeyboardKeyDown(const int key);
-		static bool getKeyboardKeyUp(const int key);
+		static bool GetKeyDown(const int key);
+		static bool GetKeyboardKey(const int key);
+		static bool GetKeyboardKeyDown(const int key);
+		static bool GetKeyboardKeyUp(const int key);
 		static bool GetMouseKey(MouseKey key);
 		static float2 GetMousePos();
 		static float GetMouseScrollWheel();
-		static bool getKeyUp(const int key);
-		static void setWindowAndKeyboardCallback(ArcWindow* window);
+		static bool GetKeyUp(const int key);
+		//static void setWindowAndKeyboardCallback(ArcWindow* window);
 		//给你一个重载callback的机会
-		static void setWindowAndKeyboardCallback(ArcWindow* window, pInputCallback callBack);
+		//static void setWindowAndKeyboardCallback(ArcWindow* window, pInputCallback callBack);
 		static void clearCache();
-		static void swapTwoArray(bool * cache, bool* origin, const int size);
+		static void SwapTwoArray(bool * cache, bool* origin, const int size);
 
 		static DirectX::Mouse::State mouseState;
 		static DirectX::Mouse::State lastMouseState;

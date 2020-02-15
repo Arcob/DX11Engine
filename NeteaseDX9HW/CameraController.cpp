@@ -21,7 +21,7 @@ void CameraController::Start() {
 void CameraController::Update() {
 	//print("Update");
 	std::shared_ptr<DX11Engine::ArcTransform> transform = GameObject()->TransformPtr();
-	if (DX11Engine::ArcInput::getKeyboardKeyDown(' '))
+	if (DX11Engine::ArcInput::GetKeyboardKeyDown(' '))
 	{
 		if (followType == FirstPerson)
 		{
