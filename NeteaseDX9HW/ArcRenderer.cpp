@@ -1,5 +1,6 @@
 #include "ArcRenderer.h"
 #include "ArcStructures.h"
+#include "ArcGameObject.h"
 #include "memory.h"
 #include "ArcRHI.h"
 
@@ -37,9 +38,10 @@ namespace DX11Engine {
 		SetConstantBuffer(immediateContext, pMaterial->m_pMVPConstantBuffer, &cbMVP, sizeof(cbMVP));
 
 		ConstantBufferLight cbl;
-		cbl.Direction = pMainLight->m_direction;
+		cbl.Direction = pMainLight->GameObject()->TransformPtr()->Forward();
 		cbl.Intensity = pMainLight->m_intensity;
 		cbl.Color = pMainLight->m_color;
+		cbl.Position = pMainLight->GameObject()->TransformPtr()->Position();
 
 		SetConstantBuffer(immediateContext, pMaterial->m_pMainLightConstantBuffer, &cbl, sizeof(cbl));
 

@@ -169,6 +169,7 @@
     <ClCompile Include="ArcMesh.cpp" />
     <ClCompile Include="ArcRenderer.cpp" />
     <ClCompile Include="ArcAssetLoader.cpp" />
+    <ClCompile Include="ArcRenderToTexture.cpp" />
     <ClCompile Include="ArcRHI.cpp" />
     <ClCompile Include="ArcScene.cpp" />
     <ClCompile Include="ArcTexture.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="ArcMesh.h" />
     <ClInclude Include="ArcRenderer.h" />
     <ClInclude Include="ArcAssetLoader.h" />
+    <ClInclude Include="ArcRenderToTexture.h" />
     <ClInclude Include="ArcRHI.h" />
     <ClInclude Include="ArcScene.h" />
     <ClInclude Include="ArcStructures.h" />
@@ -231,6 +233,10 @@
     <ClInclude Include="WheelMove.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Shaders\DepthShader.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Shaders\SimpleShader.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

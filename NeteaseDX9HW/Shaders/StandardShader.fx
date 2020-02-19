@@ -13,6 +13,8 @@ cbuffer DirectionLight : register(b1)
 	float3 LightDir;
 	float Intensity;
 	float4 LightColor;
+	float3 LightPosition;
+	float Pad1;
 };
 
 struct VertexIn

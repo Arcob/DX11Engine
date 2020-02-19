@@ -132,6 +132,9 @@
     <ClCompile Include="Common\Mouse.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="ArcRenderToTexture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -248,6 +251,9 @@
     <ClInclude Include="Common\Mouse.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="ArcRenderToTexture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\TestBoxShader.fx">
@@ -260,6 +266,9 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\SkyBoxShader.fx">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthShader.fx">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

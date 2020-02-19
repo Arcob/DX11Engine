@@ -155,6 +155,22 @@ bool RacingGameAssets::Load() {
 
 	std::shared_ptr<DX11Engine::ArcMaterial> StandardMaterial = std::make_shared<DX11Engine::ArcMaterial>("StandardMaterial", misStandardMat.m_vertexShader, misStandardMat.m_pixelShader, misStandardMat.m_inputLayout, tempConstantBuffer3, lightConstantBuffer3);
 	ArcAssets::m_materialVector.push_back(std::move(StandardMaterial));
+/**/
+	//深度贴图材质
+	DX11Engine::MaterialInitStruct misDepthMat = DX11Engine::MaterialInitStruct();
+	std::string shaderPath4 = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "DepthShader.fx";
+	FL(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPath4, "VS", "vs_4_0", &(misDepthMat.m_vertexShaderBuffer), &(misDepthMat.m_vertexShader)));
+	FL(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::VertextNormalTangentTexcoordLayout, ARRAYSIZE(DX11Engine::VertextNormalTangentTexcoordLayout), &(misDepthMat.m_vertexShaderBuffer), &(misDepthMat.m_inputLayout)));
+	FL(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath4, "PS", "ps_4_0", &(misDepthMat.m_pixelShaderBuffer), &(misDepthMat.m_pixelShader)));
+
+	ID3D11Buffer* tempConstantBuffer4 = NULL;
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescMVP, &tempConstantBuffer4);
+
+	ID3D11Buffer* lightConstantBuffer4 = NULL;
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescLight, &lightConstantBuffer4);
+
+	std::shared_ptr<DX11Engine::ArcMaterial> DepthMaterial = std::make_shared<DX11Engine::ArcMaterial>("DepthMaterial", misDepthMat.m_vertexShader, misDepthMat.m_pixelShader, misDepthMat.m_inputLayout, tempConstantBuffer4, lightConstantBuffer4);
+	ArcAssets::m_materialVector.push_back(std::move(DepthMaterial));
 
 	/*//猫材质
 	DX11Engine::MaterialInitStruct misCatMat = DX11Engine::MaterialInitStruct();
@@ -203,13 +219,13 @@ bool RacingGameAssets::Load() {
 	FL(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::VertextNormalTangentTexcoordLayout, ARRAYSIZE(DX11Engine::VertextNormalTangentTexcoordLayout), &(misSkyBoxMat.m_vertexShaderBuffer), &(misSkyBoxMat.m_inputLayout)));
 	FL(DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPathSkyBox, "PS", "ps_4_0", &(misSkyBoxMat.m_pixelShaderBuffer), &(misSkyBoxMat.m_pixelShader)));
 
-	ID3D11Buffer* tempConstantBuffer4 = NULL;
-	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescMVP, &tempConstantBuffer4);
+	ID3D11Buffer* tempConstantBuffer6 = NULL;
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescMVP, &tempConstantBuffer6);
 
-	ID3D11Buffer* lightConstantBuffer4 = NULL;
-	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescLight, &lightConstantBuffer4);
+	ID3D11Buffer* lightConstantBuffer6 = NULL;
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescLight, &lightConstantBuffer6);
 
-	std::shared_ptr<DX11Engine::ArcMaterial> skyBoxMaterial = std::make_shared<DX11Engine::ArcMaterial>("SkyBoxMaterial", misSkyBoxMat.m_vertexShader, misSkyBoxMat.m_pixelShader, misSkyBoxMat.m_inputLayout, tempConstantBuffer4, lightConstantBuffer4);
+	std::shared_ptr<DX11Engine::ArcMaterial> skyBoxMaterial = std::make_shared<DX11Engine::ArcMaterial>("SkyBoxMaterial", misSkyBoxMat.m_vertexShader, misSkyBoxMat.m_pixelShader, misSkyBoxMat.m_inputLayout, tempConstantBuffer6, lightConstantBuffer6);
 	ArcAssets::m_materialVector.push_back(std::move(skyBoxMaterial));
 
 	return true;

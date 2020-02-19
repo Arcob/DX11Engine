@@ -1,5 +1,6 @@
 #pragma once
 #include "ArcMath.h"
+#include "ArcBehaviour.h"
 
 namespace DX11Engine {
 	enum LightType {
@@ -11,7 +12,8 @@ namespace DX11Engine {
 		TypeMax = 5
 	};
 
-	class Light
+	class Light :
+		public ArcBehaviour
 	{
 	public:
 		LightType m_Type;
@@ -22,7 +24,13 @@ namespace DX11Engine {
 		float3 m_direction;
 		float m_intensity;
 		float4 m_color;
-		DirectionalLight(float3 direction, float intensity, float4 color);
+		float3 m_position;
+		float4 m_orthoCamPara; // ViewWidth, ViewHeight, NearZ, FarZ
+
+		DirectionalLight(float3 direction, float intensity, float4 color, float3 position, float4 cam);
+		DirectionalLight(float intensity, float4 color, float4 cam);
+		mat4 View();
+		mat4 Orthographic();
 	};
 
 }

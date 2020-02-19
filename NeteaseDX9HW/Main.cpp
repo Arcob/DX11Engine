@@ -15,6 +15,7 @@
 #include "ArcGameObject.h"
 #include "ArcInput.h"
 #include "ArcAssetLoader.h"
+#include "ArcRenderToTexture.h"
 
 using namespace DX11Engine;
 
@@ -68,6 +69,10 @@ int main()
 			for (auto behaviour : gameObject->GetBehaviourList()) {
 				behaviour->Update();
 			}
+		}
+
+		if (ENABLE_SHADOW) {
+			//ArcR
 		}
 
 		FL(ArcRHI::ConfigRasterizerStateCullNone());

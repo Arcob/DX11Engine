@@ -82,6 +82,10 @@ inline mat4 CalculatePerspectiveMatrix(float FovAngleY, float AspectRatio, float
 	return DirectX::XMMatrixPerspectiveFovLH(FovAngleY, AspectRatio, NearZ, FarZ);
 }
 
+inline mat4 CalculateOrthographicMatrix(float ViewWidth, float ViewHeight, float NearZ, float FarZ) {
+	return DirectX::XMMatrixOrthographicLH(ViewWidth, ViewHeight, NearZ, FarZ);
+}
+
 inline mat4 CalculateViewMatrix(float3 EyePosition, float3 FocusPosition, float3 UpDirection) {
 	return DirectX::XMMatrixLookAtLH(XMLoadFloat3(&EyePosition), XMLoadFloat3(&FocusPosition), XMLoadFloat3(&UpDirection));
 }

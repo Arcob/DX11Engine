@@ -40,6 +40,8 @@ namespace DX11Engine {
 		float3 Direction;
 		float Intensity;
 		float4 Color;
+		float3 Position;
+		float Pad1;
 	};
 
 	struct VertexPosNormalTex
