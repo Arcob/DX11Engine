@@ -23,12 +23,14 @@ namespace DX11Engine {
 		static void ConfigSwapChain();
 		static long CreateDeviceAndSwapChain();
 		static long CreateRenderView();
+		static void SetBackBufferRender();
 		static long CreateDepthStencilView();
 		static long ConfigDepthStencilState();
 		static void ResetDepthStencilState();
 		static long ConfigRasterizerStateCullNone();
 		static long ConfigRasterizerStateCullBack();
 		static void ConfigViewPort(float minDepth, float maxDepth, float topLeftX, float topLeftY);
+		static void ResetViewPort();
 		static void CleanUp();
 		static void ClearScreen(float ClearColor[4]);
 		static void SwapChainPresent();
@@ -43,6 +45,7 @@ namespace DX11Engine {
 		static ID3D11Texture2D * g_pDepthStencilBuffer;
 		static ID3D11DepthStencilView* g_pDepthStencilView;
 		static ID3D11Texture2D* g_pBackBuffer;
+		static D3D11_VIEWPORT g_vp;
 
 	private:
 		static size_t m_windowsHandle;

@@ -58,6 +58,13 @@ int main()
 	}
 	print("Current working dictionary is: " << ArcTool::getCurrentPath());
 
+	ArcRenderToTexture* mRenderToTextureClass = new ArcRenderToTexture();
+	if (!mRenderToTextureClass)
+	{
+		return false;
+	}
+	mRenderToTextureClass->Initialize(ArcRHI::g_pd3dDevice, 1024, 1024);
+
 	while (isRunning) 
 	{
 		pWindow->TreatMessage(isRunning);
@@ -72,7 +79,25 @@ int main()
 		}
 
 		if (ENABLE_SHADOW) {
-			//ArcR
+
+			mRenderToTextureClass->SetRenderTarget(ArcRHI::g_pImmediateContext);
+
+			//清除RTT的初始值
+			mRenderToTextureClass->ClearRenderTarget(ArcRHI::g_pImmediateContext, 0.0f, 0.0f, 0.0f, 1.0f);
+
+			auto depthMaterial = assets->findMaterial("DepthMaterial");
+
+			for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
+				if (gameObject->name() == "SkyBox") {
+					continue;
+				}
+				if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
+					DX11Engine::ArcRenderer::RenderToDepthForShadow(gameObject->Mesh(), depthMaterial, gameObject->TransformPtr(), app->MainScene()->GetMainLight());
+				}
+			}
+
+			ArcRHI::SetBackBufferRender();
+			ArcRHI::ResetViewPort();
 		}
 
 		FL(ArcRHI::ConfigRasterizerStateCullNone());
@@ -82,19 +107,9 @@ int main()
 			DX11Engine::ArcRenderer::Render(pSkybox->Mesh(), pSkybox->Material(), pSkybox->TransformPtr(), app->MainScene()->GetMainCamera(), app->MainScene()->GetMainLight());
 		}
 
-		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
-			if (gameObject->name() != "Cat") {
-				continue;
-			}
-			if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
-				DX11Engine::ArcRenderer::Render(gameObject->Mesh(), gameObject->Material(), gameObject->TransformPtr(), app->MainScene()->GetMainCamera(), app->MainScene()->GetMainLight());
-			}
-		}
-
 		FL(ArcRHI::ConfigRasterizerStateCullBack());
 
-		FL(ArcRHI::ConfigDepthStencilState());
-		//PrintFloat3(app->MainScene()->GetMainCamera()->GameObject()->TransformPtr()->Position());
+		//FL(ArcRHI::ConfigDepthStencilState());
 		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
 			if (gameObject->name() == "SkyBox") {
 				continue;

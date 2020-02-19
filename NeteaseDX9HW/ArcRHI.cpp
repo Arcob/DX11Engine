@@ -20,6 +20,7 @@ namespace DX11Engine {
 	ID3D11Texture2D * ArcRHI::g_pDepthStencilBuffer(NULL);
 	ID3D11DepthStencilView* ArcRHI::g_pDepthStencilView(NULL);
 	ID3D11Texture2D* ArcRHI::g_pBackBuffer(NULL);
+	D3D11_VIEWPORT ArcRHI::g_vp;
 	std::vector<D3D_DRIVER_TYPE> ArcRHI::driverTypes(0);
 	std::vector<D3D_FEATURE_LEVEL> ArcRHI::featureLevels(0);
 
@@ -156,6 +157,11 @@ namespace DX11Engine {
 		return hResult;
 	}
 
+	void ArcRHI::SetBackBufferRender()
+	{
+		g_pImmediateContext->OMSetRenderTargets(1, &g_pRenderTargetView, g_pDepthStencilView);
+	}
+
 	long ArcRHI::CreateDepthStencilView() {
 		return 1;
 	}
@@ -166,14 +172,18 @@ namespace DX11Engine {
 
 	void ArcRHI::ConfigViewPort(float minDepth, float maxDepth, float topLeftX, float topLeftY) {
 		//ÉèÖÃviewport
-		D3D11_VIEWPORT vp;
-		vp.Height = (float)m_height;
-		vp.Width = (float)m_width;
-		vp.MinDepth = minDepth;
-		vp.MaxDepth = maxDepth;
-		vp.TopLeftX = topLeftX;
-		vp.TopLeftY = topLeftY;
-		g_pImmediateContext->RSSetViewports(1, &vp);
+		//D3D11_VIEWPORT g_vp;
+		g_vp.Height = (float)m_height;
+		g_vp.Width = (float)m_width;
+		g_vp.MinDepth = minDepth;
+		g_vp.MaxDepth = maxDepth;
+		g_vp.TopLeftX = topLeftX;
+		g_vp.TopLeftY = topLeftY;
+		g_pImmediateContext->RSSetViewports(1, &g_vp);
+	}
+
+	void ArcRHI::ResetViewPort() {
+		g_pImmediateContext->RSSetViewports(1, &g_vp);
 	}
 
 	long ArcRHI::ConfigDepthStencilState() {
