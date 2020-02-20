@@ -21,7 +21,6 @@ using namespace DX11Engine;
 
 bool SetupRenderHardwareInterface(size_t windowsHandle);
 
-//const int WIDTH = 1024, HEIGHT = 768;
 float clearColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
 std::shared_ptr<ArcWindow> pWindow;
 std::shared_ptr<ArcAssets> assets;
@@ -63,7 +62,7 @@ int main()
 	{
 		return false;
 	}
-	mRenderToTextureClass->Initialize(ArcRHI::g_pd3dDevice, 4096, 4096);
+	mRenderToTextureClass->Initialize(ArcRHI::g_pd3dDevice, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT);
 
 	while (isRunning) 
 	{
@@ -123,11 +122,6 @@ int main()
 		ArcRHI::SwapChainPresent();
 		
 	}
-	//pWindow->Run();
-	/*
-	std::cout << ArcFramework::getTime() << std::endl;
-	std::cout << time(0) << std::endl;2q3
-	*/
 }
 
 bool SetupRenderHardwareInterface(size_t windowsHandle) {

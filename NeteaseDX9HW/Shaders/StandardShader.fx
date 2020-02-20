@@ -65,7 +65,7 @@ float ShadowCalculation(float4 lightSpacePos, float bias)
 			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
 		}
 	}
-	shadow /= 25.0;/**/
+	shadow /= 25.0;
 
 	if (projCoords.z > 1.0) {
 		shadow = 0.0;
@@ -103,10 +103,4 @@ float4 PS(VertexOut pin) : SV_Target
 	float3 result = (1.0 - shadow) * Albedo.rgb * (0.5f + diffuse) + Ambient;
 	
     return float4(result, 1.0f);
-	//return float4((pin.LightSpacePos.xyz / pin.LightSpacePos.w), 1.0f);
-	//return pin.PosH;
-	//return Albedo;
-	//return float4(pin.LightSpacePos.w / 5.0f, pin.LightSpacePos.w / 5.0f, pin.LightSpacePos.w / 5.0f, 1.0f);
-	//return float4(pin.PosH.x, pin.PosH.y, pin.PosH.z, 1.0f);
-	//return float4(diffuseIntensity, diffuseIntensity, diffuseIntensity, 1.0f);
 }

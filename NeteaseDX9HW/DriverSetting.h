@@ -10,4 +10,5 @@
 
 #define ENABLE_SHADOW true
 
+const int SHADOW_MAP_WIDTH = 4096, SHADOW_MAP_HEIGHT = 4096;
 const int WIDTH = 1024, HEIGHT = 768;

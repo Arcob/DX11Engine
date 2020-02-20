@@ -155,7 +155,7 @@ bool RacingGameAssets::Load() {
 
 	std::shared_ptr<DX11Engine::ArcMaterial> StandardMaterial = std::make_shared<DX11Engine::ArcMaterial>("StandardMaterial", misStandardMat.m_vertexShader, misStandardMat.m_pixelShader, misStandardMat.m_inputLayout, tempConstantBuffer3, lightConstantBuffer3);
 	ArcAssets::m_materialVector.push_back(std::move(StandardMaterial));
-/**/
+
 	//Éî¶ÈÌùÍ¼²ÄÖÊ
 	DX11Engine::MaterialInitStruct misDepthMat = DX11Engine::MaterialInitStruct();
 	std::string shaderPath4 = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "DepthShader.fx";
