@@ -44,7 +44,7 @@ void RacingGameApplication::LoadApplication() {
 	auto directionalLightGameObject = std::make_shared<DX11Engine::ArcGameObject>("Directional Light");
 	DX11Engine::ArcGameObject::RegisterGameObject(directionalLightGameObject);
 	auto directionalLightTransform = std::make_shared<DX11Engine::ArcTransform>();
-	directionalLightTransform->SetLocalPosition(float3(0.f, 20.f, -15.f));
+	directionalLightTransform->SetLocalPosition(float3(-6.f, 20.f, -12.f));
 	directionalLightTransform->SetLocalRotation(float3(50.0f, 30.0f, 0.0f));
 	directionalLightTransform->SetLocalScale(float3(1.0f, 1.0f, 1.0f));
 	directionalLightGameObject->SetTransfrom(directionalLightTransform);

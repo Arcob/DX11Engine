@@ -63,7 +63,7 @@ int main()
 	{
 		return false;
 	}
-	mRenderToTextureClass->Initialize(ArcRHI::g_pd3dDevice, 1024, 1024);
+	mRenderToTextureClass->Initialize(ArcRHI::g_pd3dDevice, 4096, 4096);
 
 	while (isRunning) 
 	{

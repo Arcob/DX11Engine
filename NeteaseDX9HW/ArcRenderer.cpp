@@ -26,6 +26,7 @@ namespace DX11Engine {
 		immediateContext->VSSetShader(pMaterial->m_pVertexShader, 0, 0);
 		immediateContext->PSSetShader(pMaterial->m_pPixelShader, 0, 0);
 		immediateContext->VSSetConstantBuffers(0, 1, &pMaterial->m_pMVPConstantBuffer);//设置mvp buffer为buffer0
+		immediateContext->VSSetConstantBuffers(1, 1, &pMaterial->m_pMainLightConstantBuffer);//设置Light buffer为buffer1 光照在pshader用所以用PSSet
 		immediateContext->PSSetConstantBuffers(1, 1, &pMaterial->m_pMainLightConstantBuffer);//设置Light buffer为buffer1 光照在pshader用所以用PSSet
 		
 		ConstantBufferMvp cbMVP;
@@ -44,6 +45,9 @@ namespace DX11Engine {
 		cbl.Intensity = pMainLight->m_intensity;
 		cbl.Color = pMainLight->m_color;
 		cbl.Position = pMainLight->GameObject()->TransformPtr()->Position();
+		cbl.LightMatrix = Transpose(pMainLight->View() * pMainLight->Orthographic());
+		//cbl.LightMatrix = Transpose(pCamera->View() * pCamera->Projection());
+		//cbl.LightMatrix = pCamera->View() *pCamera->Projection();
 
 		SetConstantBuffer(immediateContext, pMaterial->m_pMainLightConstantBuffer, &cbl, sizeof(cbl));
 

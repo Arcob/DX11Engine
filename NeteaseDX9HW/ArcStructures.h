@@ -42,6 +42,7 @@ namespace DX11Engine {
 		float4 Color;
 		float3 Position;
 		float Pad1;
+		mat4 LightMatrix;
 	};
 
 	struct VertexPosNormalTex
