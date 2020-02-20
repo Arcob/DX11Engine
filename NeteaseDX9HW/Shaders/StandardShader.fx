@@ -1,4 +1,5 @@
 Texture2D gTex : register(t0);
+Texture2D gShadowMap : register(t2);
 SamplerState gSamLinear : register(s0);
 
 cbuffer ConstantBuffer : register(b0)
@@ -33,7 +34,7 @@ struct VertexOut
 	float3 Normal : TEXCOORD3;
 };
 
-float4 Ambient = float4(0.1f, 0.1f, 0.1f, 1.0f);
+float3 Ambient = float3(0.1f, 0.1f, 0.1f);
 
 VertexOut VS(VertexIn vin)
 {
@@ -52,11 +53,14 @@ VertexOut VS(VertexIn vin)
 float4 PS(VertexOut pin) : SV_Target
 {
 	float4 Albedo = gTex.Sample(gSamLinear, pin.Tex);
-	float diffuseIntensity = saturate(dot(pin.Normal, normalize(LightDir)));
+	//float4 Albedo = gShadowMap.Sample(gSamLinear, pin.Tex);
+	float diffuseIntensity = saturate(dot(pin.Normal, normalize(-LightDir)));
 	float3 diffuse = diffuseIntensity * LightColor.rgb * Intensity;
-	float3 result = Albedo.rgb +diffuse + Ambient.rgb;
+	//float3 diffuse = float3(1.0f, 1.0f, 0.0f);
+	float3 result = Albedo.rgb * (0.5f + diffuse) + Ambient;
 
     return float4(result, 1.0f);
+	//return Albedo;
 	//return float4(1.0f, 1.0f, 1.0f, 1.0f);
 	//return float4(pin.PosH.x, pin.PosH.y, pin.PosH.z, 1.0f);
 	//return float4(diffuseIntensity, diffuseIntensity, diffuseIntensity, 1.0f);

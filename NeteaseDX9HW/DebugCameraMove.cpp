@@ -16,7 +16,8 @@ void DebugCameraMove::Start() {
 
 void DebugCameraMove::Update() {
 	//print("Update");
-	auto camera = DX11Engine::ArcGameObject::Find("Camera");
+	auto camera = GameObject(); //DX11Engine::ArcGameObject::Find("Camera");
+	//PrintFloat3(camera->TransformPtr()->Position());
 	if (DX11Engine::ArcInput::GetKeyboardKey('W')) {		
 		camera->TransformPtr()->Translate(MultFloat3(camera->TransformPtr()->Forward(),  moveSpeed * DX11Engine::ArcTime::DeltaTime()));
 	}

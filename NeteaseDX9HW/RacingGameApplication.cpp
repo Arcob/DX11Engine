@@ -44,19 +44,23 @@ void RacingGameApplication::LoadApplication() {
 	auto directionalLightGameObject = std::make_shared<DX11Engine::ArcGameObject>("Directional Light");
 	DX11Engine::ArcGameObject::RegisterGameObject(directionalLightGameObject);
 	auto directionalLightTransform = std::make_shared<DX11Engine::ArcTransform>();
-	directionalLightTransform->SetLocalPosition(float3(0.f, 3.f, 0.f));
-	directionalLightTransform->SetLocalRotation(float3(50.0f, -30.0f, 0.0f));
+	directionalLightTransform->SetLocalPosition(float3(0.f, 20.f, -15.f));
+	directionalLightTransform->SetLocalRotation(float3(50.0f, 30.0f, 0.0f));
 	directionalLightTransform->SetLocalScale(float3(1.0f, 1.0f, 1.0f));
 	directionalLightGameObject->SetTransfrom(directionalLightTransform);
-	float lightIntensity = 0.5f;
+	float lightIntensity = 1.0f;
 	float4 lightColor = float4(1.f, 0.96f, 0.84f, 1.f);
 	//float4 lightOrthoPara = float4(Width(), Height(), 0.3f, 100.0f);
-	float4 lightOrthoPara = float4(1024.f, 1024.f, 0.3f, 100.0f);
+	float4 lightOrthoPara = float4(50.f, 50.f, 0.3f, 100.0f);
 	auto directionalLight = std::make_shared<DX11Engine::DirectionalLight>(lightIntensity, lightColor, lightOrthoPara);
 	directionalLightGameObject->AttachScript(directionalLight);
+	auto cameraMove = std::make_shared<DebugCameraMove>();
+	//directionalLightGameObject->AttachScript(cameraMove);
+	directionalLightGameObject->SetMesh(ArcApplication::m_assets->findMesh("Box Mesh"));
+	directionalLightGameObject->SetMaterial(ArcApplication::m_assets->findMaterial("TestBoxMaterial"));
 	MainScene()->SetMainLight(std::move(directionalLight));
 	MainScene()->AddGameObject(directionalLightGameObject);
-
+	
 	auto skyBox = std::make_shared<DX11Engine::ArcGameObject>("SkyBox");
 	DX11Engine::ArcGameObject::RegisterGameObject(skyBox);
 	auto tempSkyBoxTransform = std::make_shared<DX11Engine::ArcTransform>();

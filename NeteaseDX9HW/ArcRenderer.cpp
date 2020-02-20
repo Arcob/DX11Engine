@@ -30,6 +30,8 @@ namespace DX11Engine {
 		
 		ConstantBufferMvp cbMVP;
 		cbMVP.mWorld = Transpose(pTransform->TransformMatrix());//DX的mvp要反着乘
+		//cbMVP.mView = Transpose(pMainLight->View());
+		//cbMVP.mProjection = Transpose(pMainLight->Orthographic());
 		cbMVP.mView = Transpose(pCamera->View());
 		cbMVP.mProjection = Transpose(pCamera->Projection());
 
@@ -73,8 +75,6 @@ namespace DX11Engine {
 		cbMVP.mWorld = Transpose(pTransform->TransformMatrix());//DX的mvp要反着乘
 		cbMVP.mView = Transpose(pMainLight->View());
 		cbMVP.mProjection = Transpose(pMainLight->Orthographic());
-
-		//PrintMat(cbMVP.mWorld);
 
 		SetConstantBuffer(immediateContext, pMaterial->m_pMVPConstantBuffer, &cbMVP, sizeof(cbMVP));
 

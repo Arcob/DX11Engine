@@ -79,7 +79,6 @@ int main()
 		}
 
 		if (ENABLE_SHADOW) {
-
 			mRenderToTextureClass->SetRenderTarget(ArcRHI::g_pImmediateContext);
 
 			//清除RTT的初始值
@@ -98,6 +97,9 @@ int main()
 
 			ArcRHI::SetBackBufferRender();
 			ArcRHI::ResetViewPort();
+
+			ID3D11ShaderResourceView* RTTShaderResourceView = mRenderToTextureClass->GetShaderResourceView();
+			ArcRHI::g_pImmediateContext->PSSetShaderResources(2, 1, &RTTShaderResourceView);
 		}
 
 		FL(ArcRHI::ConfigRasterizerStateCullNone());
