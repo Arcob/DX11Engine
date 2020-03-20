@@ -5,7 +5,7 @@
 #include "ArcStructures.h"
 
 namespace DX11Engine {
-	Vertex TestBoxVertices[8] =
+	static Vertex TestBoxVertices[8] =
 	{
 		{ float3(-0.5f, -0.5f, -0.5f), float4(1.f, 1.f, 1.f, 1.f) },//white
 		{ float3(-0.5f, +0.5f, -0.5f), float4(0.f, 1.f, 1.f, 1.f) },//black
@@ -26,7 +26,7 @@ namespace DX11Engine {
   //  |/      |/
   //  v7------v0
 	//float3 pos, float3 normal, float3 tangent, float2 texXoord
-	VertexNormalTangentTex TestBoxPNTT[24] =
+	static VertexNormalTangentTex TestBoxPNTT[24] =
 	{
 		//”“≤‡√Ê
 		{ float3(+0.5f, -0.5f, -0.5f), float3(1.f, 0.f, 0.f), float3(0.f, 0.f, 1.f), float2(0.f, 1.f) },//0-0
@@ -66,7 +66,7 @@ namespace DX11Engine {
 
 	};
 
-	unsigned int TestBoxIndices[36] = {
+	static unsigned int TestBoxIndices[36] = {
 		// front face
 		0, 1, 2,
 		0, 2, 3,
@@ -92,7 +92,7 @@ namespace DX11Engine {
 		4, 3, 7
 	};
 
-	unsigned int NormalBoxIndices[36] = {
+	static unsigned int NormalBoxIndices[36] = {
 		// front face
 		0, 2, 1,
 		0, 2, 3,
@@ -118,18 +118,18 @@ namespace DX11Engine {
 		20, 22, 23
 	};
 
-	D3D11_INPUT_ELEMENT_DESC SolidColorLayout[] =
+	static D3D11_INPUT_ELEMENT_DESC SolidColorLayout[] =
 	{
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
 
-	D3D11_INPUT_ELEMENT_DESC TestBoxLayout[] =
+	static D3D11_INPUT_ELEMENT_DESC TestBoxLayout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 
-	D3D11_INPUT_ELEMENT_DESC VertextNormalTangentTexcoordLayout[] = {
+	static D3D11_INPUT_ELEMENT_DESC VertextNormalTangentTexcoordLayout[] = {
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0},

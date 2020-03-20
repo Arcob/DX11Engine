@@ -31,6 +31,15 @@
     <Filter Include="Models">
       <UniqueIdentifier>{6f0436d1-2149-462a-b4f7-74a48e508f45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shadow">
+      <UniqueIdentifier>{6cd2ae7c-d38e-430d-b919-e45acd81f8fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shadow\头文件">
+      <UniqueIdentifier>{507d1ba9-e590-499c-bb18-cbcca88b336c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shadow\源文件">
+      <UniqueIdentifier>{4f01e5d4-b717-4851-85e2-c6a1f2e50b31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArcFramework.cpp">
@@ -134,6 +143,12 @@
     </ClCompile>
     <ClCompile Include="ArcRenderToTexture.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowAssets.cpp">
+      <Filter>Shadow\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowApplication.cpp">
+      <Filter>Shadow\源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +268,12 @@
     </ClInclude>
     <ClInclude Include="ArcRenderToTexture.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowAssets.h">
+      <Filter>Shadow\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowApplication.h">
+      <Filter>Shadow\头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
