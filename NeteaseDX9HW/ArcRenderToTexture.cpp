@@ -40,7 +40,7 @@ bool ArcRenderToTexture::Initialize(ID3D11Device* d3dDevice, int TextureWidth, i
 	HR(d3dDevice->CreateTexture2D(&depthBufferDesc, NULL, &mDepthStencilTexture));
 
 
-	//第二,填充深度缓存视图形容结构体,并创建深度缓存视图
+	//第二,填充深度缓存视图描述符结构体,并创建深度缓存视图
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
 	ZeroMemory(&depthStencilViewDesc, sizeof(depthStencilViewDesc));
 	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -49,7 +49,7 @@ bool ArcRenderToTexture::Initialize(ID3D11Device* d3dDevice, int TextureWidth, i
 	HR(d3dDevice->CreateDepthStencilView(mDepthStencilTexture, &depthStencilViewDesc, &mDepthStencilView));
 
 
-	//第三,填充着色器资源视图形容体,并进行创建着色器资源视图,注意这是用深度缓存(纹理)来创建的，而不是渲染目标缓存(纹理)创建的
+	//第三,填充着色器资源视图描述符,并进行创建着色器资源视图,注意这是用深度缓存(纹理)来创建的，而不是渲染目标缓存(纹理)创建的
 	D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
 	shaderResourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS; //此时因为是仅仅进行深度写，而不是颜色写，所以此时Shader资源格式跟深度缓存是一样的
 	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;

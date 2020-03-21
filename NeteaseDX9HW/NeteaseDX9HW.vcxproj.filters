@@ -292,6 +292,9 @@
     <FxCompile Include="Shaders\DepthShader.fx">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\CubeShader.fx">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Object Include="Models\cornell_box.obj">

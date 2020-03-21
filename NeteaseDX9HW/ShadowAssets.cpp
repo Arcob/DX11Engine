@@ -6,7 +6,7 @@
 #include "ArcGeometryGenerator.h"
 
 ShadowAssets::ShadowAssets() : ArcAssets() {
-	//Load();
+	Load();
 }
 
 /* 加载的资源名称：
@@ -22,6 +22,7 @@ Texture:
 */
 
 bool ShadowAssets::Load() {
+	ArcAssets::Load();//加载通用资源
 
 #pragma region LoadMeshRegion
 	std::shared_ptr<ArcGeometryGenerator::MeshData> generatedCubeMeshData = std::make_shared<ArcGeometryGenerator::MeshData>();
@@ -46,7 +47,7 @@ bool ShadowAssets::Load() {
 	std::string woodTexturePath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::TEXTURE_PATH + "HDWood.dds";
 	auto woodTexture = DX11Engine::ArcAssetLoader::LoadTexture("WoodTexture", woodTexturePath);
 
-	std::string marbleTexturePath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::TEXTURE_PATH + "HDMarble.dds";
+	std::string marbleTexturePath = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::TEXTURE_PATH + "HDWhiteMarble.dds";
 	auto marbleTexture = DX11Engine::ArcAssetLoader::LoadTexture("MarbleTexture", marbleTexturePath);
 
 	//将贴图和slot一一对应
@@ -68,6 +69,22 @@ bool ShadowAssets::Load() {
 	cbDescLight.Usage = D3D11_USAGE_DYNAMIC;
 	cbDescLight.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	cbDescLight.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	//石头正方体材质
+	DX11Engine::MaterialInitStruct misMarbleMat = DX11Engine::MaterialInitStruct();
+	std::string shaderPath2 = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "CubeShader.fx";
+	DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPath2, "VS", "vs_4_0", &(misMarbleMat.m_vertexShaderBuffer), &(misMarbleMat.m_vertexShader));
+	DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::VertextNormalTangentTexcoordLayout, ARRAYSIZE(DX11Engine::VertextNormalTangentTexcoordLayout), &(misMarbleMat.m_vertexShaderBuffer), &(misMarbleMat.m_inputLayout));
+	DX11Engine::ArcAssetLoader::LoadPixelShader(shaderPath2, "PS", "ps_4_0", &(misMarbleMat.m_pixelShaderBuffer), &(misMarbleMat.m_pixelShader));
+
+	ID3D11Buffer* tempConstantBuffer2 = NULL;
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescMVP, &tempConstantBuffer2);
+
+	ID3D11Buffer* lightConstantBuffer2 = NULL;
+	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescLight, &lightConstantBuffer2);
+
+	std::shared_ptr<DX11Engine::ArcMaterial> MarbleMaterial = std::make_shared<DX11Engine::ArcMaterial>("MarbleMaterial", misMarbleMat.m_vertexShader, misMarbleMat.m_pixelShader, misMarbleMat.m_inputLayout, tempConstantBuffer2, lightConstantBuffer2);
+	ArcAssets::m_materialVector.push_back(std::move(MarbleMaterial));
 
 	//带贴图光照正方形材质
 	DX11Engine::MaterialInitStruct misStandardMat = DX11Engine::MaterialInitStruct();

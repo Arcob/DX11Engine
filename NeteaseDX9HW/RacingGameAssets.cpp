@@ -47,6 +47,7 @@ Texture:
 
 bool RacingGameAssets::Load() {
 	//print("Load RacingGameAssets");
+	ArcAssets::Load();
 
 	std::shared_ptr<DX11Engine::ArcMesh> pBoxMesh = DX11Engine::ArcAssetLoader::LoadMesh("Box Mesh", DX11Engine::TestBoxVertices, sizeof(DX11Engine::Vertex), 8, DX11Engine::TestBoxIndices, 36, nullptr);
 	if (pBoxMesh == nullptr) {
@@ -157,7 +158,7 @@ bool RacingGameAssets::Load() {
 	ArcAssets::m_materialVector.push_back(std::move(StandardMaterial));
 
 	//深度贴图材质
-	DX11Engine::MaterialInitStruct misDepthMat = DX11Engine::MaterialInitStruct();
+	/*DX11Engine::MaterialInitStruct misDepthMat = DX11Engine::MaterialInitStruct();
 	std::string shaderPath4 = DX11Engine::ArcTool::getCurrentPath() + DX11Engine::ArcAssetLoader::SHADER_PATH + "DepthShader.fx";
 	FL(DX11Engine::ArcAssetLoader::LoadVertexShader(shaderPath4, "VS", "vs_4_0", &(misDepthMat.m_vertexShaderBuffer), &(misDepthMat.m_vertexShader)));
 	FL(DX11Engine::ArcAssetLoader::ConfigInputLayout(DX11Engine::VertextNormalTangentTexcoordLayout, ARRAYSIZE(DX11Engine::VertextNormalTangentTexcoordLayout), &(misDepthMat.m_vertexShaderBuffer), &(misDepthMat.m_inputLayout)));
@@ -170,7 +171,7 @@ bool RacingGameAssets::Load() {
 	DX11Engine::ArcAssetLoader::CreateConstantBuffer(DX11Engine::ArcRHI::g_pd3dDevice, &cbDescLight, &lightConstantBuffer4);
 
 	std::shared_ptr<DX11Engine::ArcMaterial> DepthMaterial = std::make_shared<DX11Engine::ArcMaterial>("DepthMaterial", misDepthMat.m_vertexShader, misDepthMat.m_pixelShader, misDepthMat.m_inputLayout, tempConstantBuffer4, lightConstantBuffer4);
-	ArcAssets::m_materialVector.push_back(std::move(DepthMaterial));
+	ArcAssets::m_materialVector.push_back(std::move(DepthMaterial));*/
 
 	/*//猫材质
 	DX11Engine::MaterialInitStruct misCatMat = DX11Engine::MaterialInitStruct();
