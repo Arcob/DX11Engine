@@ -25,6 +25,7 @@ namespace DX11Engine {
 		{
 			if (errorBuffer != 0)
 			{
+				print(std::string((char*)errorBuffer->GetBufferPointer()));
 				OutputDebugString((LPCWSTR)errorBuffer->GetBufferPointer());
 				errorBuffer->Release();
 			}
