@@ -12,6 +12,12 @@ class ArcCamera :
 public:
 	ArcCamera();
 
+	struct FrustumCorners{
+	public:
+		float3 nearCorners[4];
+		float3 farCorners[4];
+	};
+
 	float FieldOfView() const;
 	void SetFieldOfView(float fieldOfView);
 
@@ -21,6 +27,7 @@ public:
 
 	float ViewportAspectRatio() const;
 	void SetViewportAspectRatio(float viewportAspectRatio);
+	std::shared_ptr<ArcCamera::FrustumCorners> GetFrustumCorners();
 
 	mat4 Matrix() const;
 	mat4 Projection() const;

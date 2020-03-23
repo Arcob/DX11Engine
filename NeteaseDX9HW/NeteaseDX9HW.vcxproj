@@ -190,6 +190,7 @@
     <ClCompile Include="RacingGameAssets.cpp" />
     <ClCompile Include="ShadowApplication.cpp" />
     <ClCompile Include="ShadowAssets.cpp" />
+    <ClCompile Include="ShadowCameraController.cpp" />
     <ClCompile Include="SkyboxFollowCamera.cpp" />
     <ClCompile Include="WheelMove.cpp" />
   </ItemGroup>
@@ -231,6 +232,7 @@
     <ClInclude Include="RacingGameAssets.h" />
     <ClInclude Include="ShadowApplication.h" />
     <ClInclude Include="ShadowAssets.h" />
+    <ClInclude Include="ShadowCameraController.h" />
     <ClInclude Include="SimpleVertexs.h" />
     <ClInclude Include="SkyboxFollowCamera.h" />
     <ClInclude Include="tiny_obj_loader.h" />

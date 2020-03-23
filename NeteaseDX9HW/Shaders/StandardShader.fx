@@ -104,11 +104,22 @@ float4 PS(VertexOut pin) : SV_Target
 	float diffuseIntensity = saturate(dot(pin.Normal, normalize(-LightDir)));
 	float3 diffuse = diffuseIntensity * LightColor.rgb * Intensity;
 	//float3 diffuse = float3(1.0f, 1.0f, 0.0f);
-	float shadow = ShadowCalculation(pin.LightSpacePos, pin.PosH.b / pin.PosH.w, bias);
+	float flag = (1.0 - pin.PosH.b / pin.PosH.w * 8.0);
+	float shadow = ShadowCalculation(pin.LightSpacePos, flag, bias);
 	//result += (1.0 - shadow) * diffuse;
 	float3 result = (1.0 - shadow) * Albedo.rgb * (0.5f + diffuse) + Ambient;
 	
+	float4 debugColor;
+	
+	if (flag < 0.33f){
+		debugColor = float4(1.0, 0, 0, 1.0);
+	}else if (flag < 0.66f){
+		debugColor = float4(0.0, 1.0, 0, 1.0);
+	}else{
+		debugColor = float4(0.0, 0, 1.0, 1.0);
+	}
     return float4(result, 1.0f);
-	//return gShadowMap1.SampleLevel(gSamLinear, pin.Tex, 1);
+	//return debugColor;
+	//return gShadowMap1.SampleLevel(gSamLinear, pin.Tex, 0);
 	//return float4(pin.PosH.b/ pin.PosH.w, pin.PosH.b / pin.PosH.w, pin.PosH.b / pin.PosH.w, 1.0f);
 }

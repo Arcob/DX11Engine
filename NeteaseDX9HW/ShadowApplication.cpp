@@ -10,12 +10,8 @@
 #include "ArcCamera.h"
 #include "Light.h"
 #include "CameraController.h"
-
-#include "CarMove.h"
+#include "ShadowCameraController.h"
 #include "DebugCameraMove.h"
-#include "SkyboxFollowCamera.h"
-#include "CameraController.h"
-#include "WheelMove.h"
 
 ShadowApplication::ShadowApplication(unsigned int WIDTH, unsigned int HEIGHT, std::shared_ptr<DX11Engine::ArcAssets> assets) : ArcApplication(WIDTH, HEIGHT, assets) {
 	ArcApplication::SetName("CascadedShadowMapApplication");
@@ -50,9 +46,6 @@ void ShadowApplication::LoadApplication() {
 	directionalLightTransform->SetLocalPosition(float3(-6.f, 20.f, -12.f));
 	directionalLightTransform->SetLocalRotation(float3(50.0f, 30.0f, 0.0f));
 	directionalLightTransform->SetLocalScale(float3(1.0f, 1.0f, 1.0f));
-	/*directionalLightTransform->SetLocalPosition(float3(10.5f, -14.5f, -45.0f));
-	directionalLightTransform->SetLocalRotation(float3(140.0f, 30.0f, 180.0f));
-	directionalLightTransform->SetLocalScale(float3(1.0f, 1.0f, 1.0f));*/
 	directionalLightGameObject->SetTransfrom(directionalLightTransform);
 	float lightIntensity = 1.0f;
 	float4 lightColor = float4(1.f, 0.96f, 0.84f, 1.f);
@@ -60,6 +53,8 @@ void ShadowApplication::LoadApplication() {
 	auto directionalLight = std::make_shared<DX11Engine::DirectionalLight>(lightIntensity, lightColor, lightOrthoPara);
 	directionalLightGameObject->AttachScript(directionalLight);
 	MainScene()->SetMainLight(std::move(directionalLight));
+	auto shadowCameraController = std::make_shared<ShadowCameraController>();
+	directionalLightGameObject->AttachScript(shadowCameraController);
 	MainScene()->AddGameObject(directionalLightGameObject);
 
 	auto ground = std::make_shared<DX11Engine::ArcGameObject>("Ground");

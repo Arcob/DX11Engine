@@ -70,8 +70,9 @@ int main()
 	{
 		return false;
 	}
-	mRenderToTextureClass->InitializeAsDepthBuffer(ArcRHI::g_pd3dDevice, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT, SHADOW_CASCADE_LAYER_NUM);/**/
-	mRenderToTextureClass->GenerateNewMip(ArcRHI::g_pd3dDevice, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT, SHADOW_CASCADE_LAYER_NUM);
+	int CSMLevelMinusOne = SHADOW_CASCADE_LAYER_NUM - 1;
+	mRenderToTextureClass->InitializeAsDepthBuffer(ArcRHI::g_pd3dDevice, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT, CSMLevelMinusOne);/**/
+	mRenderToTextureClass->GenerateNewMip(ArcRHI::g_pd3dDevice, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT, CSMLevelMinusOne);
 
 	while (isRunning) 
 	{
@@ -106,7 +107,7 @@ int main()
 			ArcRHI::SetBackBufferRender();
 			ArcRHI::ResetViewPort();
 
-			for (int i = 0; i < SHADOW_CASCADE_LAYER_NUM; i++) {
+			for (int i = 0; i < CSMLevelMinusOne; i++) {
 				mRenderToTextureClass->SetMipRenderTarget(ArcRHI::g_pImmediateContext, i + 1);
 
 				//清除RTT的初始值
