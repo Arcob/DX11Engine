@@ -156,8 +156,6 @@ bool ArcRenderToTexture::WriteToSubResource(ID3D11DeviceContext* deviceContext, 
 
 	ID3D11Resource *pDstResource;
 	mShaderResourceView->GetResource(&pDstResource);
-	int width = mipViewPortVector[mipLevel - 1].Width; // * 4
-	int height = mipViewPortVector[mipLevel - 1].Height; // * 4
 
 	deviceContext->CopySubresourceRegion(pDstResource, mipLevel, 0, 0, 0, pSrcResource, 0, NULL);
 	return false;

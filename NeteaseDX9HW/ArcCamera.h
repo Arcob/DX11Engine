@@ -18,6 +18,8 @@ public:
 		float3 farCorners[4];
 	};
 
+	//std::vector<std::shared_ptr<ArcCamera::FrustumCorners>> cascadeFrustumsCornerVector;
+	
 	float FieldOfView() const;
 	void SetFieldOfView(float fieldOfView);
 
@@ -28,6 +30,7 @@ public:
 	float ViewportAspectRatio() const;
 	void SetViewportAspectRatio(float viewportAspectRatio);
 	std::shared_ptr<ArcCamera::FrustumCorners> GetFrustumCorners();
+	void GetCascadeFrustumCornersList(std::vector<std::shared_ptr<ArcCamera::FrustumCorners>>& list);
 
 	mat4 Matrix() const;
 	mat4 Projection() const;
@@ -38,6 +41,8 @@ private:
 	float m_nearPlane;
 	float m_farPlane;
 	float m_viewportAspectRatio;
+
+	std::shared_ptr<ArcCamera::FrustumCorners> GetFrustumCorners(float nearPlane, float farPlane);
 };
 
 }

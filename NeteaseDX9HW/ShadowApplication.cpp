@@ -12,6 +12,7 @@
 #include "CameraController.h"
 #include "ShadowCameraController.h"
 #include "DebugCameraMove.h"
+#include "ArcOrthoCamera.h"
 
 ShadowApplication::ShadowApplication(unsigned int WIDTH, unsigned int HEIGHT, std::shared_ptr<DX11Engine::ArcAssets> assets) : ArcApplication(WIDTH, HEIGHT, assets) {
 	ArcApplication::SetName("CascadedShadowMapApplication");
@@ -52,10 +53,42 @@ void ShadowApplication::LoadApplication() {
 	float4 lightOrthoPara = float4(50.f, 50.f, 0.3f, 100.0f);
 	auto directionalLight = std::make_shared<DX11Engine::DirectionalLight>(lightIntensity, lightColor, lightOrthoPara);
 	directionalLightGameObject->AttachScript(directionalLight);
-	MainScene()->SetMainLight(std::move(directionalLight));
+	MainScene()->SetMainLight(directionalLight);
 	auto shadowCameraController = std::make_shared<ShadowCameraController>();
 	directionalLightGameObject->AttachScript(shadowCameraController);
 	MainScene()->AddGameObject(directionalLightGameObject);
+
+	auto cascadeCamera0GameObject = std::make_shared<DX11Engine::ArcGameObject>("Cascade Camera 0");
+	DX11Engine::ArcGameObject::RegisterGameObject(cascadeCamera0GameObject);
+	cascadeCamera0GameObject->SetTransfrom(std::make_shared<DX11Engine::ArcTransform>());
+	auto cascadeCamera0 = std::make_shared<DX11Engine::ArcOrthoCamera>();
+	cascadeCamera0GameObject->AttachScript(cascadeCamera0);
+	directionalLight->AddCascadeCamera(cascadeCamera0, 0);
+	MainScene()->AddGameObject(cascadeCamera0GameObject);
+
+	auto cascadeCamera1GameObject = std::make_shared<DX11Engine::ArcGameObject>("Cascade Camera 1");
+	DX11Engine::ArcGameObject::RegisterGameObject(cascadeCamera1GameObject);
+	cascadeCamera1GameObject->SetTransfrom(std::make_shared<DX11Engine::ArcTransform>());
+	auto cascadeCamera1 = std::make_shared<DX11Engine::ArcOrthoCamera>();
+	cascadeCamera1GameObject->AttachScript(cascadeCamera1);
+	directionalLight->AddCascadeCamera(cascadeCamera1, 1);
+	MainScene()->AddGameObject(cascadeCamera1GameObject);
+
+	auto cascadeCamera2GameObject = std::make_shared<DX11Engine::ArcGameObject>("Cascade Camera 2");
+	DX11Engine::ArcGameObject::RegisterGameObject(cascadeCamera2GameObject);
+	cascadeCamera2GameObject->SetTransfrom(std::make_shared<DX11Engine::ArcTransform>());
+	auto cascadeCamera2 = std::make_shared<DX11Engine::ArcOrthoCamera>();
+	cascadeCamera2GameObject->AttachScript(cascadeCamera2);
+	directionalLight->AddCascadeCamera(cascadeCamera2, 2);
+	MainScene()->AddGameObject(cascadeCamera2GameObject);
+
+	auto cascadeCamera3GameObject = std::make_shared<DX11Engine::ArcGameObject>("Cascade Camera 3");
+	DX11Engine::ArcGameObject::RegisterGameObject(cascadeCamera3GameObject);
+	cascadeCamera3GameObject->SetTransfrom(std::make_shared<DX11Engine::ArcTransform>());
+	auto cascadeCamera3 = std::make_shared<DX11Engine::ArcOrthoCamera>();
+	cascadeCamera3GameObject->AttachScript(cascadeCamera3);
+	directionalLight->AddCascadeCamera(cascadeCamera3, 3);
+	MainScene()->AddGameObject(cascadeCamera3GameObject);
 
 	auto ground = std::make_shared<DX11Engine::ArcGameObject>("Ground");
 	DX11Engine::ArcGameObject::RegisterGameObject(ground);
@@ -80,7 +113,7 @@ void ShadowApplication::LoadApplication() {
 			cubeTransform->SetRotation(float3(0.0f, 0.0f, 0.0f));
 			cubeTransform->SetScale(float3(1.0f, 1.0f, 1.0f));
 			cube->SetMesh(ArcApplication::m_assets->findMesh("Generated Box Mesh"));
-			cube->SetMaterial(ArcApplication::m_assets->findMaterial("MarbleMaterial"));
+			cube->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
 			MainScene()->AddGameObject(cube);
 		}
 	}

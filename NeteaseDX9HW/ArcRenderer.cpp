@@ -1,6 +1,7 @@
 #include "ArcRenderer.h"
 #include "ArcStructures.h"
 #include "ArcGameObject.h"
+#include "DriverSetting.h"
 #include "memory.h"
 #include "ArcRHI.h"
 
@@ -45,9 +46,9 @@ namespace DX11Engine {
 		cbl.Intensity = pMainLight->m_intensity;
 		cbl.Color = pMainLight->m_color;
 		cbl.Position = pMainLight->GameObject()->TransformPtr()->Position();
-		cbl.LightMatrix = Transpose(pMainLight->View() * pMainLight->Orthographic());
-		//cbl.LightMatrix = Transpose(pCamera->View() * pCamera->Projection());
-		//cbl.LightMatrix = pCamera->View() *pCamera->Projection();
+		for (int i = 0; i < SHADOW_CASCADE_LAYER_NUM; ++i) {
+			cbl.LightMatrix[i] = Transpose(pMainLight->View(i) * pMainLight->Orthographic(i));
+		}
 
 		SetConstantBuffer(immediateContext, pMaterial->m_pMainLightConstantBuffer, &cbl, sizeof(cbl));
 
@@ -55,7 +56,7 @@ namespace DX11Engine {
 		return true;
 	}
 
-	bool ArcRenderer::RenderToDepthForShadow(std::shared_ptr<ArcMesh> pMesh, std::shared_ptr<ArcMaterial> pMaterial, std::shared_ptr<ArcTransform> pTransform, std::shared_ptr<DirectionalLight> pMainLight) {
+	bool ArcRenderer::RenderToDepthForShadow(std::shared_ptr<ArcMesh> pMesh, std::shared_ptr<ArcMaterial> pMaterial, std::shared_ptr<ArcTransform> pTransform, std::shared_ptr<DirectionalLight> pMainLight, int level) {
 		UINT stride = pMesh->m_nodeLength;
 		UINT offset = 0;
 		//设置数据信息格式控制信息
@@ -77,8 +78,8 @@ namespace DX11Engine {
 
 		ConstantBufferMvp cbMVP;
 		cbMVP.mWorld = Transpose(pTransform->TransformMatrix());//DX的mvp要反着乘
-		cbMVP.mView = Transpose(pMainLight->View());
-		cbMVP.mProjection = Transpose(pMainLight->Orthographic());
+		cbMVP.mView = Transpose(pMainLight->View(level));
+		cbMVP.mProjection = Transpose(pMainLight->Orthographic(level));
 
 		SetConstantBuffer(immediateContext, pMaterial->m_pMVPConstantBuffer, &cbMVP, sizeof(cbMVP));
 

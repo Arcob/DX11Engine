@@ -70,9 +70,10 @@ int main()
 	{
 		return false;
 	}
-	int CSMLevelMinusOne = SHADOW_CASCADE_LAYER_NUM - 1;
-	mRenderToTextureClass->InitializeAsDepthBuffer(ArcRHI::g_pd3dDevice, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT, CSMLevelMinusOne);/**/
-	mRenderToTextureClass->GenerateNewMip(ArcRHI::g_pd3dDevice, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT, CSMLevelMinusOne);
+
+	//贴图的miplevel包括第一层未压缩的，所以不减一
+	mRenderToTextureClass->InitializeAsDepthBuffer(ArcRHI::g_pd3dDevice, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT, SHADOW_CASCADE_LAYER_NUM);
+	mRenderToTextureClass->GenerateNewMip(ArcRHI::g_pd3dDevice, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT, SHADOW_CASCADE_LAYER_NUM - 1);
 
 	while (isRunning) 
 	{
@@ -100,14 +101,14 @@ int main()
 					continue;
 				}
 				if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
-					DX11Engine::ArcRenderer::RenderToDepthForShadow(gameObject->Mesh(), depthMaterial, gameObject->TransformPtr(), app->MainScene()->GetMainLight());
+					DX11Engine::ArcRenderer::RenderToDepthForShadow(gameObject->Mesh(), depthMaterial, gameObject->TransformPtr(), app->MainScene()->GetMainLight(), 0);
 				}
 			}
 
 			ArcRHI::SetBackBufferRender();
 			ArcRHI::ResetViewPort();
 
-			for (int i = 0; i < CSMLevelMinusOne; i++) {
+			for (int i = 0; i < SHADOW_CASCADE_LAYER_NUM - 1; i++) {
 				mRenderToTextureClass->SetMipRenderTarget(ArcRHI::g_pImmediateContext, i + 1);
 
 				//清除RTT的初始值
@@ -118,7 +119,7 @@ int main()
 						continue;
 					}
 					if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
-						DX11Engine::ArcRenderer::RenderToDepthForShadow(gameObject->Mesh(), depthMaterial, gameObject->TransformPtr(), app->MainScene()->GetMainLight());
+						DX11Engine::ArcRenderer::RenderToDepthForShadow(gameObject->Mesh(), depthMaterial, gameObject->TransformPtr(), app->MainScene()->GetMainLight(), i+1);
 					}
 				}
 
@@ -131,52 +132,6 @@ int main()
 			ID3D11ShaderResourceView* RTTShaderResourceView = mRenderToTextureClass->GetShaderResourceView();
 			
 			ArcRHI::g_pImmediateContext->PSSetShaderResources(2, 1, &RTTShaderResourceView);
-			
-			//for (int i = 0; i < shadowBufferList.size(); i++) {
-			//	shadowBufferList[i]->SetRenderTarget(ArcRHI::g_pImmediateContext);
-
-			//	//清除RTT的初始值
-			//	shadowBufferList[i]->ClearRenderTarget(ArcRHI::g_pImmediateContext, 0.0f, 0.0f, 0.0f, 1.0f);
-
-
-			//	for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
-			//		if (gameObject->name() == "SkyBox") {
-			//			continue;
-			//		}
-			//		if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
-			//			DX11Engine::ArcRenderer::RenderToDepthForShadow(gameObject->Mesh(), depthMaterial, gameObject->TransformPtr(), app->MainScene()->GetMainLight());
-			//		}
-			//	}
-
-			//	ArcRHI::SetBackBufferRender();
-			//	ArcRHI::ResetViewPort();
-
-			//	ID3D11ShaderResourceView* RTTShaderResourceView = shadowBufferList[i]->GetShaderResourceView();
-			//	ArcRHI::g_pImmediateContext->PSSetShaderResources(2+i, 1, &RTTShaderResourceView);
-			//}
-			
-
-			/*shadowBufferList[0]->SetRenderTarget(ArcRHI::g_pImmediateContext);
-
-			//清除RTT的初始值
-			shadowBufferList[0]->ClearRenderTarget(ArcRHI::g_pImmediateContext, 0.0f, 0.0f, 0.0f, 1.0f);
-
-			auto depthMaterial = assets->findMaterial("DepthMaterial");
-
-			for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
-				if (gameObject->name() == "SkyBox") {
-					continue;
-				}
-				if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
-					DX11Engine::ArcRenderer::RenderToDepthForShadow(gameObject->Mesh(), depthMaterial, gameObject->TransformPtr(), app->MainScene()->GetMainLight());
-				}
-			}
-
-			ArcRHI::SetBackBufferRender();
-			ArcRHI::ResetViewPort();
-
-			ID3D11ShaderResourceView* RTTShaderResourceView = shadowBufferList[0]->GetShaderResourceView();
-			ArcRHI::g_pImmediateContext->PSSetShaderResources(2, 1, &RTTShaderResourceView);*/
 		}
 
 		FL(ArcRHI::ConfigRasterizerStateCullNone());

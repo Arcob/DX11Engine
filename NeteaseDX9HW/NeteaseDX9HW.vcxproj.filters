@@ -153,6 +153,9 @@
     <ClCompile Include="ShadowCameraController.cpp">
       <Filter>Shadow\源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ArcOrthoCamera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -280,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="ShadowCameraController.h">
       <Filter>Shadow\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcOrthoCamera.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

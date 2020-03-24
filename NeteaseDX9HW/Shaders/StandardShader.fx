@@ -16,7 +16,7 @@ cbuffer DirectionLight : register(b1)
 	float4 LightColor;
 	float3 LightPosition;
 	float Pad1;
-	matrix LightMatrix;
+	matrix LightMatrix[4];
 };
 
 struct VertexIn
@@ -33,7 +33,8 @@ struct VertexOut
     float4 Color : COLOR;	
 	float2 Tex : TEXCOORD2;
 	float3 Normal : TEXCOORD3;
-	float4 LightSpacePos : TEXCOORD4;
+	float4 WorldPos : TEXCOORD4;
+	float4 LightSpacePos : TEXCOORD5;
 };
 
 float3 Ambient = float3(0.1f, 0.1f, 0.1f);
@@ -80,11 +81,31 @@ float ShadowCalculation(float4 lightSpacePos, float viewDepth, float bias)
 	return shadow;
 }
 
+float CSMCalculation(float4 worldPos, float bias){
+	float shadow = 0.0;
+	for (int i = 0; i < 4; ++i){
+		float4 lightSpacePos = mul(worldPos, LightMatrix[i]);
+		float3 projCoords = lightSpacePos.xyz / lightSpacePos.w;
+		projCoords = float3(projCoords.x * 0.5f + 0.5f, projCoords.y * -0.5f + 0.5f, projCoords.z);
+		//为啥光源空间深度会大于一，大于1为啥会出bug
+		if (projCoords.x > 0.0 & projCoords.x < 1.0 
+		& projCoords.y > 0.0 & projCoords.y < 1.0 
+		& projCoords.z > 0.0 & projCoords.z < 1.0){
+			float closestDepth = gShadowMap1.SampleLevel(gSamLinear, projCoords.xy, i).r;
+			shadow = (projCoords.z - bias) > closestDepth ? 1.0f : 0.0f;
+			//shadow = i;
+			break;
+		}
+	}
+	return shadow;
+}
+
 VertexOut VS(VertexIn vin)
 {
     VertexOut vout;
 	vout.PosH = mul(float4(vin.Pos, 1.0f), World);
-	vout.LightSpacePos = mul(vout.PosH, LightMatrix);
+	vout.WorldPos = vout.PosH;
+	vout.LightSpacePos = mul(vout.PosH, LightMatrix[0]);
 	vout.PosH = mul(vout.PosH, View);
 	vout.PosH = mul(vout.PosH, Projection);
 	//vout.LightSpacePos = mul(mul(mul(float4(vin.Pos, 1.0f), World), View), Projection);
@@ -98,26 +119,29 @@ VertexOut VS(VertexIn vin)
 
 float4 PS(VertexOut pin) : SV_Target
 {
-	float bias = 0.00005f;
+	float bias = 0.00002f;
 	float4 Albedo = gTex.Sample(gSamLinear, pin.Tex);
 	//float4 Albedo = gShadowMap1.Sample(gSamLinear, pin.Tex);
 	float diffuseIntensity = saturate(dot(pin.Normal, normalize(-LightDir)));
 	float3 diffuse = diffuseIntensity * LightColor.rgb * Intensity;
-	//float3 diffuse = float3(1.0f, 1.0f, 0.0f);
-	float flag = (1.0 - pin.PosH.b / pin.PosH.w * 8.0);
-	float shadow = ShadowCalculation(pin.LightSpacePos, flag, bias);
+	//float shadow = ShadowCalculation(pin.LightSpacePos, flag, bias);
+	float shadow = CSMCalculation(pin.WorldPos, bias);
 	//result += (1.0 - shadow) * diffuse;
 	float3 result = (1.0 - shadow) * Albedo.rgb * (0.5f + diffuse) + Ambient;
 	
 	float4 debugColor;
 	
-	if (flag < 0.33f){
+	if (shadow < 0.1){
 		debugColor = float4(1.0, 0, 0, 1.0);
-	}else if (flag < 0.66f){
+	}else if (shadow < 1.1){
 		debugColor = float4(0.0, 1.0, 0, 1.0);
+	}else if (shadow < 2.1){
+		debugColor = float4(0.0, 0.0, 1.0, 1.0);
 	}else{
-		debugColor = float4(0.0, 0, 1.0, 1.0);
+		debugColor = float4(0.0, 1.0, 1.0, 1.0);
 	}
+
+	//return float4(shadow, shadow, shadow, 1);
     return float4(result, 1.0f);
 	//return debugColor;
 	//return gShadowMap1.SampleLevel(gSamLinear, pin.Tex, 0);
