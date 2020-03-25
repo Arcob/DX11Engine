@@ -143,6 +143,12 @@ namespace DX11Engine {
 		ArcRHI::g_pImmediateContext->PSSetSamplers(descSlot, 1, &(texture->m_sampleState));//采样状态绑定
 	}
 
+	void ArcAssetLoader::SetSamlpler(D3D11_SAMPLER_DESC* sampDescription, unsigned int descSlot) {
+		ID3D11SamplerState * tempSampleState;
+		ArcRHI::g_pd3dDevice->CreateSamplerState(sampDescription, &tempSampleState);
+		ArcRHI::g_pImmediateContext->PSSetSamplers(descSlot, 1, &tempSampleState);//采样状态绑定
+	}
+
 	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadModelFromObj(std::string name, std::string fileName, std::string basePath) {
 		//std::cout << "Loading " << fileName << std::endl;
 

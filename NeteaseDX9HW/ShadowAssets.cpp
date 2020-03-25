@@ -15,6 +15,7 @@ Mesh:
 
 Material:
 	StandardMaterial
+	MarbleMaterial
 
 Texture:
 	WoodTexture
@@ -33,6 +34,19 @@ bool ShadowAssets::Load() {
 #pragma endregion
 
 #pragma region LoadTextureRegion
+	D3D11_SAMPLER_DESC sampDescShadow;
+	ZeroMemory(&sampDescShadow, sizeof(sampDescShadow));
+	sampDescShadow.Filter = D3D11_FILTER_ANISOTROPIC;
+	sampDescShadow.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+	sampDescShadow.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+	sampDescShadow.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+	sampDescShadow.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	sampDescShadow.MaxAnisotropy = 4;
+	sampDescShadow.MinLOD = 0;
+	sampDescShadow.MaxLOD = D3D11_FLOAT32_MAX;
+
+	DX11Engine::ArcAssetLoader::SetSamlpler(&sampDescShadow, 1);
+
 	D3D11_SAMPLER_DESC sampDesc;
 	ZeroMemory(&sampDesc, sizeof(sampDesc));
 	sampDesc.Filter = D3D11_FILTER_ANISOTROPIC;

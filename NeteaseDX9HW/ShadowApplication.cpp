@@ -65,7 +65,7 @@ void ShadowApplication::LoadApplication() {
 	cascadeCamera0GameObject->AttachScript(cascadeCamera0);
 	directionalLight->AddCascadeCamera(cascadeCamera0, 0);
 	MainScene()->AddGameObject(cascadeCamera0GameObject);
-
+	
 	auto cascadeCamera1GameObject = std::make_shared<DX11Engine::ArcGameObject>("Cascade Camera 1");
 	DX11Engine::ArcGameObject::RegisterGameObject(cascadeCamera1GameObject);
 	cascadeCamera1GameObject->SetTransfrom(std::make_shared<DX11Engine::ArcTransform>());
@@ -113,7 +113,7 @@ void ShadowApplication::LoadApplication() {
 			cubeTransform->SetRotation(float3(0.0f, 0.0f, 0.0f));
 			cubeTransform->SetScale(float3(1.0f, 1.0f, 1.0f));
 			cube->SetMesh(ArcApplication::m_assets->findMesh("Generated Box Mesh"));
-			cube->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
+			cube->SetMaterial(ArcApplication::m_assets->findMaterial("MarbleMaterial"));
 			MainScene()->AddGameObject(cube);
 		}
 	}

@@ -78,6 +78,7 @@ void ShadowCameraController::SetCurLightInfo() {
 	//cachedDirectionalLight->GetLightCamera(0)->GameObject()->TransformPtr()->SetPosition(TransformCoord(pos, Inverse(cachedDirectionalLight->GetLightCamera(0)->View())));// = dirLightCamera.transform.TransformPoint(pos);
 	//cachedDirectionalLight->GetLightCamera(0)->SetOrthoPara(maxX-minX, maxY-minY, 0, maxZ - minZ);
 
+	//
 	std::vector<std::shared_ptr<DX11Engine::ArcCamera::FrustumCorners>> frustumCornerList = std::vector<std::shared_ptr<DX11Engine::ArcCamera::FrustumCorners>>();
 	cachedMainCamera->GetCascadeFrustumCornersList(frustumCornerList);
 	
