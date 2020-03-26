@@ -160,6 +160,7 @@
     <ClCompile Include="ArcAssets.cpp" />
     <ClCompile Include="ArcBehaviour.cpp" />
     <ClCompile Include="ArcCamera.cpp" />
+    <ClCompile Include="ArcCameraBase.cpp" />
     <ClCompile Include="ArcFramework.cpp" />
     <ClCompile Include="ArcGameObject.cpp" />
     <ClCompile Include="ArcGeometryGenerator.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="ArcAssets.h" />
     <ClInclude Include="ArcBehaviour.h" />
     <ClInclude Include="ArcCamera.h" />
+    <ClInclude Include="ArcCameraBase.h" />
     <ClInclude Include="ArcFramework.h" />
     <ClInclude Include="ArcGameObject.h" />
     <ClInclude Include="ArcGeometryGenerator.h" />

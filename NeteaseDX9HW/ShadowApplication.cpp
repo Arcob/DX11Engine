@@ -113,6 +113,7 @@ void ShadowApplication::LoadApplication() {
 			cubeTransform->SetRotation(float3(0.0f, 0.0f, 0.0f));
 			cubeTransform->SetScale(float3(1.0f, 1.0f, 1.0f));
 			cube->SetMesh(ArcApplication::m_assets->findMesh("Generated Box Mesh"));
+			//cube->SetMaterial(ArcApplication::m_assets->findMaterial("StandardMaterial"));
 			cube->SetMaterial(ArcApplication::m_assets->findMaterial("MarbleMaterial"));
 			MainScene()->AddGameObject(cube);
 		}

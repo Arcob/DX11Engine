@@ -26,8 +26,6 @@ bool ArcRenderToTexture::InitializeAsDepthBuffer(ID3D11Device* d3dDevice, int Te
 	//CreateDepthStencilView创建的是一个用于写入的视图，与之前创建的贴图绑定，当dx把东西写入这个视图时会自动写到绑定的贴图上
 	//CreateShaderResourceView创建的是一个用于输出的视图，与之前创建的贴图绑定，用于把贴图的内容传入shader
 
-	//要做的事是把后面的东西写入贴图的别的层级，也就是写入到DepthStencilView的subresource上
-
 	//第一,填充深度视图的2D纹理描述符结构体,并创建2D渲染纹理
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
 	ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
@@ -70,9 +68,7 @@ bool ArcRenderToTexture::InitializeAsDepthBuffer(ID3D11Device* d3dDevice, int Te
 	mViewPort.TopLeftX = 0.0f;
 	mViewPort.TopLeftY = 0.0f;
 
-
 	return true;
-
 }
 
 void ArcRenderToTexture::GenerateNewMip(ID3D11Device* d3dDevice, int TextureWidth, int TexureHeight, int mipLevel) {
@@ -112,19 +108,10 @@ void ArcRenderToTexture::GenerateNewMip(ID3D11Device* d3dDevice, int TextureWidt
 		depthStencilViewDesc.Texture2D.MipSlice = 0;
 		HR(d3dDevice->CreateDepthStencilView(tempTexture, &depthStencilViewDesc, &tempDSV));
 
-		/*D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
-		shaderResourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS; //此时因为是仅仅进行深度写，而不是颜色写，所以此时Shader资源格式跟深度缓存是一样的
-		shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
-		shaderResourceViewDesc.Texture2D.MipLevels = depthBufferDesc.MipLevels;
-		HR(d3dDevice->CreateShaderResourceView(mDepthStencilTexture, &shaderResourceViewDesc, &mShaderResourceView));*/
-
 		mipViewPortVector.push_back(tempViewport);
 		mipDepthStencilTextureVector.push_back(tempTexture);
 		mipDepthStencilViewVector.push_back(tempDSV);
 	}
-
-	
 }
 
 void ArcRenderToTexture::SetMipRenderTarget(ID3D11DeviceContext* deviceContext, int mipLevel) {
@@ -138,28 +125,14 @@ void ArcRenderToTexture::SetMipRenderTarget(ID3D11DeviceContext* deviceContext, 
 }
 
 bool ArcRenderToTexture::WriteToSubResource(ID3D11DeviceContext* deviceContext, int mipLevel) {
-	D3D11_TEX2D_ARRAY_DSV desc;
-	desc.MipSlice = 1;
-	desc.FirstArraySlice = 0;
-	desc.ArraySize = 1;
-
 	ID3D11Resource *pSrcResource;
 	mipDepthStencilViewVector[mipLevel - 1]->GetResource(&pSrcResource);
-	//mipDepthStencilTextureVector[mipLevel - 1].
-	/*D3D11_MAPPED_SUBRESOURCE mapped;
-	int texheight = 1;//mipViewPortVector[mipLevel - 1].Height
-	deviceContext->Map(mipDepthStencilTextureVector[mipLevel - 1], 0, D3D11_MAP_READ, 0, &mapped);
-	UINT* arr = new UINT[(mapped.RowPitch / (float)sizeof(UINT)) * texheight];
-	ZeroMemory(arr, mapped.RowPitch * texheight);
-	CopyMemory(arr, mapped.pData, mapped.RowPitch * texheight);
-	deviceContext->Unmap(mipDepthStencilTextureVector[mipLevel - 1], 0);*/
 
 	ID3D11Resource *pDstResource;
 	mShaderResourceView->GetResource(&pDstResource);
 
 	deviceContext->CopySubresourceRegion(pDstResource, mipLevel, 0, 0, 0, pSrcResource, 0, NULL);
 	return false;
-	//mDepthStencilView
 }
 
 #define ReleaseCOM(x) { if (x) { x->Release(); x = 0; } }

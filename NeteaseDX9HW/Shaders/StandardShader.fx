@@ -84,6 +84,7 @@ float ShadowCalculation(float4 lightSpacePos, float viewDepth, float bias)
 
 float CSMCalculation(float4 worldPos, float bias){
 	float shadow = 0.0;
+	//float blendTime = 0.0;
 	for (int i = 0; i < 4; ++i){
 		float4 lightSpacePos = mul(worldPos, LightMatrix[i]);
 		float3 projCoords = lightSpacePos.xyz / lightSpacePos.w;
@@ -118,6 +119,7 @@ float CSMCalculation(float4 worldPos, float bias){
 			}
 			tempShadowSum /= 9.0;
 			shadow += tempShadowSum;
+			//blendTime++;
 			//float closestDepth = gShadowMap1.SampleLevel(gSamLinear, projCoords.xy, i).r;
 			//shadow = (projCoords.z - bias) > closestDepth ? 1.0f : 0.0f;
 			//shadow = i;
