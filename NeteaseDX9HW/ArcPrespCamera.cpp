@@ -1,4 +1,4 @@
-#include "ArcCamera.h"
+#include "ArcPrespCamera.h"
 #include "ArcGameObject.h"
 #include "ArcTransform.h"
 #include "DriverSetting.h"
@@ -7,71 +7,73 @@ namespace DX11Engine {
 
 	static const float MaxVerticalAngle = 85.0f;
 
-	ArcCamera::ArcCamera() :
+	ArcPrespCamera::ArcPrespCamera() :
 		m_fieldOfView(60.0f),
 		m_nearPlane(0.3f),
 		m_farPlane(100.0f),
 		m_viewportAspectRatio(4.0f / 3.0f)
+		
 	{
+		cameraType = Perspective;
 	}
 
-	float ArcCamera::FieldOfView() const {
+	float ArcPrespCamera::FieldOfView() const {
 		return m_fieldOfView;
 	}
 
-	void ArcCamera::SetFieldOfView(float fieldOfView) {
+	void ArcPrespCamera::SetFieldOfView(float fieldOfView) {
 		assert(fieldOfView > 0.0f && fieldOfView < 180.0f);//assert效果是如果它的条件返回错误，则终止程序执行
 		m_fieldOfView = fieldOfView;
 	}
 
-	float ArcCamera::NearPlane() const {
+	float ArcPrespCamera::NearPlane() const {
 		return m_nearPlane;
 	}
 
-	float ArcCamera::FarPlane() const {
+	float ArcPrespCamera::FarPlane() const {
 		return m_farPlane;
 	}
 
-	void ArcCamera::SetNearAndFarPlanes(float nearPlane, float farPlane) {
+	void ArcPrespCamera::SetNearAndFarPlanes(float nearPlane, float farPlane) {
 		assert(nearPlane > 0.0f);
 		assert(farPlane > nearPlane);
 		m_nearPlane = nearPlane;
 		m_farPlane = farPlane;
 	}
 
-	float ArcCamera::ViewportAspectRatio() const {
+	float ArcPrespCamera::ViewportAspectRatio() const {
 		return m_viewportAspectRatio;
 	}
 
-	void ArcCamera::SetViewportAspectRatio(float viewportAspectRatio) {
+	void ArcPrespCamera::SetViewportAspectRatio(float viewportAspectRatio) {
 		assert(viewportAspectRatio > 0.0);
 		m_viewportAspectRatio = viewportAspectRatio;
 	}
 
-	mat4 ArcCamera::Matrix() const {
+	mat4 const ArcPrespCamera::Matrix(){
 		return Projection() * View();
 	}
 
-	mat4 ArcCamera::Projection() const {
+	mat4 const ArcPrespCamera::Projection(){
 		//print(m_viewportAspectRatio);
 		return CalculatePerspectiveMatrix(DegreeToRadians(m_fieldOfView), m_viewportAspectRatio, m_nearPlane, m_farPlane);
 	}
 
-	mat4 ArcCamera::View() const {
+	mat4 const ArcPrespCamera::View(){
 		float3 up = GameObject()->TransformPtr()->Up();
 		float3 forward = GameObject()->TransformPtr()->Forward();
 		float3 lookatPos = AddFloat3(forward, GameObject()->TransformPtr()->Position());
 		return CalculateViewMatrix(GameObject()->TransformPtr()->Position(), lookatPos, up);
 	}
 
-	std::shared_ptr<ArcCamera::FrustumCorners> ArcCamera::GetFrustumCorners() {
+	std::shared_ptr<ArcPrespCamera::FrustumCorners> ArcPrespCamera::GetFrustumCorners() {
 		return GetFrustumCorners(m_nearPlane,m_farPlane);
 	}
 
-	std::shared_ptr<ArcCamera::FrustumCorners> ArcCamera::GetFrustumCorners(float nearPlane, float farPlane) {
-		std::shared_ptr<ArcCamera::FrustumCorners> result = std::make_shared<ArcCamera::FrustumCorners>();
+	std::shared_ptr<ArcPrespCamera::FrustumCorners> ArcPrespCamera::GetFrustumCorners(float nearPlane, float farPlane) {
+		std::shared_ptr<ArcPrespCamera::FrustumCorners> result = std::make_shared<ArcPrespCamera::FrustumCorners>();
 		auto cameraTrans = GameObject()->getComponent<ArcTransform>();
-		ArcCamera::FrustumCorners viewSpaceCorners;
+		ArcPrespCamera::FrustumCorners viewSpaceCorners;
 		mat4 tempPro = CalculatePerspectiveMatrix(DegreeToRadians(m_fieldOfView), m_viewportAspectRatio, nearPlane, farPlane);
 		mat4 mat = Inverse(View() * tempPro);
 		float3 vecFrustum[8];
@@ -101,7 +103,7 @@ namespace DX11Engine {
 		return result;
 	}
 
-	void ArcCamera::GetCascadeFrustumCornersList(std::vector<std::shared_ptr<ArcCamera::FrustumCorners>>& list) {
+	void ArcPrespCamera::GetCascadeFrustumCornersList(std::vector<std::shared_ptr<ArcPrespCamera::FrustumCorners>>& list) {
 		list.clear();
 		std::vector<float> tempPlaneDis = std::vector<float>(2 + SHADOW_CASCADE_LAYER_NUM - 1);
 		tempPlaneDis[0] = m_nearPlane;

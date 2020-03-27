@@ -2,15 +2,16 @@
 
 #include "CommonHeaders.h"
 #include "ArcBehaviour.h"
+#include "ArcCameraBase.h"
 #include "ArcMath.h"
 
 namespace DX11Engine{
 
-class ArcCamera : 
-	public ArcBehaviour
+class ArcPrespCamera : 
+	public ArcCameraBase
 {
 public:
-	ArcCamera();
+	ArcPrespCamera();
 
 	struct FrustumCorners{
 	public:
@@ -29,12 +30,12 @@ public:
 
 	float ViewportAspectRatio() const;
 	void SetViewportAspectRatio(float viewportAspectRatio);
-	std::shared_ptr<ArcCamera::FrustumCorners> GetFrustumCorners();
-	void GetCascadeFrustumCornersList(std::vector<std::shared_ptr<ArcCamera::FrustumCorners>>& list);
+	std::shared_ptr<ArcPrespCamera::FrustumCorners> GetFrustumCorners();
+	void GetCascadeFrustumCornersList(std::vector<std::shared_ptr<ArcPrespCamera::FrustumCorners>>& list);
 
-	mat4 Matrix() const;
-	mat4 Projection() const;
-	mat4 View() const;
+	mat4 const Matrix();
+	mat4 const Projection();
+	mat4 const View();
 
 private:
 	float m_fieldOfView;
@@ -42,7 +43,7 @@ private:
 	float m_farPlane;
 	float m_viewportAspectRatio;
 
-	std::shared_ptr<ArcCamera::FrustumCorners> GetFrustumCorners(float nearPlane, float farPlane);
+	std::shared_ptr<ArcPrespCamera::FrustumCorners> GetFrustumCorners(float nearPlane, float farPlane);
 };
 
 }

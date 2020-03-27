@@ -4,7 +4,7 @@
 
 namespace DX11Engine {
 	class ArcGameObject;
-	class ArcCamera;
+	class ArcCameraBase;
 	class DirectionalLight;
 	class Light;
 
@@ -16,8 +16,8 @@ namespace DX11Engine {
 		~ArcScene() = default;
 		void AddGameObject(std::shared_ptr<ArcGameObject> gameObject);
 		std::vector<std::shared_ptr<ArcGameObject>>& GetGameObjectsInScene();
-		void SetMainCamera(std::shared_ptr<ArcCamera> mainCamera);
-		const std::shared_ptr<ArcCamera> GetMainCamera() const;
+		void SetMainCamera(std::shared_ptr<ArcCameraBase> mainCamera);
+		const std::shared_ptr<ArcCameraBase> GetMainCamera() const;
 		void SetMainLight(std::shared_ptr<DirectionalLight> light);
 		const std::shared_ptr<DirectionalLight> GetMainLight() const;
 		void AddSecondaryLight(std::shared_ptr<Light> light);
@@ -26,7 +26,7 @@ namespace DX11Engine {
 	private:
 		std::string m_name;
 		std::vector<std::shared_ptr<ArcGameObject>> m_sceneGameObjects;
-		std::shared_ptr<ArcCamera> m_mainCamera;
+		std::shared_ptr<ArcCameraBase> m_mainCamera;
 		std::shared_ptr<DirectionalLight> m_mainLight;
 		std::vector <std::shared_ptr<Light>> m_secondaryLights;
 	};

@@ -6,7 +6,7 @@
 #include "ArcScene.h"
 #include "ArcMath.h"
 #include "ArcBehaviour.h"
-#include "ArcCamera.h"
+#include "ArcPrespCamera.h"
 #include "Light.h"
 #include "DebugCameraMove.h"
 #include "SkyboxFollowCamera.h"
@@ -29,7 +29,7 @@ void DebugApplication::LoadApplication() {
 	mainCameraTransform->SetLocalPosition(float3(-1.6f, 7.f, 1.f));
 	mainCameraTransform->SetLocalRotation(float3(0.f, 45.f, 0.f));
 	//mainCameraTransform->SetLocalScale(float3(2.0f, 2.0f, 2.0f));
-	auto mainCamera = std::make_shared<DX11Engine::ArcCamera>();
+	auto mainCamera = std::make_shared<DX11Engine::ArcPrespCamera>();
 	mainCamera->SetViewportAspectRatio(((float)ArcApplication::Width()) / ((float)ArcApplication::Height()));
 	mainCameraGameObject->SetTransfrom(mainCameraTransform);
 	mainCameraGameObject->AttachScript(mainCamera);

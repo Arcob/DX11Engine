@@ -7,7 +7,7 @@
 #include "ArcScene.h"
 #include "ArcMath.h"
 #include "ArcBehaviour.h"
-#include "ArcCamera.h"
+#include "ArcPrespCamera.h"
 #include "Light.h"
 #include "CameraController.h"
 #include "ShadowCameraController.h"
@@ -32,7 +32,7 @@ void ShadowApplication::LoadApplication() {
 	mainCameraTransform->SetLocalPosition(float3(15.0f, 8.f, 15.f));
 	mainCameraTransform->SetLocalRotation(float3(30.0f, 225.0f, 0.f));
 	mainCameraTransform->SetLocalScale(float3(1.0f, 1.0f, 1.0f));
-	auto mainCamera = std::make_shared<DX11Engine::ArcCamera>();
+	auto mainCamera = std::make_shared<DX11Engine::ArcPrespCamera>();
 	mainCamera->SetViewportAspectRatio(((float)ArcApplication::Width()) / ((float)ArcApplication::Height()));
 	mainCameraGameObject->SetTransfrom(mainCameraTransform);
 	mainCameraGameObject->AttachScript(mainCamera);

@@ -24,6 +24,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NeteaseDX9HW</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>NeteaseDX9HW</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -159,7 +160,7 @@
     <ClCompile Include="ArcApplication.cpp" />
     <ClCompile Include="ArcAssets.cpp" />
     <ClCompile Include="ArcBehaviour.cpp" />
-    <ClCompile Include="ArcCamera.cpp" />
+    <ClCompile Include="ArcPrespCamera.cpp" />
     <ClCompile Include="ArcCameraBase.cpp" />
     <ClCompile Include="ArcFramework.cpp" />
     <ClCompile Include="ArcGameObject.cpp" />
@@ -200,7 +201,7 @@
     <ClInclude Include="ArcApplication.h" />
     <ClInclude Include="ArcAssets.h" />
     <ClInclude Include="ArcBehaviour.h" />
-    <ClInclude Include="ArcCamera.h" />
+    <ClInclude Include="ArcPrespCamera.h" />
     <ClInclude Include="ArcCameraBase.h" />
     <ClInclude Include="ArcFramework.h" />
     <ClInclude Include="ArcGameObject.h" />

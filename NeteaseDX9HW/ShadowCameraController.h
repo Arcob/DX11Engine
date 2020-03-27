@@ -1,6 +1,6 @@
 #pragma once
 #include "ArcBehaviour.h"
-#include "ArcCamera.h"
+#include "ArcPrespCamera.h"
 #include "Light.h"
 
 class ShadowCameraController :
@@ -11,7 +11,7 @@ public:
 	void Start();
 	void Update();
 private:
-	DX11Engine::ArcCamera* cachedMainCamera;
+	DX11Engine::ArcPrespCamera* cachedMainCamera;
 	DX11Engine::DirectionalLight* cachedDirectionalLight;
 	void SetCurLightInfo();
 	float cameraBackDistance = 500.f;

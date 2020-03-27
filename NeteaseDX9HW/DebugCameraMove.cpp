@@ -15,7 +15,6 @@ void DebugCameraMove::Start() {
 }
 
 void DebugCameraMove::Update() {
-	//print("Update");
 	auto camera = GameObject(); //DX11Engine::ArcGameObject::Find("Camera");
 	//PrintFloat3(camera->TransformPtr()->Position());
 	if (DX11Engine::ArcInput::GetKeyboardKey('W')) {		
@@ -30,7 +29,7 @@ void DebugCameraMove::Update() {
 	else if (DX11Engine::ArcInput::GetKeyboardKey('D')) {
 		camera->TransformPtr()->Translate(MultFloat3(camera->TransformPtr()->Right(), moveSpeed * DX11Engine::ArcTime::DeltaTime()));
 	}
-	/**/if (DX11Engine::ArcInput::GetMouseKey(DX11Engine::MouseKey::LeftClick)) {
+	if (DX11Engine::ArcInput::GetMouseKey(DX11Engine::MouseKey::LeftClick)) {
 		float2 mousePosOrigin = DX11Engine::ArcInput::GetMousePos();
 		float2 mousePos = float2(mousePosOrigin.x-0.5f, mousePosOrigin.y-0.5f);
 		camera->TransformPtr()->Rotate(float3(rotateSpeed * mousePos.y * DX11Engine::ArcTime::DeltaTime(), rotateSpeed * mousePos.x * DX11Engine::ArcTime::DeltaTime(), 0.f));

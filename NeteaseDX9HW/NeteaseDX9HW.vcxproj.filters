@@ -102,9 +102,6 @@
     <ClCompile Include="RacingGameAssets.cpp">
       <Filter>RacingGame\源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ArcCamera.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ArcTexture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -157,6 +154,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ArcCameraBase.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcPrespCamera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -233,9 +233,6 @@
     <ClInclude Include="RacingGameAssets.h">
       <Filter>RacingGame\头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ArcCamera.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="ArcTexture.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -291,6 +288,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ArcCameraBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcPrespCamera.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
