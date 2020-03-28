@@ -33,19 +33,6 @@ namespace DX11Engine {
 		return lightCameraList[level];
 	}
 
-	mat4 DirectionalLight::View() {
-		/*float3 up = GameObject()->TransformPtr()->Up();
-		float3 forward = GameObject()->TransformPtr()->Forward();
-		float3 lookatPos = AddFloat3(forward, GameObject()->TransformPtr()->Position());
-		return CalculateViewMatrix(GameObject()->TransformPtr()->Position(), lookatPos, up);*/
-		return View(0);
-	}
-
-	mat4 DirectionalLight::Orthographic() {
-		//return CalculateOrthographicMatrix(m_orthoCamPara.x, m_orthoCamPara.y, m_orthoCamPara.z, m_orthoCamPara.w);
-		return Orthographic(0);
-	}
-
 	mat4 DirectionalLight::View(int level) {
 		return lightCameraList[level]->View();
 	}

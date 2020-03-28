@@ -60,19 +60,44 @@ namespace DX11Engine {
 	}
 
 	const mat4 ArcTransform::PositionMatrix() const {
-		return Vector3ToTranslationMatrix(Position());
+		return XMLoadFloat4x4(&m_cachedPositionMatrix);
 	}
 
 	const mat4 ArcTransform::RotationMatrix() const {
-		return EularAngleToRotationMatrix(Rotation());
+		return XMLoadFloat4x4(&m_cachedRotationMatrix);
 	}
 
 	const mat4 ArcTransform::ScaleMatrix() const {
-		return Vector3ToScaleMatrix(Scale());
+		return XMLoadFloat4x4(&m_cachedScaleMatrix);
 	}
 
 	const mat4 ArcTransform::TransformMatrix() const {
+		return XMLoadFloat4x4(&m_cachedTransformMatrix);
+	}
+
+	const mat4 ArcTransform::CalPositionMatrix() const {
+		return Vector3ToTranslationMatrix(Position());
+	}
+
+	const mat4 ArcTransform::CalRotationMatrix() const {
+		return EularAngleToRotationMatrix(Rotation());
+	}
+
+	const mat4 ArcTransform::CalScaleMatrix() const {
+		return Vector3ToScaleMatrix(Scale());
+	}
+
+	const mat4 ArcTransform::CalTransformMatrix() const {
 		return ScaleMatrix() * RotationMatrix() * PositionMatrix();//DX的mvp要和Opengl反着乘
+	}
+
+	void ArcTransform::PreCalculate() {
+		XMStoreFloat4x4(&m_cachedPositionMatrix, CalPositionMatrix());
+		XMStoreFloat4x4(&m_cachedRotationMatrix, CalRotationMatrix());
+		XMStoreFloat4x4(&m_cachedScaleMatrix, CalScaleMatrix());
+		XMStoreFloat4x4(&m_cachedTransformMatrix, CalTransformMatrix());
+		//m_cachedTransformMatrix = XMS
+		//print("PreCalculate");
 	}
 
 	void ArcTransform::SetLocalPosition(float3 position) {

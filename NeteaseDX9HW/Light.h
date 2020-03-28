@@ -32,8 +32,6 @@ namespace DX11Engine {
 		DirectionalLight(float intensity, float4 color, float4 cam);
 		void AddCascadeCamera(std::shared_ptr<ArcOrthoCamera> camera, int level);
 		std::shared_ptr<ArcOrthoCamera> GetLightCamera(int level);
-		mat4 View();
-		mat4 Orthographic();
 		mat4 View(int level);
 		mat4 Orthographic(int level);
 

@@ -17,6 +17,15 @@ namespace DX11Engine {
 		cameraType = Perspective;
 	}
 
+	void ArcPrespCamera::Awake() {
+		//XMStoreFloat4x4(&cachedProjection, CalProjection());
+	}
+	
+	void ArcPrespCamera::EarlyUpdate() {
+		XMStoreFloat4x4(&cachedView, CalView());
+		XMStoreFloat4x4(&cachedProjection, CalProjection());
+	}
+
 	float ArcPrespCamera::FieldOfView() const {
 		return m_fieldOfView;
 	}
@@ -54,16 +63,30 @@ namespace DX11Engine {
 		return Projection() * View();
 	}
 
-	mat4 const ArcPrespCamera::Projection(){
-		//print(m_viewportAspectRatio);
-		return CalculatePerspectiveMatrix(DegreeToRadians(m_fieldOfView), m_viewportAspectRatio, m_nearPlane, m_farPlane);
+	mat4 const ArcPrespCamera::View(){
+		/*float3 up = GameObject()->TransformPtr()->Up();
+		float3 forward = GameObject()->TransformPtr()->Forward();
+		float3 lookatPos = AddFloat3(forward, GameObject()->TransformPtr()->Position());
+		return CalculateViewMatrix(GameObject()->TransformPtr()->Position(), lookatPos, up);*/
+		return XMLoadFloat4x4(&cachedView);
 	}
 
-	mat4 const ArcPrespCamera::View(){
+	mat4 const ArcPrespCamera::Projection(){
+		//print(m_viewportAspectRatio);
+		//return CalculatePerspectiveMatrix(DegreeToRadians(m_fieldOfView), m_viewportAspectRatio, m_nearPlane, m_farPlane);
+		return XMLoadFloat4x4(&cachedProjection);
+	}
+
+	mat4 const ArcPrespCamera::CalView() {
 		float3 up = GameObject()->TransformPtr()->Up();
 		float3 forward = GameObject()->TransformPtr()->Forward();
 		float3 lookatPos = AddFloat3(forward, GameObject()->TransformPtr()->Position());
 		return CalculateViewMatrix(GameObject()->TransformPtr()->Position(), lookatPos, up);
+	}
+
+	mat4 const ArcPrespCamera::CalProjection() {
+		//print(m_viewportAspectRatio);
+		return CalculatePerspectiveMatrix(DegreeToRadians(m_fieldOfView), m_viewportAspectRatio, m_nearPlane, m_farPlane);
 	}
 
 	std::shared_ptr<ArcPrespCamera::FrustumCorners> ArcPrespCamera::GetFrustumCorners() {

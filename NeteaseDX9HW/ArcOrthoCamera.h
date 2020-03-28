@@ -13,9 +13,14 @@ namespace DX11Engine {
 		ArcOrthoCamera(float width, float height, float nearZ, float farZ);
 		void SetOrthoPara(float width, float height, float nearZ, float farZ);
 
+		virtual void Awake();
+		virtual void EarlyUpdate();
+
 		virtual mat4 const Matrix();
 		virtual mat4 const Projection();
 		virtual mat4 const View();
+		mat4 const CalView();
+		mat4 const CalProjection();
 
 	private:
 		float m_width;

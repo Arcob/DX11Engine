@@ -23,7 +23,7 @@ namespace DX11Engine {
 		std::shared_ptr<ArcTransform> const TransformPtr();
 		void SetTransfrom(std::shared_ptr<ArcTransform> transfrom);
 		void SetName(const std::string& name);
-		const std::string name() const;
+		const std::string &name() const;
 		void SetMesh(std::shared_ptr<ArcMesh> mesh);
 		const std::shared_ptr<ArcMesh> Mesh() const;
 		void SetMaterial(std::shared_ptr<ArcMaterial> material);

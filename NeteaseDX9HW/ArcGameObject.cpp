@@ -42,7 +42,7 @@ namespace DX11Engine {
 		m_name = name;
 	}
 
-	const std::string ArcGameObject::name() const {
+	const std::string &ArcGameObject::name() const {
 		return m_name;
 	}
 

@@ -15,6 +15,9 @@ namespace DX11Engine {
 
 	public:
 		CameraType cameraType;
+		int pad[3];
+		float4x4 cachedView;
+		float4x4 cachedProjection;
 		virtual mat4 const Matrix() = 0;
 		virtual mat4 const Projection() = 0;
 		virtual mat4 const View() = 0;

@@ -25,7 +25,17 @@ namespace DX11Engine {
 
 	}
 
+	void ArcBehaviour::EarlyUpdate()
+	{
+
+	}
+
 	void ArcBehaviour::Update()
+	{
+
+	}
+
+	void ArcBehaviour::LateUpdate()
 	{
 
 	}

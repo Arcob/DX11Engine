@@ -11,7 +11,9 @@ namespace DX11Engine {
 		virtual ~ArcBehaviour() = default;
 		virtual void Awake();
 		virtual void Start();
+		virtual void EarlyUpdate();
 		virtual void Update();
+		virtual void LateUpdate();
 		std::shared_ptr<ArcGameObject> const GameObject() const;
 		void SetGameObject(std::shared_ptr<ArcGameObject> gameObject);
 

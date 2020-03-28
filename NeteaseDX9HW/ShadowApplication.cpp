@@ -32,9 +32,9 @@ void ShadowApplication::LoadApplication() {
 	mainCameraTransform->SetLocalPosition(float3(15.0f, 8.f, 15.f));
 	mainCameraTransform->SetLocalRotation(float3(30.0f, 225.0f, 0.f));
 	mainCameraTransform->SetLocalScale(float3(1.0f, 1.0f, 1.0f));
+	mainCameraGameObject->SetTransfrom(mainCameraTransform);
 	auto mainCamera = std::make_shared<DX11Engine::ArcPrespCamera>();
 	mainCamera->SetViewportAspectRatio(((float)ArcApplication::Width()) / ((float)ArcApplication::Height()));
-	mainCameraGameObject->SetTransfrom(mainCameraTransform);
 	mainCameraGameObject->AttachScript(mainCamera);
 	auto cameraMove = std::make_shared<DebugCameraMove>();
 	mainCameraGameObject->AttachScript(cameraMove);

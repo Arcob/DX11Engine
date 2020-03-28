@@ -57,15 +57,8 @@ int main()
 	}
 	print("Current working dictionary is: " << ArcTool::getCurrentPath());
 
-	//std::vector<ArcRenderToTexture*> shadowBufferList = std::vector<ArcRenderToTexture*>(SHADOW_CASCADE_LAYER_NUM); //指针直接就初始化了，导致这里的vector里有四个空指针
-	//for (int i = 0; i < shadowBufferList.size(); i++) {
-	//	shadowBufferList[i] = new ArcRenderToTexture();
-	//	shadowBufferList[i]->InitializeAsDepthBuffer(ArcRHI::g_pd3dDevice, SHADOW_MAP_WIDTH / (1 << i), SHADOW_MAP_HEIGHT / (1 << i));
-	//	//print(shadowBufferList[i]);
-	//}
-	//print(shadowBufferList.size());
 	ArcRenderToTexture* mRenderToTextureClass = new ArcRenderToTexture();
-	//shadowBufferList.push_back(mRenderToTextureClass);
+
 	if (!mRenderToTextureClass)
 	{
 		return false;
@@ -82,9 +75,25 @@ int main()
 		ArcInput::Update();
 		ArcRHI::ClearScreen(clearColor);
 
+		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //EarlyUpdate
+			gameObject->TransformPtr()->PreCalculate();
+		}
+
+		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //EarlyUpdate
+			for (auto behaviour : gameObject->GetBehaviourList()) {
+				behaviour->EarlyUpdate();
+			}
+		}
+
 		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //Update
 			for (auto behaviour : gameObject->GetBehaviourList()) {
 				behaviour->Update();
+			}
+		}
+
+		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //LateUpdate
+			for (auto behaviour : gameObject->GetBehaviourList()) {
+				behaviour->LateUpdate();
 			}
 		}
 
