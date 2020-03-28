@@ -22,7 +22,7 @@ const static float SHADOW_DISTANCE = 100.0f;
 
 //const static float CACSCADE_SHADOW_MAP_BOUND_PERCENT[SHADOW_CASCADE_LAYER_NUM - 1] = { 0.067f, 0.2f, 0.467f };//unity的默认参数
 //const static float CACSCADE_SHADOW_MAP_BOUND_PERCENT[SHADOW_CASCADE_LAYER_NUM - 1] = { 0.1f, 0.23f, 0.6f };//为了能看到三层
-//const static float CACSCADE_SHADOW_MAP_BOUND_PERCENT[SHADOW_CASCADE_LAYER_NUM - 1] = { 0.2f, 0.467f, 0.75f };//效果好的参数
-const static float CACSCADE_SHADOW_MAP_BOUND_PERCENT[SHADOW_CASCADE_LAYER_NUM - 1] = { 0.99f, 0.993f, 0.995f };//模拟没有层级阴影
+const static float CACSCADE_SHADOW_MAP_BOUND_PERCENT[SHADOW_CASCADE_LAYER_NUM - 1] = { 0.2f, 0.467f, 0.75f };//效果好的参数
+//const static float CACSCADE_SHADOW_MAP_BOUND_PERCENT[SHADOW_CASCADE_LAYER_NUM - 1] = { 0.99f, 0.993f, 0.995f };//模拟没有层级阴影
 
 const static int WIDTH = 1024, HEIGHT = 768;

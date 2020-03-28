@@ -94,35 +94,35 @@ float CSMCalculation(float4 worldPos, float bias){
 		& projCoords.y > 0.01 & projCoords.y < 0.99 
 		& projCoords.z > 0.0 & projCoords.z < 1.0
 		){
-			// uint width = 1;
-			// uint height = 1;
-			// uint numberOfLevel = 1;
-			// float divide = 0.0;
-			// gShadowMap1.GetDimensions(i, width, height, numberOfLevel);
-			// float2 texelSize = float2(1.0f / width, 1.0f / height);
-			// float tempShadowSum = 0.0;
-			// for (int x = -1; x <= 1; ++x)
-			// {
-			// 	for (int y = -1; y <= 1; ++y)
-			// 	{
-			// 		float2 tempUV = projCoords.xy + float2(x, y) * texelSize;
-			// 		float pcfDepth = gShadowMap1.SampleLevel(gSamLinearShadow, tempUV, i).r;
-			// 		tempShadowSum += (projCoords.z - bias) > pcfDepth ? 0.9 : 0.0;/**/
-			// 		// 	shadow += (projCoords.z - bias) > pcfDepth ? 1.0 : 0.0;
-			// 		// if (tempUV.x > 0.0 & tempUV.x < 1.0 
-			// 		// & tempUV.y > 0.0 & tempUV.y < 1.0 ){
-			// 		// 	float pcfDepth = gShadowMap1.SampleLevel(gSamLinear, tempUV, i).r;
-			// 		// 	tempShadowSum += (projCoords.z - bias) > pcfDepth ? 1.0 : 0.0;
-			// 		// 	divide += 1.0;
-			// 		// }
-			// 	}
-			// }
-			// tempShadowSum /= 9.0;
-			// shadow += tempShadowSum;
+			uint width = 1;
+			uint height = 1;
+			uint numberOfLevel = 1;
+			float divide = 0.0;
+			gShadowMap1.GetDimensions(i, width, height, numberOfLevel);
+			float2 texelSize = float2(1.0f / width, 1.0f / height);
+			float tempShadowSum = 0.0;
+			for (int x = -1; x <= 1; ++x)
+			{
+				for (int y = -1; y <= 1; ++y)
+				{
+					float2 tempUV = projCoords.xy + float2(x, y) * texelSize;
+					float pcfDepth = gShadowMap1.SampleLevel(gSamLinearShadow, tempUV, i).r;
+					tempShadowSum += (projCoords.z - bias) > pcfDepth ? 0.9 : 0.0;/**/
+					// 	shadow += (projCoords.z - bias) > pcfDepth ? 1.0 : 0.0;
+					// if (tempUV.x > 0.0 & tempUV.x < 1.0 
+					// & tempUV.y > 0.0 & tempUV.y < 1.0 ){
+					// 	float pcfDepth = gShadowMap1.SampleLevel(gSamLinear, tempUV, i).r;
+					// 	tempShadowSum += (projCoords.z - bias) > pcfDepth ? 1.0 : 0.0;
+					// 	divide += 1.0;
+					// }
+				}
+			}
+			tempShadowSum /= 9.0;
+			shadow += tempShadowSum;
 
 			//blendTime++;
-			float closestDepth = gShadowMap1.SampleLevel(gSamLinear, projCoords.xy, i).r;
-			shadow = (projCoords.z - bias) > closestDepth ? 1.0f : 0.0f;
+			//float closestDepth = gShadowMap1.SampleLevel(gSamLinear, projCoords.xy, i).r;
+			//shadow = (projCoords.z - bias) > closestDepth ? 1.0f : 0.0f;
 			//shadow = i;
 			break;
 		}
