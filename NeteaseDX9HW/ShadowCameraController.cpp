@@ -40,7 +40,7 @@ float MaxInArray(float* array, int size) {
 	return result;
 }
 
-#define USE_SPHERE true
+#define USE_SPHERE false
 
 #if USE_SPHERE
 
@@ -91,9 +91,9 @@ void ShadowCameraController::SetCurLightInfo() {
 			lightCorner.farCorners[i] = TransformCoord(frustumCornerList[j]->farCorners[i], cachedDirectionalLight->GetLightCamera(j)->View());
 		}
 
-		/*float3 centerInLightSpace = getSphereCenter(lightCorner.nearCorners[0], lightCorner.farCorners[0], lightCorner.farCorners[1], lightCorner.farCorners[2]);
-		float radius = DistanceFloat3(centerInLightSpace, lightCorner.nearCorners[0]);
-		float3 pos = float3(centerInLightSpace.x, centerInLightSpace.y, centerInLightSpace.z - radius);*/
+		float farDist = DistanceFloat3(lightCorner.farCorners[0], lightCorner.farCorners[2]);
+		float crossDist = DistanceFloat3(lightCorner.nearCorners[0], lightCorner.farCorners[2]);
+		float maxDist = farDist > crossDist ? farDist : crossDist;
 
 		float xs[8] = { lightCorner.nearCorners[0].x, lightCorner.nearCorners[1].x, lightCorner.nearCorners[2].x, lightCorner.nearCorners[3].x,
 						lightCorner.farCorners[0].x, lightCorner.farCorners[1].x, lightCorner.farCorners[2].x, lightCorner.farCorners[3].x };
@@ -111,57 +111,27 @@ void ShadowCameraController::SetCurLightInfo() {
 		float minZ = MinInArray(zs, 8);
 		float maxZ = MaxInArray(zs, 8);
 
-		//把区域变成正方形
-		float xWidth = maxX - minX;
-		float yWidth = maxY - minY;
-		float boundWidth = 0;
-		if (xWidth > yWidth) {
-			boundWidth = xWidth;
-			float centerY = (minY + maxY) / 2.0f;
-			maxY = centerY + xWidth / 2.0f;
-			minY = centerY - xWidth / 2.0f;
-		}
-		else {
-			boundWidth = yWidth;
-			float centerX = (minX + maxX) / 2.0f;
-			maxX = centerX + yWidth / 2.0f;
-			minX = centerX - yWidth / 2.0f;
-		}
+		float fWorldUnitsPerTexel = maxDist / (float)SHADOW_MAP_WIDTH;
+		float posX = (minX + maxX)*0.5f;
+		posX /= fWorldUnitsPerTexel;
+		posX = floor(posX);
+		posX *= fWorldUnitsPerTexel;
 
-		float fWorldUnitsPerTexel = boundWidth / (float)SHADOW_MAP_WIDTH;
-		//print(fWorldUnitsPerTexel);
-		//vWorldUnitsPerTexel = XMVectorSet(fWorldUnitsPerTexel, fWorldUnitsPerTexel, 0.0f, 0.0f);
+		float posY = (minY + maxY)*0.5f;
+		posY /= fWorldUnitsPerTexel;
+		posY = floor(posY);
+		posY *= fWorldUnitsPerTexel;
 
-		/*minX /= fWorldUnitsPerTexel;
-		minX = floor(minX);
-		minX *= fWorldUnitsPerTexel;
-
-		minY /= fWorldUnitsPerTexel;
-		minY = floor(minY);
-		minY *= fWorldUnitsPerTexel;
-
-		maxX /= fWorldUnitsPerTexel;
-		maxX = floor(maxX);
-		maxX *= fWorldUnitsPerTexel;
-
-		maxY /= fWorldUnitsPerTexel;
-		maxY = floor(maxY);
-		maxY *= fWorldUnitsPerTexel;*/
-
-		lightCorner.nearCorners[0] = float3(minX, minY, minZ);
-		lightCorner.nearCorners[1] = float3(maxX, minY, minZ);
-		lightCorner.nearCorners[2] = float3(maxX, maxY, minZ);
-		lightCorner.nearCorners[3] = float3(minX, maxY, minZ);
-
-		lightCorner.farCorners[0] = float3(minX, minY, maxZ);
-		lightCorner.farCorners[1] = float3(maxX, minY, maxZ);
-		lightCorner.farCorners[2] = float3(maxX, maxY, maxZ);
-		lightCorner.farCorners[3] = float3(minX, maxY, maxZ);
+		float posZ = minZ;
+		posZ /= fWorldUnitsPerTexel;
+		posZ = floor(posZ);
+		posZ *= fWorldUnitsPerTexel;
+		
+		float3 center = float3(posX, posY, posZ);
 
 		float3 pos = AddFloat3(lightCorner.nearCorners[0], MultFloat3(Float3Minus(lightCorner.nearCorners[2], lightCorner.nearCorners[0]), 0.5f));
-		cachedDirectionalLight->GetLightCamera(j)->GameObject()->TransformPtr()->SetPosition(TransformCoord(pos, Inverse(cachedDirectionalLight->GetLightCamera(j)->View())));// = dirLightCamera.transform.TransformPoint(pos);
-		//cachedDirectionalLight->GetLightCamera(j)->SetOrthoPara(radius * 2.0f, radius * 2.0f, 0, radius * 2.0f);
-		cachedDirectionalLight->GetLightCamera(j)->SetOrthoPara(maxX-minX, maxY-minY, 0, maxZ - minZ);
+		cachedDirectionalLight->GetLightCamera(j)->GameObject()->TransformPtr()->SetPosition(TransformCoord(center, Inverse(cachedDirectionalLight->GetLightCamera(j)->View())));
+		cachedDirectionalLight->GetLightCamera(j)->SetOrthoPara(maxDist, maxDist, 0, maxZ - minZ);
 	}
 }
 #endif // USE_SPHERE

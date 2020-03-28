@@ -44,8 +44,6 @@ namespace DX11Engine {
 		m_MouseTracker.Update(mouseState);
 		m_KeyboardTracker.Update(keyState);
 
-		//print(keyState.IsKeyDown(DirectX::Keyboard::Keys::A));
-		//print(GetMouseDelta().x << " " << GetMouseDelta().y);
 	}
 
 	float2 ArcInput::GetMouseDelta() {
