@@ -12,6 +12,8 @@
 #endif // USING_DX11
 
 namespace DX11Engine { //跨平台弃疗了,强相关
+	class ArcBvhNode;
+
 	class ArcMesh
 	{
 	public:
@@ -20,6 +22,7 @@ namespace DX11Engine { //跨平台弃疗了,强相关
 		~ArcMesh() = default;
 		bool BindVertexBuffer(void* vertexs, unsigned int length);
 		bool BindIndexBuffer(unsigned int* indices, unsigned int length);
+		const std::shared_ptr<ArcBvhNode> BvhNode() const;
 
 		std::string m_meshName;
 		ID3D11Device* m_device;
@@ -31,7 +34,7 @@ namespace DX11Engine { //跨平台弃疗了,强相关
 		ID3D11InputLayout *m_pInputLayout;
 
 	private:
-		
+		std::shared_ptr<ArcBvhNode> m_bvhNode = nullptr;
 	};
 
 }

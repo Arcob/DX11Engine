@@ -235,6 +235,28 @@ inline float3 getSphereCenter(float x1, float y1, float z1,
 inline float3 getSphereCenter(float3 a, float3 b, float3 c, float3 d) {
 	return getSphereCenter(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, d.x, d.y, d.z);
 }
+
+inline float GetByIndex(float3 a, int index) {
+	switch (index)
+	{
+	case 0:
+		return a.x;
+	case 1:
+		return a.y;
+	case 2:
+		return a.z;
+	default:
+		print("Error index when GetByIndex for Vector3");
+		return 0;
+		break;
+	}
+}
+
+struct ArcRay {
+public:
+	float3 origin;
+	float3 direction;
+};
 /*
 float3 RotationMatrixToEulerAngles(mat4 mat)
 {

@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArcAABB.cpp" />
     <ClCompile Include="ArcApplication.cpp" />
     <ClCompile Include="ArcAssets.cpp" />
     <ClCompile Include="ArcBehaviour.cpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="Common\Mouse.cpp" />
     <ClCompile Include="DebugCameraMove.cpp" />
     <ClCompile Include="Common\DDSTextureLoader.cpp" />
+    <ClCompile Include="ArcBvhNode.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DebugApplication.cpp" />
@@ -198,6 +200,7 @@
     <ClCompile Include="WheelMove.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArcAABB.h" />
     <ClInclude Include="ArcApplication.h" />
     <ClInclude Include="ArcAssets.h" />
     <ClInclude Include="ArcBehaviour.h" />
@@ -231,6 +234,7 @@
     <ClInclude Include="CommonHeaders.h" />
     <ClInclude Include="Common\DDSTextureLoader.h" />
     <ClInclude Include="DriverSetting.h" />
+    <ClInclude Include="ArcBvhNode.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="DebugApplication.h" />
     <ClInclude Include="RacingGameApplication.h" />
