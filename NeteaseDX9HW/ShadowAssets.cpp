@@ -4,6 +4,7 @@
 #include "ArcMaterial.h"
 #include "ArcAssetLoader.h"
 #include "ArcGeometryGenerator.h"
+#include "ArcAABBGenerator.h"
 
 ShadowAssets::ShadowAssets() : ArcAssets() {
 	Load();
@@ -28,7 +29,13 @@ bool ShadowAssets::Load() {
 #pragma region LoadMeshRegion
 	std::shared_ptr<ArcGeometryGenerator::MeshData> generatedCubeMeshData = std::make_shared<ArcGeometryGenerator::MeshData>();
 	ArcGeometryGenerator::CreateBox(1.f, 1.f, 1.f, *generatedCubeMeshData);
-	std::shared_ptr<DX11Engine::ArcMesh> pGeneratedBoxMesh = DX11Engine::ArcAssetLoader::LoadMesh("Generated Box Mesh", generatedCubeMeshData->vertices.data(), sizeof(DX11Engine::VertexNormalTangentTex), generatedCubeMeshData->vertices.size(), generatedCubeMeshData->indices.data(), generatedCubeMeshData->indices.size(), nullptr);
+	int tempSize = (int)generatedCubeMeshData->vertices.size();
+	std::vector<float3> tempPosVector = std::vector<float3>(tempSize); // 在Mesh结构里存储顶点数据
+	for (int i = 0; i < tempSize; i++) {
+		tempPosVector[i] = generatedCubeMeshData->vertices[i].pos;
+	}
+	std::shared_ptr<DX11Engine::ArcMesh> pGeneratedBoxMesh = DX11Engine::ArcAssetLoader::LoadMesh("Generated Box Mesh", generatedCubeMeshData->vertices.data(), tempPosVector, (unsigned int)sizeof(DX11Engine::VertexNormalTangentTex), (unsigned int)generatedCubeMeshData->vertices.size(), generatedCubeMeshData->indices.data(), (unsigned int)generatedCubeMeshData->indices.size(), nullptr);
+	pGeneratedBoxMesh->aabbGenerator = std::make_shared<DX11Engine::ArcNormalAABBGenerator>();
 	if (pGeneratedBoxMesh == nullptr) print("Unable to load mesh");
 	ArcAssets::m_meshVector.push_back(std::move(pGeneratedBoxMesh));
 #pragma endregion

@@ -101,7 +101,9 @@ namespace DX11Engine {
 	}
 
 	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadMesh(std::string name, void* vertexs, unsigned int nodeLength, unsigned int nodeCount, unsigned int* indices, unsigned int indicesLength, ID3D11InputLayout *inputLayout) {
-		std::shared_ptr<DX11Engine::ArcMesh> pTempMesh = std::make_shared<DX11Engine::ArcMesh>(name, ArcRHI::g_pd3dDevice);
+		std::vector<float3> emptyVec = std::vector<float3>(); //传个空的进去
+		return LoadMesh(name, vertexs, emptyVec, nodeLength, nodeCount, indices, indicesLength, inputLayout);
+		/*std::shared_ptr<DX11Engine::ArcMesh> pTempMesh = std::make_shared<DX11Engine::ArcMesh>(name, ArcRHI::g_pd3dDevice);
 		pTempMesh->m_nodeLength = nodeLength;
 		pTempMesh->m_nodeCount = nodeCount;
 		if (!pTempMesh->BindVertexBuffer(vertexs, nodeLength * nodeCount)) {
@@ -113,8 +115,26 @@ namespace DX11Engine {
 		}
 
 		pTempMesh->m_pInputLayout = inputLayout;
+		return std::move(pTempMesh);*/
+	}
+
+	std::shared_ptr<ArcMesh> ArcAssetLoader::LoadMesh(std::string name, void* vertexs, std::vector<float3>& posVector, unsigned int nodeLength, unsigned int nodeCount, unsigned int* indices, unsigned int indicesLength, ID3D11InputLayout *inputLayout) {
+		std::shared_ptr<DX11Engine::ArcMesh> pTempMesh = std::make_shared<DX11Engine::ArcMesh>(name, ArcRHI::g_pd3dDevice);
+		pTempMesh->m_nodeLength = nodeLength;
+		pTempMesh->m_nodeCount = nodeCount;
+		pTempMesh->cachedVertexPos = posVector;//复制过去
+		if (!pTempMesh->BindVertexBuffer(vertexs, nodeLength * nodeCount)) {
+			return nullptr;
+		}
+
+		if (!pTempMesh->BindIndexBuffer(indices, indicesLength)) {
+			return nullptr;
+		}
+
+		pTempMesh->m_pInputLayout = inputLayout;
 		return std::move(pTempMesh);
 	}
+
 	//$(ProjectDir)Common
 	std::shared_ptr<ArcTexture> ArcAssetLoader::LoadTexture(std::string textureName, std::string path) {
 		auto texture = std::make_shared<ArcTexture>(textureName);
@@ -217,11 +237,11 @@ namespace DX11Engine {
 				}
 				
 				vertexVec.push_back(vertex);
-				indicesVec.push_back(indicesVec.size());
+				indicesVec.push_back((unsigned int)indicesVec.size());
 			}
 		}
 
-		std::shared_ptr<ArcMesh> result = LoadMesh(name, vertexVec.data(), sizeof(DX11Engine::VertexNormalTangentTex), vertexVec.size(), indicesVec.data(), indicesVec.size(), nullptr);
+		std::shared_ptr<ArcMesh> result = LoadMesh(name, vertexVec.data(), (unsigned int)sizeof(DX11Engine::VertexNormalTangentTex), (unsigned int)vertexVec.size(), indicesVec.data(), (unsigned int)indicesVec.size(), nullptr);
 
 		return result;
 	}

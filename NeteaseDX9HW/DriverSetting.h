@@ -16,6 +16,7 @@
 #define ENABLE_SHADOW true
 #define SHADOW_CASCADE_LAYER_NUM 4
 
+#define ENABLE_BOUND true
 
 const static int SHADOW_MAP_WIDTH = 2048, SHADOW_MAP_HEIGHT = 2048;
 const static float SHADOW_DISTANCE = 100.0f;

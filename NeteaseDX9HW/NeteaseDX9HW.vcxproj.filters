@@ -165,6 +165,9 @@
     <ClCompile Include="ArcBvhNode.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ArcAABBGenerator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcFramework.h">
@@ -303,6 +306,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ArcBvhNode.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcAABBGenerator.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

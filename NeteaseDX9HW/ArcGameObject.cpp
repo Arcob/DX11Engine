@@ -1,10 +1,12 @@
 #include "ArcGameObject.h"
 #include "ArcBehaviour.h"
+#include "ArcMesh.h"
 
 namespace DX11Engine {
 	ArcGameObject::ArcGameObject(std::string name)
 	{
 		m_name = name;
+		m_bvhNode = std::make_shared<ArcBvhNode>();
 	}
 
 
@@ -18,8 +20,8 @@ namespace DX11Engine {
 		//std::cout << " b: " << script->gameObject()->behaviourListLength() << std::endl;
 	}
 
-	const int ArcGameObject::BehaviourListLength() const {
-		return ArcBehaviourList.size();
+	int ArcGameObject::BehaviourListLength() const {
+		return (int)ArcBehaviourList.size();
 	}
 
 	const std::vector<std::shared_ptr<ArcBehaviour>> ArcGameObject::GetBehaviourList() const {
@@ -48,6 +50,10 @@ namespace DX11Engine {
 
 	void ArcGameObject::SetMesh(std::shared_ptr<ArcMesh> renderer) {
 		m_mesh = renderer;
+		//m_bvhNode = *renderer->BvhNode();//¿½±´
+		//m_bvhNode = std::make_shared<ArcBvhNode>(*renderer->BvhNode());
+		//m_bvhNode = std::shared_ptr<ArcBvhNode>(renderer->BvhNode());
+		//m_bvhNode = renderer->BvhNode();
 	}
 
 	const std::shared_ptr<ArcMesh> ArcGameObject::Mesh() const {
@@ -83,4 +89,24 @@ namespace DX11Engine {
 		return nullptr;
 	}
 
+	//void ArcGameObject::SetBvhNode(ArcBvhNode& node) {
+	//	//node->mesh = this;
+	//	//node->gameObject = this;
+	//	m_bvhNode = node;
+	//	m_bvhNode.gameObject = this;
+	//}
+
+	//ArcBvhNode& ArcGameObject::BvhNode(){
+	//	return m_bvhNode;
+	//}
+
+	void ArcGameObject::SetBvhNode(std::shared_ptr<ArcBvhNode> node) {
+		//node->mesh = this;
+		//node->gameObject = this;
+		m_bvhNode = node;
+	}
+
+	std::shared_ptr<ArcBvhNode> ArcGameObject::BvhNode() const {
+		return m_bvhNode;
+	}
 }

@@ -16,6 +16,7 @@
 #include "ArcInput.h"
 #include "ArcAssetLoader.h"
 #include "ArcRenderToTexture.h"
+#include "ArcBvhNode.h"
 
 using namespace DX11Engine;
 
@@ -26,6 +27,7 @@ std::shared_ptr<ArcWindow> pWindow;
 std::shared_ptr<ArcAssets> assets;
 std::shared_ptr<ArcApplication> app;
 bool isRunning = false;
+std::shared_ptr<ArcBvhNode> rootNode;
 
 int main()
 {
@@ -43,6 +45,24 @@ int main()
 	app = std::make_shared<Application>(WIDTH, HEIGHT, assets); //加载应用
 
 	ArcInput::Init(pWindow);
+
+	for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //预计算出各个静态物体的transform
+		gameObject->TransformPtr()->PreCalculate();
+	}
+
+	if (ENABLE_BOUND) {
+		for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
+			if (gameObject->Mesh() != nullptr && gameObject->Material() != nullptr) {
+				gameObject->Mesh()->aabbGenerator->GenerateBoundingBox(
+					gameObject->BvhNode()->aabb,
+					gameObject->TransformPtr()->TransformMatrix(),
+					gameObject->Mesh()->cachedVertexPos);
+				//print(gameObject->BvhNode());
+				//gameObject->BvhNode()->GenerateBoundingBox(gameObject->TransformPtr()->TransformMatrix());
+				//gameObject->Mesh()->BvhNode()->GenerateBoundingBox(gameObject->TransformPtr()->TransformMatrix());
+			}
+		}
+	}
 
 	for (auto gameObject : app->MainScene()->GetGameObjectsInScene()) { //渲染
 		for (auto behaviour : gameObject->GetBehaviourList()) {

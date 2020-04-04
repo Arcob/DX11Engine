@@ -7,12 +7,11 @@ namespace DX11Engine {
 	{
 	public:
 		ArcAABB() {}
-		ArcAABB(const float3 a, const float3 &b)
+		ArcAABB(const float3& min, const float3& max)
 		{
-			m_BoundMin = a; m_BoundMin = b;
+			m_BoundMin = min; m_BoundMax = max;
 		}
 
-		
 		float3 GetMin() const;
 		float3 GetMax() const;
 

@@ -47,7 +47,7 @@ void DebugApplication::LoadApplication() {
 	directionalLightGameObject->SetTransfrom(directionalLightTransform);
 	float lightIntensity = 0.5f;
 	float4 lightColor = float4(1.f, 0.96f, 0.84f, 1.f);
-	float4 lightOrthoPara = float4(Width(), Height(), 0.3f, 100.0f);
+	float4 lightOrthoPara = float4((float)Width(), (float)Height(), 0.3f, 100.0f);
 	auto directionalLight = std::make_shared<DX11Engine::DirectionalLight>(lightIntensity, lightColor, lightOrthoPara);
 	directionalLightGameObject->AttachScript(directionalLight);
 	MainScene()->SetMainLight(std::move(directionalLight));

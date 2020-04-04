@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CommonHeaders.h"
+#include "ArcBvhNode.h"
 
 namespace DX11Engine {
 
@@ -9,6 +10,7 @@ namespace DX11Engine {
 	class ArcMesh;
 	class ArcMaterial;
 	class Camera;
+	class ArcBvhNode;
 
 	class ArcGameObject
 	{
@@ -17,7 +19,7 @@ namespace DX11Engine {
 		~ArcGameObject() = default;
 
 		void AttachScript(std::shared_ptr<ArcBehaviour> script);
-		const int BehaviourListLength() const;
+		int BehaviourListLength() const;
 		const std::vector<std::shared_ptr<ArcBehaviour>> GetBehaviourList() const;
 		//const ArcTransform Transform() const;//∑µªÿ“˝”√
 		std::shared_ptr<ArcTransform> const TransformPtr();
@@ -61,6 +63,9 @@ namespace DX11Engine {
 
 		static std::shared_ptr<ArcGameObject> Find(std::string name);
 
+		std::shared_ptr<ArcBvhNode> BvhNode() const;
+		void SetBvhNode(std::shared_ptr<ArcBvhNode> node);
+
 	private:
 		static std::list<ArcGameObject>* m_gameObjectList;
 		static std::vector<std::shared_ptr<ArcGameObject>> m_gameObjectVector;
@@ -68,6 +73,8 @@ namespace DX11Engine {
 		std::shared_ptr<ArcTransform> m_transform;
 		std::shared_ptr<ArcMesh> m_mesh = nullptr;
 		std::shared_ptr<ArcMaterial> m_material = nullptr;
+		std::shared_ptr<ArcBvhNode> m_bvhNode = nullptr;
+		//ArcBvhNode m_bvhNode;
 		std::string m_name = "EmptyGameObject";
 	};
 

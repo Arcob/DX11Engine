@@ -7,6 +7,8 @@ namespace DX11Engine {
 
 	ArcMesh::ArcMesh(std::string meshName, ID3D11Device* device) : m_meshName(meshName), m_device(device){}
 
+	ArcMesh::ArcMesh(std::string meshName, ID3D11Device* device, std::shared_ptr<ArcAABBGenerator> aabbGenerator) : m_meshName(meshName), m_device(device), aabbGenerator(aabbGenerator){}
+
 	bool ArcMesh::BindVertexBuffer(void* vertexs, unsigned int length) {
 		long result;
 		//m_nodeLength = length;

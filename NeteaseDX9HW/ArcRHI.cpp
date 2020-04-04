@@ -53,7 +53,7 @@ namespace DX11Engine {
 		driverTypes.push_back(D3D_DRIVER_TYPE_WARP);
 		driverTypes.push_back(D3D_DRIVER_TYPE_REFERENCE);
 
-		numDriverTypes = driverTypes.size();
+		numDriverTypes = (unsigned int)driverTypes.size();
 	}
 
 	void ArcRHI::ConfigFeatureLevel() {
@@ -62,7 +62,7 @@ namespace DX11Engine {
 		featureLevels.push_back(D3D_FEATURE_LEVEL_10_1);
 		featureLevels.push_back(D3D_FEATURE_LEVEL_10_0);
 
-		numFeatureLevels = featureLevels.size();
+		numFeatureLevels = (unsigned int)featureLevels.size();
 	}
 
 	void ArcRHI::ConfigSwapChain() {
@@ -106,6 +106,7 @@ namespace DX11Engine {
 		}
 		if (FAILED(hResult))
 			return hResult;
+		return hResult;
 	}
 
 	long ArcRHI::CreateRenderView() {

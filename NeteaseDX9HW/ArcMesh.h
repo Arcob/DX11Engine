@@ -3,6 +3,7 @@
 #include "ArcGraphicSetting.h"
 #include "CommonHeaders.h"
 #include "ArcStructures.h"
+#include "ArcAABBGenerator.h"
 
 #ifdef USING_DX11_ARC
 
@@ -12,17 +13,16 @@
 #endif // USING_DX11
 
 namespace DX11Engine { //跨平台弃疗了,强相关
-	class ArcBvhNode;
 
 	class ArcMesh
 	{
 	public:
 		//ArcMesh(std::string meshName, ID3D11Buffer* vertexBuffer, ID3D11Buffer* indexBuffer, ID3D11InputLayout* inputLayout);
 		ArcMesh(std::string meshName, ID3D11Device* device);
+		ArcMesh(std::string meshName, ID3D11Device* device, std::shared_ptr<ArcAABBGenerator> aabbGenerator);
 		~ArcMesh() = default;
 		bool BindVertexBuffer(void* vertexs, unsigned int length);
 		bool BindIndexBuffer(unsigned int* indices, unsigned int length);
-		const std::shared_ptr<ArcBvhNode> BvhNode() const;
 
 		std::string m_meshName;
 		ID3D11Device* m_device;
@@ -32,9 +32,10 @@ namespace DX11Engine { //跨平台弃疗了,强相关
 		ID3D11Buffer* m_pIndexBuffer;//顶点索引缓冲
 		unsigned int m_indexLength;
 		ID3D11InputLayout *m_pInputLayout;
+		std::vector<float3> cachedVertexPos; //把顶点存下来
+		std::shared_ptr<ArcAABBGenerator> aabbGenerator;
 
 	private:
-		std::shared_ptr<ArcBvhNode> m_bvhNode = nullptr;
 	};
 
 }

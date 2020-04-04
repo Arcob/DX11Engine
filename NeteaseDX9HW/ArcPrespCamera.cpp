@@ -96,7 +96,6 @@ namespace DX11Engine {
 	std::shared_ptr<ArcPrespCamera::FrustumCorners> ArcPrespCamera::GetFrustumCorners(float nearPlane, float farPlane) {
 		std::shared_ptr<ArcPrespCamera::FrustumCorners> result = std::make_shared<ArcPrespCamera::FrustumCorners>();
 		auto cameraTrans = GameObject()->getComponent<ArcTransform>();
-		ArcPrespCamera::FrustumCorners viewSpaceCorners;
 		mat4 tempPro = CalculatePerspectiveMatrix(DegreeToRadians(m_fieldOfView), m_viewportAspectRatio, nearPlane, farPlane);
 		mat4 mat = Inverse(View() * tempPro);
 		float3 vecFrustum[8];

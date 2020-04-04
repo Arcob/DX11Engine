@@ -102,8 +102,8 @@ void ShadowApplication::LoadApplication() {
 	MainScene()->AddGameObject(ground);
 
 	int index = 0;
-	for (int x = 13.5f; x > -15.0f; x -= 3.0f) {
-		for (int y = 13.5f; y > -15.0f; y -= 3.0f) {
+	for (float x = 13.5f; x > -15.0f; x -= 3.0f) {
+		for (float y = 13.5f; y > -15.0f; y -= 3.0f) {
 			std::string tempName = "Cube" + std::to_string(++index);
 			auto cube = std::make_shared<DX11Engine::ArcGameObject>(tempName);
 			DX11Engine::ArcGameObject::RegisterGameObject(cube);

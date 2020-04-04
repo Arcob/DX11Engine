@@ -158,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArcAABB.cpp" />
+    <ClCompile Include="ArcAABBGenerator.cpp" />
     <ClCompile Include="ArcApplication.cpp" />
     <ClCompile Include="ArcAssets.cpp" />
     <ClCompile Include="ArcBehaviour.cpp" />
@@ -201,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcAABB.h" />
+    <ClInclude Include="ArcAABBGenerator.h" />
     <ClInclude Include="ArcApplication.h" />
     <ClInclude Include="ArcAssets.h" />
     <ClInclude Include="ArcBehaviour.h" />

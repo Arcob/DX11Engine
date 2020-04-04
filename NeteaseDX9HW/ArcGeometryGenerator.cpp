@@ -218,7 +218,7 @@ void ArcGeometryGenerator::CreateSphere(float radius, int slice, int stack, Mesh
 
 	UINT tmp(0);
 	int start1 = 0;
-	int start2 = mesh.vertices.size() - vertsPerRow - 2;
+	int start2 = (int)(mesh.vertices.size() - vertsPerRow - 2);
 	int top = size;
 	int bottom = size + 1;
 	for (int i = 0; i < slice; ++i)
@@ -316,7 +316,7 @@ void ArcGeometryGenerator::CreateCylinder(float topRadius, float bottomRadius, f
 
 void ArcGeometryGenerator::AddCylinderTopCap(float topRadius, float bottomRadius, float height, int slice, int stack, MeshData &mesh)
 {
-	UINT start = mesh.vertices.size();
+	UINT start = (unsigned int)mesh.vertices.size();
 
 	for (int i = 0; i < slice + 1; ++i)
 	{
@@ -334,7 +334,7 @@ void ArcGeometryGenerator::AddCylinderTopCap(float topRadius, float bottomRadius
 
 	mesh.vertices.push_back(DX11Engine::VertexNormalTangentTex(float3(0.f, height*0.5f, 0.f), float3(0.f, 1.f, 0.f), float3(1.f, 0.f, 0.f), float2(0.5f, 0.5f)));
 
-	UINT center = mesh.vertices.size() - 1;
+	UINT center = (unsigned int)(mesh.vertices.size() - 1);
 	for (int i = 0; i < slice; ++i)
 	{
 		mesh.indices.push_back(center);
@@ -345,7 +345,7 @@ void ArcGeometryGenerator::AddCylinderTopCap(float topRadius, float bottomRadius
 
 void ArcGeometryGenerator::AddCylinderBottomCap(float topRadius, float bottomRadius, float height, int slice, int stack, MeshData &mesh)
 {
-	UINT start = mesh.vertices.size();
+	UINT start = (UINT)mesh.vertices.size();
 
 	for (int i = 0; i < slice + 1; ++i)
 	{
@@ -363,7 +363,7 @@ void ArcGeometryGenerator::AddCylinderBottomCap(float topRadius, float bottomRad
 
 	mesh.vertices.push_back(DX11Engine::VertexNormalTangentTex(float3(0.f, -height * 0.5f, 0.f), float3(0.f, -1.f, 0.f), float3(1.f, 0.f, 0.f), float2(0.5f, 0.5f)));
 
-	UINT center = mesh.vertices.size() - 1;
+	UINT center = (unsigned int)(mesh.vertices.size() - 1);
 	for (int i = 0; i < slice; ++i)
 	{
 		mesh.indices.push_back(center);

@@ -119,6 +119,7 @@ namespace DX11Engine {
 		else if (key == MouseKey::ScrollWheel) {
 			return mouseState.middleButton;
 		}
+		return false;
 	}
 
 	bool ArcInput::GetKeyUp(const int key) {
